@@ -22,9 +22,4 @@ public class RandomLayout implements Layout {
 		}
 	}
 
-	@Override
-	public void execute(Graph graph, int position) {
-		execute(graph);
-	}
-
 }

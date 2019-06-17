@@ -84,7 +84,8 @@ public class MainApp extends Application {
 		model.addEdge(cellA,cellG);
 		model.addEdge(cellB, cellL);
 
-		graph.layout(new AbegoTreeLayout(200, 200, Location.Top),0);
+		graph.endUpdate();
+		graph.layout(new AbegoTreeLayout(200, 200, Location.Top));
 	}
 	
 	public static void main(String[] args) {
