@@ -199,8 +199,8 @@ public class Graph {
 		return getCanvas().getScale();
 	}
 
-	public void layout(Layout layout,int position) {
-		layout.execute(this, position);
+	public void layout(Layout layout) {
+		layout.execute(this);
 	}
 
 	public NodeGestures getNodeGestures() {

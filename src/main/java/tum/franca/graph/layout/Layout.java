@@ -6,6 +6,4 @@ public interface Layout {
 
 	public void execute(Graph graph);
 
-	void execute(Graph graph, int position);
-
 }

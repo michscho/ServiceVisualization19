@@ -28,11 +28,6 @@ public class AbegoTreeLayout implements Layout {
 
 	@Override
 	public void execute(Graph graph) {
-		execute(graph, 0);
-	}
-
-	@Override
-	public void execute(Graph graph, int position) {
 		final DefaultTreeForTreeLayout<ICell> layout = new DefaultTreeForTreeLayout<>(graph.getModel().getRoot());
 		addRecursively(layout, graph.getModel().getRoot());
 		final NodeExtentProvider<ICell> nodeExtentProvider = new NodeExtentProvider<ICell>() {
@@ -40,7 +35,7 @@ public class AbegoTreeLayout implements Layout {
 			@Override
 			public double getWidth(ICell tn) {
 				if(tn == graph.getModel().getRoot()) {
-					return position;
+					return 0;
 				}
 				return graph.getGraphic(tn).getWidth();
 			}
@@ -48,7 +43,7 @@ public class AbegoTreeLayout implements Layout {
 			@Override
 			public double getHeight(ICell tn) {
 				if(tn == graph.getModel().getRoot()) {
-					return position;
+					return 0;
 				}
 				return graph.getGraphic(tn).getHeight();
 			}
