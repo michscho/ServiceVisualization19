@@ -15,8 +15,6 @@ public interface ICell extends IGraphNode {
 
 	public List<ICell> getCellParents();
 
-	public void removeCellChild(ICell cell);
-
 	default DoubleBinding getXAnchor(Graph graph, IEdge edge) {
 		final Region graphic = graph.getGraphic(this);
 		return graphic.layoutXProperty().add(graphic.widthProperty().divide(2));

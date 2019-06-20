@@ -17,7 +17,7 @@ public class ContxtMenu {
  
             @Override
             public void handle(ActionEvent event) {
-               MainApp.graph.removeCell(cell);
+               //MainApp.graph.removeCell(cell);
             }
         });
        

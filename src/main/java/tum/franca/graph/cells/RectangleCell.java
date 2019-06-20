@@ -13,9 +13,19 @@ import tum.franca.graph.graph.Graph;
 public class RectangleCell extends AbstractCell {
 	
 	String name;
+	int group;
 
-	public RectangleCell(String name) {
+	public RectangleCell(String name, int groupID) {
 		this.name = name;
+		this.group = groupID;
+	}
+
+	public int getGroup() {
+		return group;
+	}
+
+	public void setGroup(int group) {
+		this.group = group;
 	}
 
 	@Override

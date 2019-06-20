@@ -1,6 +1,6 @@
 package tum.franca.reader;
 
-// import org.franca.core.dsl.FrancaIDLHelpers;
+import org.franca.core.dsl.FrancaIDLHelpers;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
@@ -8,6 +8,8 @@ import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FModel;
+import org.franca.core.franca.FProvides;
+import org.franca.core.franca.FRequires;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.Import;
 import org.eclipse.emf.common.util.EList;
@@ -19,9 +21,21 @@ public class FidlReader {
 	FModel fmodel;
 	
 	public FidlReader(URI uri) {
-	//	this.fmodel = FrancaIDLHelpers.instance().loadModel(uri, uri);
+		this.fmodel = FrancaIDLHelpers.instance().loadModel(uri, uri);
 	}
 	
+	public String getFirstInterfaceName() {
+		return fmodel.getInterfaces().get(0).getName();
+	}
+	
+	public EList<FProvides> getFirstProvides() {
+		return fmodel.getInterfaces().get(0).getProvided();
+	}
+	
+	public EList<FRequires> getFirstRequires() {
+		return fmodel.getInterfaces().get(0).getRequired();
+	}
+		
 	/**
 	 * Get name of FModel.
 	 * 
@@ -31,10 +45,8 @@ public class FidlReader {
 		return fmodel.getName();
 	}
 	
-	/**
-	 * Get imports of FModel.
-	 * 
-	 * @return EList<Import>
+	/***************************************************
+	 * Get Imports
 	 */
 	public EList<Import> getImports() {
 		return fmodel.getImports();
@@ -50,6 +62,10 @@ public class FidlReader {
 	
 	public EList<FMethod> getMethods(FInterface finterface) {
 		return finterface.getMethods();
+	}
+	
+	public EList<FProvides> getProvides(FInterface fprovides) {
+		return fprovides.getProvided();
 	}
 	
 	public EList<FArgument> getInMethods(FMethod fMethod){
@@ -72,6 +88,9 @@ public class FidlReader {
 		return fTypeCollection.getConstants();
 	}
 	
+	/***************************************************
+	 * Print Methods
+	 */
 	public void printImport(Import import1) {
 		System.out.println("Import: " + import1.getImportedNamespace());
 		System.out.println("Import: " + import1.getImportURI());
@@ -84,6 +103,10 @@ public class FidlReader {
 			System.out.println("Version minor: " + fInterface.getVersion().getMinor());
 		}
 		System.out.println("Interface: " + fInterface.getName());
+	}
+	
+	public void printProvides(FProvides fProvides) {
+		System.out.println("FProvides: " + fProvides.getProvidedImport());
 	}
 	
 	public void printAttributes(FAttribute fAttribute) {
@@ -102,6 +125,9 @@ public class FidlReader {
 		System.out.println("Type Collection: " + typeCollection.getName());
 	}
 	
+	/***************************************************
+	 * Print complete FModel
+	 */
 	public void printFModel() {
 		EList<Import> listImport = getImports();
 		for (Import import1 : listImport) {
@@ -115,6 +141,11 @@ public class FidlReader {
 			EList<FAttribute> listAttribute = getAttributes(fInterface);
 			for (FAttribute fAttribute : listAttribute) {
 				printAttributes(fAttribute);
+			}
+			
+			EList<FProvides> listProvides = getProvides(fInterface);
+			for (FProvides fProvide : listProvides) {
+				printProvides(fProvide);
 			}
 			
 			EList<FMethod> listMethod = getMethods(fInterface);
@@ -142,12 +173,8 @@ public class FidlReader {
 		EList<FTypeCollection> listFTypeCollection = getTypeCollections(); 
 			for (FTypeCollection fTypeCollection : listFTypeCollection) {
 				printTypeCollections(fTypeCollection);
-				
-			
 			}
 		}
-		
-		
 		
 	}
 	
