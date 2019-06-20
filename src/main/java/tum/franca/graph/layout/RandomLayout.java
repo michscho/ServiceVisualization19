@@ -12,7 +12,7 @@ public class RandomLayout implements Layout {
 
 	@Override
 	public void execute(Graph graph) {
-		final List<ICell> cells = graph.getModel().getAllCells();
+		final List<ICell> cells = graph.getModel().getAddedCells();
 
 		for (final ICell cell : cells) {
 			final double x = rnd.nextDouble() * 500;

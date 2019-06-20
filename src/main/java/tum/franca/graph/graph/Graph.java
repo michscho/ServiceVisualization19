@@ -33,9 +33,9 @@ public class Graph {
 		useNodeGestures = new SimpleBooleanProperty(true);
 		useNodeGestures.addListener((obs, oldVal, newVal) -> {
 			if (newVal) {
-				model.getAllCells().forEach(cell -> nodeGestures.makeDraggable(getGraphic(cell)));
+				model.getAddedCells().forEach(cell -> nodeGestures.makeDraggable(getGraphic(cell)));
 			} else {
-				model.getAllCells().forEach(cell -> nodeGestures.makeUndraggable(getGraphic(cell)));
+				model.getAddedCells().forEach(cell -> nodeGestures.makeUndraggable(getGraphic(cell)));
 			}
 		});
 
@@ -72,8 +72,8 @@ public class Graph {
 
 		graphics = new HashMap<>();
 
-		addEdges(getModel().getAllEdges());
-		addCells(getModel().getAllCells());
+		addEdges(getModel().getAddedEdges());
+		addCells(getModel().getAddedCells());
 	}
 
 	public PannableCanvas getCanvas() {
@@ -89,13 +89,10 @@ public class Graph {
 	}
 
 	public void endUpdate() {
+		
 		// add components to graph pane
 		addEdges(model.getAddedEdges());
 		addCells(model.getAddedCells());
-
-		// remove components to graph pane
-		removeEdges(model.getRemovedEdges());
-		removeCells(model.getRemovedCells());
 
 		// clean up the model
 		getModel().endUpdate();
@@ -113,19 +110,6 @@ public class Graph {
 				if (useNodeGestures.get()) {
 					nodeGestures.makeDraggable(cellGraphic);
 				}
-				cell.onAddedToGraph(this, cellGraphic);
-	}
-	
-	/**
-	 * 
-	 * Removing a single Cell of the graph.
-	 * 
-	 * @param cell
-	 */
-	public void removeCell(ICell cell) {
-				Region cellGraphic = getGraphic(cell);
-				getCanvas().getChildren().remove(cellGraphic);
-				cell.onRemovedFromGraph(this, cellGraphic);
 	}
 
 	private void addEdges(List<IEdge> edges) {
@@ -133,50 +117,15 @@ public class Graph {
 			try {
 				Region edgeGraphic = getGraphic(edge);
 				getCanvas().getChildren().add(edgeGraphic);
-				edge.onAddedToGraph(this, edgeGraphic);
 			} catch (final Exception e) {
 				throw new RuntimeException("failed to add " + edge, e);
 			}
 		});
 	}
 
-	private void removeEdges(List<IEdge> edges) {
-		edges.forEach(edge -> {
-			try {
-				Region edgeGraphic = getGraphic(edge);
-				getCanvas().getChildren().remove(edgeGraphic);
-				edge.onRemovedFromGraph(this, edgeGraphic);
-			} catch (final Exception e) {
-				throw new RuntimeException("failed to remove " + edge, e);
-			}
-		});
-	}
 
 	private void addCells(List<ICell> cells) {
-		cells.forEach(cell -> {
-			try {
-				Region cellGraphic = getGraphic(cell);
-				getCanvas().getChildren().add(cellGraphic);
-				if (useNodeGestures.get()) {
-					nodeGestures.makeDraggable(cellGraphic);
-				}
-				cell.onAddedToGraph(this, cellGraphic);
-			} catch (final Exception e) {
-				throw new RuntimeException("failed to add " + cell, e);
-			}
-		});
-	}
-
-	private void removeCells(List<ICell> cells) {
-		cells.forEach(cell -> {
-			try {
-				Region cellGraphic = getGraphic(cell);
-				getCanvas().getChildren().remove(cellGraphic);
-				cell.onRemovedFromGraph(this, cellGraphic);
-			} catch (final Exception e) {
-				throw new RuntimeException("failed to remove " + cell, e);
-			}
-		});
+		cells.forEach(cell -> addCell(cell));
 	}
 
 	public Region getGraphic(IGraphNode node) {

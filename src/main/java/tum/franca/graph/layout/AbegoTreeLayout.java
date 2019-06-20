@@ -26,7 +26,6 @@ public class AbegoTreeLayout implements Layout {
 		this.configuration = configuration;
 	}
 
-	@Override
 	public void execute(Graph graph) {
 		final DefaultTreeForTreeLayout<ICell> layout = new DefaultTreeForTreeLayout<>(graph.getModel().getRoot());
 		addRecursively(layout, graph.getModel().getRoot());

@@ -15,13 +15,9 @@ public class Model implements Serializable {
 
 	private final ICell root;
 
-	private ObservableList<ICell> allCells;
-	private transient ObservableList<ICell> addedCells;
-	private transient ObservableList<ICell> removedCells;
+	private transient ObservableList<ICell> cells;
 
-	private ObservableList<IEdge> allEdges;
-	private transient ObservableList<IEdge> addedEdges;
-	private transient ObservableList<IEdge> removedEdges;
+	private transient ObservableList<IEdge> edges;
 
 	public Model() {
 		root = new AbstractCell() {
@@ -35,68 +31,36 @@ public class Model implements Serializable {
 	}
 
 	public void clear() {
-		allCells = FXCollections.observableArrayList();
-		addedCells = FXCollections.observableArrayList();
-		removedCells = FXCollections.observableArrayList();
+		cells = FXCollections.observableArrayList();
 
-		allEdges = FXCollections.observableArrayList();
-		addedEdges = FXCollections.observableArrayList();
-		removedEdges = FXCollections.observableArrayList();
+		edges = FXCollections.observableArrayList();
 	}
 
 	public void clearAddedLists() {
-		addedCells.clear();
-		addedEdges.clear();
+		cells.clear();
+		edges.clear();
 	}
 
 	public void endUpdate() {
 		// every cell must have a parent, if it doesn't, then the graphParent is
 		// the parent
 		attachOrphansToGraphParent(getAddedCells());
-
-		// remove reference to graphParent
-		disconnectFromGraphParent(getRemovedCells());
-
-		// merge added & removed cells with all cells
-		merge();
+		
 	}
 
 	public ObservableList<ICell> getAddedCells() {
-		return addedCells;
-	}
-
-	public ObservableList<ICell> getRemovedCells() {
-		return removedCells;
-	}
-
-	public ObservableList<ICell> getAllCells() {
-		return allCells;
+		return cells;
 	}
 
 	public ObservableList<IEdge> getAddedEdges() {
-		return addedEdges;
-	}
-
-	public ObservableList<IEdge> getRemovedEdges() {
-		return removedEdges;
-	}
-
-	public ObservableList<IEdge> getAllEdges() {
-		return allEdges;
+		return edges;
 	}
 
 	public void addCell(ICell cell) {
 		if(cell == null) {
 			throw new NullPointerException("Cannot add a null cell");
 		}
-		addedCells.add(cell);
-	}
-	
-	public void removeCell(ICell cell) {
-		if(cell == null) {
-			throw new NullPointerException("Cannot remove a null cell");
-		}
-		removedCells.add(cell);
+		cells.add(cell);
 	}
 
 	public void addEdge(ICell sourceCell, ICell targetCell) {
@@ -108,14 +72,7 @@ public class Model implements Serializable {
 		if(edge == null) {
 			throw new NullPointerException("Cannot add a null edge");
 		}
-		addedEdges.add(edge);
-	}
-	
-	public void removeEdge(IEdge edge) {
-		if(edge == null) {
-			throw new NullPointerException("Cannot remove a null edge");
-		}
-		removedEdges.add(edge);
+		edges.add(edge);
 	}
 
 	/**
@@ -131,34 +88,8 @@ public class Model implements Serializable {
 		}
 	}
 
-	/**
-	 * Remove the graphParent reference if it is set
-	 *
-	 * @param cellList
-	 */
-	public void disconnectFromGraphParent(List<ICell> cellList) {
-		for(final ICell cell : cellList) {
-			root.removeCellChild(cell);
-		}
-	}
 
 	public ICell getRoot() {
 		return root;
-	}
-
-	public void merge() {
-		// cells
-		allCells.addAll(addedCells);
-		allCells.removeAll(removedCells);
-
-		addedCells.clear();
-		removedCells.clear();
-
-		// edges
-		allEdges.addAll(addedEdges);
-		allEdges.removeAll(removedEdges);
-
-		addedEdges.clear();
-		removedEdges.clear();
 	}
 }

@@ -30,10 +30,6 @@ public abstract class AbstractCell implements ICell {
 		return parents;
 	}
 
-	@Override
-	public void removeCellChild(ICell cell) {
-		children.remove(cell);
-	}
 	
 
 }
