@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -41,12 +43,12 @@ public class MainAppController {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
 		    System.out.println("Your name: " + result.get());
-		    final ICell cellGroup = new ResizableRectangleCell(result.get());
+		    final ICell cellGroup = new ResizableRectangleCell(60,120,result.get());
 			MainApp.graph.addCell(cellGroup);
 		}
 
 	}
-	
+		
 	@FXML
 	public void importFile() throws IOException {
 		final FileChooser fileChooser = new FileChooser();
@@ -60,10 +62,13 @@ public class MainAppController {
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
 		
+		Random random = new Random();
+		
 		HashMap<FidlReader, ICell> fidlCellMap = new HashMap<>(); 
 		List<ICell> cellList = new ArrayList<ICell>();
 		for (FidlReader fidlReader : fidlList) {
-			final ICell cell = new RectangleCell(fidlReader.getFirstInterfaceName(), 1);
+			int r = random.nextInt(6)+1;
+			final ICell cell = new RectangleCell(fidlReader.getFirstInterfaceName(), r);
 			cellList.add(cell);
 			fidlCellMap.put(fidlReader, cell);
 			model.addCell(cell);
@@ -103,6 +108,66 @@ public class MainAppController {
 		MainApp.graph.layout(new GroupLayout());
 		
 		MainApp.root.getItems().set(1, MainApp.graph.getCanvas());
+		
+		makeGroups();
+	}
+	
+	private void makeGroups() {
+		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
+		for (int i = 1; i <= getHighestGroup(cellList); i++) {
+			double maxX = 0;
+			double maxY = 0;
+			double minX = 10000;
+			double minY = 10000;
+			for (RectangleCell rectangleCell : cellList) {
+				if (rectangleCell.getGroup() == i) {
+					double x = rectangleCell.getX();
+					System.out.println(x);
+					double y = rectangleCell.getY();
+					System.out.println(y);
+					if (x > maxX) {
+						maxX = x;
+					}
+					if (y > maxY) {
+						maxY = y;
+					}
+					if (x < minX) {
+						minX = x;
+					}
+					if (y < minY) {
+						minY = y;
+					}
+				}
+			}
+		    final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 105,(int) (maxY - minY) + 50,"Test");
+		    MainApp.graph.addCell(cellGroup);
+			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 5, (int) minY - 5);
+		}
+	}
+	
+	private int getHighestGroup(List<RectangleCell> cellList) {
+		int max = 0;
+		for (RectangleCell rectangleCell : cellList) {
+			if (rectangleCell.getGroup() > max) {
+				max = rectangleCell.getGroup();
+			}
+		}
+		return max;
+	}
+		
+	/**
+	 * 
+	 * @param iCellList
+	 * @return RectangleCellList
+	 */
+	private List<RectangleCell> getRectangleList(ObservableList<ICell> iCellList){
+		List<RectangleCell> cellRecList = new ArrayList<RectangleCell>();
+		iCellList.stream().forEach(cell -> {
+			if (cell instanceof RectangleCell) {
+				cellRecList.add((RectangleCell) cell);
+			}
+		});
+		return cellRecList;
 	}
 	
 	
