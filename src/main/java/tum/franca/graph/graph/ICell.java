@@ -14,6 +14,14 @@ public interface ICell extends IGraphNode {
 	public void addCellParent(ICell cell);
 
 	public List<ICell> getCellParents();
+	
+	public int getX();
+	
+	public int getY();
+	
+	public void setX(int x);
+	
+	public void setY(int y);
 
 	default DoubleBinding getXAnchor(Graph graph, IEdge edge) {
 		final Region graphic = graph.getGraphic(this);

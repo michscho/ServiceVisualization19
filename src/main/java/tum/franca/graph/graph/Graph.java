@@ -111,6 +111,14 @@ public class Graph {
 					nodeGestures.makeDraggable(cellGraphic);
 				}
 	}
+	
+	public void addCell(int x, int y,ICell cell) {
+		Region cellGraphic = getGraphic(cell);
+		getCanvas().getChildren().add(cellGraphic);
+		if (useNodeGestures.get()) {
+			nodeGestures.makeDraggable(cellGraphic);
+		}
+}
 
 	private void addEdges(List<IEdge> edges) {
 		edges.forEach(edge -> {

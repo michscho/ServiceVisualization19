@@ -16,14 +16,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
 @SuppressWarnings("deprecation")
-public class FidlReader {
-	
-	FModel fmodel;
+public class FidlReader extends FidlModel{
 	
 	public FidlReader(URI uri) {
-		this.fmodel = FrancaIDLHelpers.instance().loadModel(uri, uri);
+		super(uri);
 	}
-	
+
 	public String getFirstInterfaceName() {
 		return fmodel.getInterfaces().get(0).getName();
 	}

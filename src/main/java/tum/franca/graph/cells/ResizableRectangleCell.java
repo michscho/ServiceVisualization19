@@ -10,11 +10,16 @@ import tum.franca.graph.graph.Graph;
 
 public class ResizableRectangleCell extends AbstractCell {
 	
-	private final Rectangle view = new Rectangle(120, 60);
-	String name;
+	private final Rectangle view; 
+	private String name;
+	private int x;
+	private int y;
 
-	public ResizableRectangleCell(String name) {
+	public ResizableRectangleCell(int x, int y, String name) {
 		this.name = name;
+		this.x = x;
+		this.y = y;
+		this.view = new Rectangle(x,y);
 	}
 
 	@Override
@@ -24,7 +29,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		view.setFill(new Color(0, 0, 0.2, 0.1));
 
 		final Pane pane = new Pane(view);
-		pane.setPrefSize(120, 60);
+		pane.setPrefSize(x, y);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
 		CellGestures.makeResizable(pane);

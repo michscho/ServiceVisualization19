@@ -66,6 +66,8 @@ public class GroupLayout implements Layout {
 					}
 
 					graph.getGraphic(cell).relocate(x, y);
+					cell.setX(x);
+					cell.setY(y);
 
 					counter += 1;
 					x += 100;

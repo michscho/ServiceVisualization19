@@ -9,6 +9,25 @@ public abstract class AbstractCell implements ICell {
 
 	private final List<ICell> children = new ArrayList<>();
 	private final List<ICell> parents = new ArrayList<>();
+	
+	private int x;
+	private int y;
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 
 	@Override
 	public void addCellChild(ICell cell) {
