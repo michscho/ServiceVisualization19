@@ -1,13 +1,11 @@
 package tum.franca.reader;
 
-import org.franca.core.dsl.FrancaIDLHelpers;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
-import org.franca.core.franca.FModel;
 import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 import org.franca.core.franca.FTypeCollection;
@@ -15,11 +13,21 @@ import org.franca.core.franca.Import;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
-@SuppressWarnings("deprecation")
-public class FidlReader extends FidlModel{
+public class FidlReader extends FidlModel {
+	
+	PropertiesReader propertiesReader;
 	
 	public FidlReader(URI uri) {
 		super(uri);
+		this.propertiesReader = new PropertiesReader(uri);
+	}
+
+	public PropertiesReader getPropertiesReader() {
+		return propertiesReader;
+	}
+
+	public void setPropertiesReader(PropertiesReader propertiesReader) {
+		this.propertiesReader = propertiesReader;
 	}
 
 	public String getFirstInterfaceName() {
