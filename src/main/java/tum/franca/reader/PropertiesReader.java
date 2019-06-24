@@ -24,7 +24,8 @@ public class PropertiesReader extends InterfaceReader {
 	 * @return FFunctionalScope: powertrain, driverAssistance, interior, telematics, crossfunctional
 	 */
 	public FFunctionalScope getFunctionalScope() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getFunctionalScope();
+		System.out.println(fmodel.getInterfaces().get(0).getSpecialType().get(0).getFunctionalScope().getName());
+		return null;
 	}
 	
 	/**

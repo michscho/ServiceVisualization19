@@ -9,12 +9,20 @@ import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 import tum.franca.graph.graph.Graph;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class MainApp extends Application {
 
 	public static Stage primaryStage;
 	public static Graph graph;
 	public static SplitPane root;
 
+	/**
+	 * 
+	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		
