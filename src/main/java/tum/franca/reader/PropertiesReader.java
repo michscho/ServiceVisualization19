@@ -6,6 +6,7 @@ import org.franca.core.franca.FFunctionalScope;
 import org.franca.core.franca.FRuntime;
 import org.franca.core.franca.FSaftyCritical;
 import org.franca.core.franca.FSecurityCritical;
+import org.franca.core.franca.FSpecialType;
 import org.franca.core.franca.FTimeSpecification;
 
 /**
@@ -14,66 +15,76 @@ import org.franca.core.franca.FTimeSpecification;
  *
  */
 public class PropertiesReader extends InterfaceReader {
-	
+
 	public PropertiesReader(URI uri) {
 		super(uri);
 	}
-	
+
 	/**
 	 * 
-	 * @return FFunctionalScope: powertrain, driverAssistance, interior, telematics, crossfunctional
+	 * @return FFunctionalScope: powertrain, driverAssistance, interior, telematics,
+	 *         crossfunctional
 	 */
 	public FFunctionalScope getFunctionalScope() {
-		System.out.println(fmodel.getInterfaces().get(0).getSpecialType().get(0).getFunctionalScope().getName());
-		return null;
+		return getSpecialTypeFS().getFunctionalScope();
 	}
-	
+
+	/**
+	 * 
+	 * @return FSpecialType
+	 */
+	private FSpecialType getSpecialTypeFS() {
+		return getFirstInterface().getSpecialType().stream().filter(type -> type.getFunctionalScope() != null)
+				.findFirst().orElseThrow(() -> new NullPointerException());
+	}
+
 	/**
 	 * 
 	 * @return FBinding: static, dynamic
 	 */
 	public FBinding getBinding() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getBinding();
+		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return FSaftyCritical: ASIL_A, ASIL_B, ASIL_C, ASIL_D
 	 */
 	public FSaftyCritical getSaftyCritical() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getSaftyCritical();
+		return null;
 	}
-	
+
 	/**
 	 * 
-	 * @return FSecurityCritical: wireLevelSecurity, userAutentication, serviceLevelSecurity
+	 * @return FSecurityCritical: wireLevelSecurity, userAutentication,
+	 *         serviceLevelSecurity
 	 */
 	public FSecurityCritical getSecurityCritical() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getSecurityCritical();
+		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return FTimeSpecification: ns, nss, ms, s
 	 */
 	public FTimeSpecification getTimeSpecification() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getTimeSpecification();
+		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return Time as Integer
 	 */
 	public Integer getTime() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getTime();
+		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @return FRuntime: onboard, offboard
 	 */
 	public FRuntime getRuntime() {
-		return getFirstAttributes().get(0).getType().getSpecialType().getRuntime();
+		return null;
 	}
-	
+
 }

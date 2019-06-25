@@ -21,7 +21,7 @@ public class MainApp extends Application {
 	public static SplitPane root;
 
 	/**
-	 * 
+	 * Start the application.
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -37,7 +37,10 @@ public class MainApp extends Application {
 		primaryStage.show();
 	}
 
-	
+	/**
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
