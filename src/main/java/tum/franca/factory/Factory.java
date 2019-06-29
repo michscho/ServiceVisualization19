@@ -61,8 +61,6 @@ public class Factory {
 			reverseUniqueProperties.put(counter, pR.getFunctionalScope().getName());
 			counter++;
 			}
-			System.out.println(pR.getFunctionalScope().getName());
-			System.out.println(uniqueProperties.toString());
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 			} catch (IndexOutOfBoundsException e) {
