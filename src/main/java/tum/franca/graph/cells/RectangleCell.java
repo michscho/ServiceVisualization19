@@ -8,6 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
+import tum.franca.treeView.SimpleTreeViewCreator;
+import tum.franca.treeView.TreeViewFactory;
 
 
 public class RectangleCell extends AbstractCell {
@@ -43,11 +45,12 @@ public class RectangleCell extends AbstractCell {
 		Text text = new Text(getName());
 		pane.getChildren().add(text);
 			    
-		view.setOnMouseClicked(new EventHandler<MouseEvent>()
+		pane.setOnMouseClicked(new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(MouseEvent t) {
-                // TODO
+            	SimpleTreeViewCreator treeView = new SimpleTreeViewCreator(name);
+                treeView.createSimpleTree();
             }
         });
 		

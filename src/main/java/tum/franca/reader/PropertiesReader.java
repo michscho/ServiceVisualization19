@@ -8,7 +8,6 @@ import org.franca.core.franca.FFunctionalScope;
 import org.franca.core.franca.FRuntime;
 import org.franca.core.franca.FSaftyCritical;
 import org.franca.core.franca.FSecurityCritical;
-import org.franca.core.franca.FSpecialType;
 import org.franca.core.franca.FTimeSpecification;
 
 /**
@@ -25,38 +24,26 @@ public class PropertiesReader extends InterfaceReader {
 	public HashMap<String, String> propertiesMap = new HashMap<String, String>();
 	
 	public HashMap<String, String> getAllStringProperties() {
-		try {
+		if(getFunctionalScope().getName() != "notDefined") {
 		propertiesMap.put("Functional Scope",getFunctionalScope().getName());
-		} catch (NullPointerException e) {
 		}
-		try {
+		if(getBinding().getName() != "notDefined") {
 		propertiesMap.put("Binding", getBinding().getLiteral());
-		} catch (NullPointerException e) {	
 		}
-		
-		try {
+		if(getSaftyCritical().getName() != "notDefined") {
 		propertiesMap.put("Safty Critical", getSaftyCritical().getName());
-		} catch (NullPointerException e) {	
 		}
-			
-		try	{	
+		if(getSecurityCritical().getName() != "notDefined") {
 		propertiesMap.put("Security Critial", getSecurityCritical().getName());
-		} catch (NullPointerException e) {	
 		}
-		
-		try	{	
+		if(getTime() != 0) {
 		propertiesMap.put("Time", getTime().toString());
-		} catch (NullPointerException e) {	
 		}
-		
-		try {
-		propertiesMap.put("Time Specificaiton", getTimeSpecification().getName());
-		} catch (NullPointerException e) {	
+		if(getTimeSpecification().getName() != "notDefined") {
+		propertiesMap.put("Time Specification", getTimeSpecification().getName());
 		}
-		
-		try {
+		if(getRuntime().getName() != "notDefined") {
 		propertiesMap.put("Runtime", getRuntime().getName());
-		} catch (NullPointerException e) {
 		}
 		
 		return propertiesMap;
@@ -68,16 +55,7 @@ public class PropertiesReader extends InterfaceReader {
 	 *         crossfunctional
 	 */
 	public FFunctionalScope getFunctionalScope() {
-		return getSpecialTypeFunctionalScope().getFunctionalScope();
-	}
-
-	/**
-	 * 
-	 * @return FSpecialType
-	 */
-	private FSpecialType getSpecialTypeFunctionalScope() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getFunctionalScope() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
+		return getFirstInterface().getFunctionalScope();
 	}
 
 	/**
@@ -85,51 +63,24 @@ public class PropertiesReader extends InterfaceReader {
 	 * @return FBinding: static, dynamic
 	 */
 	public FBinding getBinding() {
-		return getSpecialTypeBindings().getBinding();
+		return getFirstInterface().getBinding();
 	}
 	
-	/**
-	 * 
-	 * @return FSpecialType
-	 */
-	private FSpecialType getSpecialTypeBindings() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getBinding() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
-	}
-
 	/**
 	 * 
 	 * @return FSaftyCritical: ASIL_A, ASIL_B, ASIL_C, ASIL_D
 	 */
 	public FSaftyCritical getSaftyCritical() {
-		return getSpecialTypeSaftyCritical().getSaftyCritical();
+		return getFirstInterface().getSaftyCritical();
 	}
 	
-	/**
-	 * 
-	 * @return FSpecialType
-	 */
-	private FSpecialType getSpecialTypeSaftyCritical() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getSaftyCritical() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
-	}
-
 	/**
 	 * 
 	 * @return FSecurityCritical: wireLevelSecurity, userAutentication,
 	 *         serviceLevelSecurity
 	 */
 	public FSecurityCritical getSecurityCritical() {
-		return getSpecialTypeSecurityCritical().getSecurityCritical();
-	}
-	
-	/**
-	 * 
-	 * @return FSpecialType
-	 */
-	private FSpecialType getSpecialTypeSecurityCritical() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getSecurityCritical() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
+		return getFirstInterface().getSecurityCritical();
 	}
 
 	/**
@@ -137,33 +88,15 @@ public class PropertiesReader extends InterfaceReader {
 	 * @return FTimeSpecification: ns, nss, ms, s
 	 */
 	public FTimeSpecification getTimeSpecification() {
-		return getSpecialTypTimeSpecification().getTimeSpecification();
+		return getFirstInterface().getTimeSpecification();
 	}
 	
-	/**
-	 * 
-	 * @return FSpecialType
-	 */
-	private FSpecialType getSpecialTypTimeSpecification() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getTimeSpecification() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
-	}
-
 	/**
 	 * 
 	 * @return Time as Integer
 	 */
 	public Integer getTime() {
-		return getSpecialTypTime().getTime();
-	}
-	
-	/**
-	 * 
-	 * @return FSpecialType
-	 */
-	private FSpecialType getSpecialTypTime() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getTime() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
+		return getFirstInterface().getTime();
 	}
 
 	/**
@@ -171,16 +104,16 @@ public class PropertiesReader extends InterfaceReader {
 	 * @return FRuntime: onboard, offboard
 	 */
 	public FRuntime getRuntime() {
-		return getSpecialTypRunTime().getRuntime();
+		return getFirstInterface().getRuntime();
 	}
 	
 	/**
 	 * 
-	 * @return FSpecialType
+	 * @return 
 	 */
-	private FSpecialType getSpecialTypRunTime() {
-		return getFirstInterface().getSpecialType().stream().filter(type -> type.getRuntime() != null)
-				.findFirst().orElseThrow(() -> new NullPointerException());
+	public Boolean getHardwareDependend() {
+		return getFirstInterface().isHardwareDependend();
 	}
+	
 
 }

@@ -7,7 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Region;
 import tum.franca.graph.cells.AbstractCell;
+import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.edges.Edge;
+import tum.franca.main.MainApp;
 
 public class Model implements Serializable {
 
@@ -50,6 +52,17 @@ public class Model implements Serializable {
 
 	public ObservableList<ICell> getAddedCells() {
 		return cells;
+	}
+	
+	public RectangleCell getRectangleCell(String id) {
+		for (ICell iCell : cells) {
+			if (iCell instanceof RectangleCell) {
+				if (((RectangleCell) iCell).getName().equals(id)){
+					return (RectangleCell) iCell;
+				}
+			}
+		}
+		return null;
 	}
 
 	public ObservableList<IEdge> getAddedEdges() {

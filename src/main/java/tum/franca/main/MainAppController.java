@@ -2,18 +2,18 @@ package tum.franca.main;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 
-import TreeView.TreeViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -21,6 +21,8 @@ import tum.franca.factory.Factory;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.graph.ICell;
 import tum.franca.reader.FidlReader;
+import tum.franca.reader.StaticFidlReader;
+import tum.franca.treeView.TreeViewCreator;
 
 /**
  * 
@@ -28,13 +30,20 @@ import tum.franca.reader.FidlReader;
  *
  */
 public class MainAppController {
+
+	@FXML
+	private AnchorPane anchorPane;
 	
 	@FXML
-	private AnchorPane anchorPane3;
+	private SplitPane splitPane;
 	
-	public void addTreeView(List<FidlReader> fidlReader) {
-		TreeViewFactory treeView = new TreeViewFactory();
-		anchorPane3.getChildren().add(treeView.getSimpleTreeView(fidlReader));
+	@FXML
+	private SplitPane splitPane2;
+
+
+	private void addTreeView(List<FidlReader> fidlReader) {
+		TreeViewCreator treeView = new TreeViewCreator(fidlReader);
+		treeView.createTree();
 	}
 
 	@FXML
@@ -51,7 +60,6 @@ public class MainAppController {
 			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get());
 			MainApp.graph.addCell(cellGroup);
 		}
-		
 
 	}
 
@@ -59,15 +67,16 @@ public class MainAppController {
 	public void importFile() throws IOException {
 		final FileChooser fileChooser = new FileChooser();
 		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);
-		List<FidlReader> fidlList = new ArrayList<>();
+		StaticFidlReader.newFidlList();
 		for (File file : list) {
 			URI uri = URI.createFileURI(file.getAbsolutePath());
-			fidlList.add(new FidlReader(uri));
+			StaticFidlReader.getFidlList().add(new FidlReader(uri));
 		}
-		new Factory().createCanvas(fidlList);
-		addTreeView(fidlList);
+		new Factory().createCanvas(StaticFidlReader.getFidlList());
+		addTreeView(StaticFidlReader.getFidlList());
+		splitPane.setDividerPosition(1, 0.85);
+		
 	}
-	
 
 	@FXML
 	public void about() {
