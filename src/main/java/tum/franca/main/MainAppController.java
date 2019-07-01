@@ -7,13 +7,16 @@ import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,7 +25,9 @@ import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.graph.ICell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
-import tum.franca.treeView.TreeViewCreator;
+import tum.franca.view.listView.ListViewCreator;
+import tum.franca.view.listView.ListViewWrapper;
+import tum.franca.view.treeView.TreeViewCreator;
 
 /**
  * 
@@ -30,7 +35,7 @@ import tum.franca.treeView.TreeViewCreator;
  *
  */
 public class MainAppController {
-
+	
 	@FXML
 	private AnchorPane anchorPane;
 	
@@ -39,7 +44,22 @@ public class MainAppController {
 	
 	@FXML
 	private SplitPane splitPane2;
+	
+	@FXML
+	private ListView<String> listView;
+	@FXML 
+	private ListView<String> listView2;
+	@FXML
+	private ListView<String> listView3;
+	@FXML
+	private ListView<String> listView4;
+	
 
+	@FXML
+	public void initialize() throws Exception {
+		ListViewWrapper listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
+		listViewWrapper.createListViews();
+	}
 
 	private void addTreeView(List<FidlReader> fidlReader) {
 		TreeViewCreator treeView = new TreeViewCreator(fidlReader);
@@ -80,7 +100,7 @@ public class MainAppController {
 
 	@FXML
 	public void about() {
-
+		
 		Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("About.fxml"));

@@ -1,11 +1,21 @@
-package tum.franca.treeView;
+package tum.franca.view.treeView;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.webkit.ContextMenu;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.layout.GridPane;
+import javafx.util.Callback;
+import javafx.util.converter.DefaultStringConverter;
 import tum.franca.main.MainApp;
 import tum.franca.main.MainAppController;
 import tum.franca.reader.FidlReader;
@@ -47,7 +57,8 @@ public class TreeViewCreator {
 			}
 			rootItem.getChildren().add(item);
 		}
-		MainApp.root.getItems().set(2, new TreeView<String>(rootItem));
+		TreeView<String> treeView =  new TreeView<String>(rootItem);
+		MainApp.root.getItems().set(2, treeView);
 	}
 
 }

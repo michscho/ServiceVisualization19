@@ -8,8 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
-import tum.franca.treeView.SimpleTreeViewCreator;
-import tum.franca.treeView.TreeViewFactory;
+import tum.franca.view.treeView.SimpleTreeViewCreator;
+import tum.franca.view.treeView.TreeViewFactory;
 
 
 public class RectangleCell extends AbstractCell {

@@ -1,4 +1,4 @@
-package tum.franca.treeView;
+package tum.franca.view.treeView;
 
 import java.util.HashMap;
 import java.util.List;
