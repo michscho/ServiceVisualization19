@@ -40,6 +40,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		
 		view.setStroke(colorStroke);
 		view.setFill(color);
+		view.setStyle("-fx-stroke-dash-array: 15 15 15 15;"); 
 
 		final Pane pane = new Pane(view);
 		pane.setPrefSize(x, y);
