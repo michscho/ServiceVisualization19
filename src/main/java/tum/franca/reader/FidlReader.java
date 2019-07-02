@@ -1,5 +1,7 @@
 package tum.franca.reader;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
@@ -10,8 +12,6 @@ import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.Import;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 
 public class FidlReader extends FidlModel {
 	

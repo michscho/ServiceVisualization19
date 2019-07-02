@@ -24,6 +24,7 @@ public class PropertiesReader extends InterfaceReader {
 	public HashMap<String, String> propertiesMap = new HashMap<String, String>();
 	
 	public HashMap<String, String> getAllStringProperties() {
+		Properties pro = Properties.Binding.dynamicBinding;
 		if(getFunctionalScope().getName() != "notDefined") {
 		propertiesMap.put("Functional Scope",getFunctionalScope().getName());
 		}
