@@ -1,7 +1,5 @@
 package tum.franca.view.listView;
 
-import java.util.Comparator;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
@@ -13,6 +11,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
+import tum.franca.reader.Properties;
 
 public class ListViewCreator {
 	
@@ -24,6 +23,8 @@ public class ListViewCreator {
 	 * @param listView
 	 */
 	public ListViewCreator(ListView<String> listView) {
+		Properties properties = new Properties();
+		properties.getProperties();
 		this.listView = listView;
 		this.items = FXCollections.observableArrayList("Binding",  "Functional Scope",  "Hardware Dependend", "Runtime", "Time Specification", "Security Critical", "Safty Critical", "");
 	}
