@@ -42,4 +42,39 @@ public class ListViewWrapper {
 		listView4.createView();	
 	}
 
+	/**
+	 * 
+	 * @return filted ListView
+	 */
+	public ListView<String> getListView1() {
+		return listView1;
+	}
+	
+	/**
+	 * 
+	 * @return filted ListView
+	 */
+	public ListView<String> getListView2() {
+		return listView2;
+	}
+	
+	
+	/**
+	 * 
+	 * @return filted ListView
+	 */
+	public ListView<String> getListView3() {
+		return listView3;
+	}
+	
+	/**
+	 * 
+	 * @return filted ListView
+	 */
+	public ListView<String> getListView4() {
+		return listView4;
+	}
+	
+
+
 }

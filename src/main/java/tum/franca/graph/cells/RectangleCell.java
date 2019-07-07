@@ -1,5 +1,7 @@
 package tum.franca.graph.cells;
 
+import java.util.HashMap;
+
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
@@ -9,26 +11,24 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
 import tum.franca.view.treeView.SimpleTreeViewCreator;
-import tum.franca.view.treeView.TreeViewFactory;
 
 
 public class RectangleCell extends AbstractCell {
 	
 	String name;
-	int group;
+	HashMap<Integer, Integer> groupNumbers;
+	public boolean used;
 
-	public RectangleCell(String name, int groupID) {
+	public RectangleCell(String name, HashMap<Integer, Integer> groupNumbers) {
 		this.name = name;
-		this.group = groupID;
+		this.groupNumbers = groupNumbers;
+	}
+	
+	public HashMap<Integer, Integer> getGrouping() {
+		return groupNumbers;
 	}
 
-	public int getGroup() {
-		return group;
-	}
-
-	public void setGroup(int group) {
-		this.group = group;
-	}
+	
 
 	@Override
 	public Region getGraphic(Graph graph) {

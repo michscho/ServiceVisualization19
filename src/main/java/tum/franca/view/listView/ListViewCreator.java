@@ -11,7 +11,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
-import tum.franca.reader.Properties;
 
 public class ListViewCreator {
 	
@@ -23,10 +22,8 @@ public class ListViewCreator {
 	 * @param listView
 	 */
 	public ListViewCreator(ListView<String> listView) {
-		Properties properties = new Properties();
-		properties.getProperties();
 		this.listView = listView;
-		this.items = FXCollections.observableArrayList("Binding",  "Functional Scope",  "Hardware Dependend", "Runtime", "Time Specification", "Security Critical", "Safty Critical", "");
+		this.items = FXCollections.observableArrayList("Binding",  "Functional Scope",  "Hardware Dependend / na", "Runtime", "Time Specification / na", "Security Critical", "Safty Critical", "");
 	}
 	
 	public ListViewCreator(ListView<String> listView, boolean empty) {
@@ -98,11 +95,16 @@ public class ListViewCreator {
                     
                     ListCell<String> dragSourceCell = ListViewWrapper.dragItem.get();
 
+                    boolean set = false;
                     for(int i = 0; i < items.size(); i++) {
                     	if (items.get(i) == "") {
                     		items.set(i, dragSourceCell.getItem());
+                    		set = true;
                     		break;
                     	}
+                    }
+                    if (!set) {
+                    	items.add(dragSourceCell.getItem());
                     }
                     event.setDropCompleted(true);
                     ListViewWrapper.dragItem.set(null);

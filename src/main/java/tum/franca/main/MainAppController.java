@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tum.franca.factory.Factory;
+import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.graph.ICell;
 import tum.franca.reader.FidlReader;
@@ -54,10 +55,11 @@ public class MainAppController {
 	@FXML
 	private ListView<String> listView4;
 	
+	private ListViewWrapper listViewWrapper;
 
 	@FXML
 	public void initialize() throws Exception {
-		ListViewWrapper listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
+		this.listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
 	}
 
@@ -77,7 +79,7 @@ public class MainAppController {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			System.out.println("Your name: " + result.get());
-			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get());
+			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(),2);
 			MainApp.graph.addCell(cellGroup);
 		}
 
@@ -92,7 +94,8 @@ public class MainAppController {
 			URI uri = URI.createFileURI(file.getAbsolutePath());
 			StaticFidlReader.getFidlList().add(new FidlReader(uri));
 		}
-		new Factory().createCanvas(StaticFidlReader.getFidlList());
+		GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
+		gS.createCanvas();
 		addTreeView(StaticFidlReader.getFidlList());
 		splitPane.setDividerPosition(1, 0.85);
 		
