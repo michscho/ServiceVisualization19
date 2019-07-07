@@ -20,11 +20,13 @@ public class ResizableRectangleCell extends AbstractCell {
 	private String name;
 	private int x;
 	private int y;
+	private int style;
 
-	public ResizableRectangleCell(int x, int y, String name) {
+	public ResizableRectangleCell(int x, int y, String name, int style) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.style = style;
 		this.view = new Rectangle(x,y);
 	}
 
@@ -49,7 +51,13 @@ public class ResizableRectangleCell extends AbstractCell {
 		CellGestures.makeResizable(pane);
 		
 		Text text = new Text(getName());
-		text.setStyle("-fx-font: 20 arial;");
+		if (style == 0) {
+			text.setStyle("-fx-font: 16 arial;");
+		} else if (style == 1) {
+			text.setStyle("-fx-font: 18 arial;");
+		} else {
+			text.setStyle("-fx-font: 20 arial;");
+		}
 		pane.getChildren().add(text);
 
 		return pane;

@@ -1,6 +1,8 @@
 package tum.franca.reader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.franca.core.franca.FBinding;
@@ -23,8 +25,17 @@ public class PropertiesReader extends InterfaceReader {
 	
 	public HashMap<String, String> propertiesMap = new HashMap<String, String>();
 	
+	public List<String> getProperties(){
+		List<String> list = new ArrayList<String>();
+		list.add(getBinding().getName());
+		list.add(getFunctionalScope().getName());
+		list.add(getRuntime().getName());
+		list.add(getSaftyCritical().getName());
+		list.add(getSecurityCritical().getName());
+		return list;
+	}
+	
 	public HashMap<String, String> getAllStringProperties() {
-		Properties pro = Properties.Binding.dynamicBinding;
 		if(getFunctionalScope().getName() != "notDefined") {
 		propertiesMap.put("Functional Scope",getFunctionalScope().getName());
 		}
