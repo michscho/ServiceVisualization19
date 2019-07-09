@@ -1,13 +1,21 @@
-package tum.franca.graph.cells;
+ package tum.franca.graph.cells;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
+import tum.franca.graph.graph.ICell;
+import tum.franca.main.MainApp;
+import tum.franca.view.treeView.GroupTreeViewCreator;
 
 /**
  * 
@@ -15,50 +23,91 @@ import tum.franca.graph.graph.Graph;
  *
  */
 public class ResizableRectangleCell extends AbstractCell {
-	
-	private final Rectangle view; 
+
+	private final Rectangle view;
 	private String name;
 	private int x;
 	private int y;
-	private int style;
+	private FontStyle style;
+	
+	public enum FontStyle {
+		  SMALL,
+		  MEDIUM,
+		  BIG
+		}
 
-	public ResizableRectangleCell(int x, int y, String name, int style) {
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param name
+	 * @param style
+	 */
+	public ResizableRectangleCell(int x, int y, String name, ResizableRectangleCell.FontStyle style) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.style = style;
-		this.view = new Rectangle(x,y);
+		this.view = new Rectangle(x, y);
 	}
 
 	@Override
 	public Region getGraphic(Graph graph) {
-		
+
 		Random random = new Random();
 		final float R = random.nextFloat();
 		final float G = random.nextFloat();
-		final float B=  random.nextFloat();
+		final float B = random.nextFloat();
 		Color color = new Color(R, G, B, 0.09);
 		Color colorStroke = new Color(R, G, B, 0.8);
-		
+
 		view.setStroke(colorStroke);
 		view.setFill(color);
-		view.setStyle("-fx-stroke-dash-array: 15 15 15 15;"); 
+		view.setStyle("-fx-stroke-dash-array: 15 15 15 15;");
 
 		final Pane pane = new Pane(view);
 		pane.setPrefSize(x, y);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
 		CellGestures.makeResizable(pane);
-		
+
 		Text text = new Text(getName());
-		if (style == 0) {
+		if (style == FontStyle.SMALL) {
 			text.setStyle("-fx-font: 16 arial;");
-		} else if (style == 1) {
+		} else if (style == FontStyle.MEDIUM) {
 			text.setStyle("-fx-font: 18 arial;");
 		} else {
 			text.setStyle("-fx-font: 20 arial;");
 		}
 		pane.getChildren().add(text);
+
+		pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent t) {
+				List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
+				List<ICell> intersectionCellList = new ArrayList<ICell>();
+				for (ICell iCell : cellList) {
+					if (iCell instanceof RectangleCell) {
+						
+						RectangleCell cell = (RectangleCell) iCell;
+						Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+						Point point2 = getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(), pane.getWidth(),
+								pane.getHeight());
+						Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+						Point point4 = getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+								cell.pane.getWidth(), cell.pane.getHeight());
+
+						if (doOverlap(point, point2, point3, point4)) {
+							System.out.println("HIER: " + cell.getName());
+							intersectionCellList.add(iCell);
+						}
+					}
+				}
+				GroupTreeViewCreator groupTreeView = new GroupTreeViewCreator(name, intersectionCellList);
+				groupTreeView.createGroupTree();
+
+			}
+		});
 
 		return pane;
 	}
@@ -70,9 +119,31 @@ public class ResizableRectangleCell extends AbstractCell {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public Rectangle getView() {
 		return view;
+	}
+
+	public Point getPointOfRechtangle(double x, double y, double width, double height) {
+		double newX = x + width;
+		double newY = y + height;
+		return new Point((int) newX, (int) newY);
+	}
+
+
+
+	static boolean doOverlap(Point l1, Point r1, Point l2, Point r2) {
+		 // If one rectangle is on left side of other  
+        if (l1.x > r2.x || l2.x > r1.x) { 
+            return false; 
+        } 
+  
+        // If one rectangle is above other  
+        if (l1.y > r2.y || l2.y > r1.y) { 
+            return false; 
+        } 
+  
+        return true; 
 	}
 
 }

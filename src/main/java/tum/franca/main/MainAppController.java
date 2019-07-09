@@ -7,26 +7,23 @@ import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import tum.franca.factory.Factory;
 import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.graph.ICell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
-import tum.franca.view.listView.ListViewCreator;
 import tum.franca.view.listView.ListViewWrapper;
 import tum.franca.view.treeView.TreeViewCreator;
 
@@ -67,6 +64,23 @@ public class MainAppController {
 		TreeViewCreator treeView = new TreeViewCreator(fidlReader);
 		treeView.createTree();
 	}
+	
+	@FXML
+	public void applyGrouping() {
+		if (StaticFidlReader.getFidlList() != null) {
+		GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
+		gS.createCanvas();
+		addTreeView(StaticFidlReader.getFidlList());
+		splitPane.setDividerPosition(1, 0.85);
+		} else {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No Fidl Files available");
+			alert.setHeaderText(null);
+			alert.setContentText("Import Fidl Files to start grouping");
+
+			alert.showAndWait();
+		}
+	}
 
 	@FXML
 	public void makeNewGroup() {
@@ -79,11 +93,13 @@ public class MainAppController {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			System.out.println("Your name: " + result.get());
-			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(),2);
+			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(), ResizableRectangleCell.FontStyle.BIG);
 			MainApp.graph.addCell(cellGroup);
 		}
 
 	}
+	
+	String path;
 
 	@FXML
 	public void importFile() throws IOException {

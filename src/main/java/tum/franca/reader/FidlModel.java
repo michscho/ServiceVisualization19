@@ -13,5 +13,4 @@ public abstract class FidlModel {
 
 	protected FModel fmodel;
 
-
 }

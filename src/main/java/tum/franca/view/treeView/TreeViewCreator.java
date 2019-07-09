@@ -4,20 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.webkit.ContextMenu;
-
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.TextFieldTreeCell;
-import javafx.scene.layout.GridPane;
-import javafx.util.Callback;
-import javafx.util.converter.DefaultStringConverter;
 import tum.franca.main.MainApp;
-import tum.franca.main.MainAppController;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.PropertiesReader;
 

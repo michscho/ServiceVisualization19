@@ -9,7 +9,6 @@ import javafx.scene.layout.Region;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.edges.Edge;
-import tum.franca.main.MainApp;
 
 public class Model implements Serializable {
 

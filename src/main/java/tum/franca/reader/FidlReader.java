@@ -8,6 +8,7 @@ import org.franca.core.franca.FBroadcast;
 import org.franca.core.franca.FConstantDef;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
+import org.franca.core.franca.FModel;
 import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 import org.franca.core.franca.FTypeCollection;
@@ -20,6 +21,10 @@ public class FidlReader extends FidlModel {
 	public FidlReader(URI uri) {
 		super(uri);
 		this.propertiesReader = new PropertiesReader(uri);
+	}
+	
+	public FModel getFModel() {
+		return fmodel;
 	}
 
 	public PropertiesReader getPropertiesReader() {
