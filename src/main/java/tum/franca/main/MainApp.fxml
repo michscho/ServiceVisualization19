@@ -32,7 +32,7 @@
             </MenuBar>
             <Button layoutX="24.0" layoutY="705.0" mnemonicParsing="false" onAction="#makeNewGroup" text="Define Property Function" />
             <ListView fx:id="listView" layoutX="21.0" layoutY="87.0" prefHeight="86.0" prefWidth="190.0" />
-            <Button layoutX="21.0" layoutY="638.0" mnemonicParsing="false" text="Apply Grouping" />
+            <Button layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" text="Apply Grouping" />
             <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group:" wrappingWidth="72.71044921875" />
             <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" />
             <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" />
@@ -52,9 +52,6 @@
          </children>
       </AnchorPane>
       <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0" />
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0">
-         <children>
-            <Button layoutX="70.0" layoutY="877.0" mnemonicParsing="false" text="Button" />
-         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0" />
   </items>
 </SplitPane>

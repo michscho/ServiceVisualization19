@@ -18,6 +18,8 @@ public class RectangleCell extends AbstractCell {
 	String name;
 	HashMap<Integer, Integer> groupNumbers;
 	public boolean used;
+	public StackPane pane; 
+	public Rectangle view;
 
 	public RectangleCell(String name, HashMap<Integer, Integer> groupNumbers) {
 		this.name = name;
@@ -32,12 +34,12 @@ public class RectangleCell extends AbstractCell {
 
 	@Override
 	public Region getGraphic(Graph graph) {
-		final Rectangle view = new Rectangle(80, 40);
+		view = new Rectangle(80, 40);
 
 		view.setStroke(Color.BLACK);
 		view.setFill(Color.WHITE);
 
-		final StackPane pane = new StackPane(view);
+		pane = new StackPane(view);
 		pane.setPrefSize(80, 40);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
@@ -53,6 +55,7 @@ public class RectangleCell extends AbstractCell {
                 treeView.createSimpleTree();
             }
         });
+		
 		
 		return pane;
 	}

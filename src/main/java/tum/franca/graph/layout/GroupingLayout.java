@@ -2,16 +2,12 @@ package tum.franca.graph.layout;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 
 import tum.franca.graph.cells.RectangleCell;
-import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.ICell;
-import tum.franca.main.MainApp;
 
 /**
  * 

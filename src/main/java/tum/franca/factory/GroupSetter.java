@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FProvides;
@@ -35,6 +34,11 @@ public class GroupSetter {
 	private ObservableList<String> listViewItems2;
 	private ObservableList<String> listViewItems3;
 
+	/**
+	 * 
+	 * @param fidlList
+	 * @param listViewWrapper
+	 */
 	public GroupSetter(List<FidlReader> fidlList, ListViewWrapper listViewWrapper) {
 		this.fidlList = fidlList;
 		this.listViewItems1 = listViewWrapper.getListView1().getItems();
@@ -42,6 +46,9 @@ public class GroupSetter {
 		this.listViewItems3 = listViewWrapper.getListView3().getItems();
 	}
 
+	/**
+	 * Main steps to create the canvas.
+	 */
 	public void createCanvas() {
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
@@ -92,10 +99,14 @@ public class GroupSetter {
 				}
 			}
 			final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 205, (int) (maxY - minY) + 150,
-					reverseGroup.get(i),2);
+					replaceNotDefined(reverseGroup.get(i)),ResizableRectangleCell.FontStyle.BIG);
 			MainApp.graph.addCell(cellGroup);
 			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 50, (int) minY - 50);
 		}
+	}
+	
+	private String replaceNotDefined(String input) {
+		return input.replaceAll("notDefined", "");
 	}
 
 	public void makeSubLevelGroup() {
@@ -125,7 +136,7 @@ public class GroupSetter {
 					}
 				}
 				final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
-						reverseSubGroup.get(j),1);
+						replaceNotDefined(reverseSubGroup.get(j)),ResizableRectangleCell.FontStyle.MEDIUM);
 				MainApp.graph.addCell(cellGroup);
 				MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 20, (int) minY - 20);
 			}
@@ -161,7 +172,7 @@ public class GroupSetter {
 						}
 					}
 					final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 105,
-							(int) (maxY - minY) + 50, reverseSubSubGroup.get(k), 0);
+							(int) (maxY - minY) + 50, replaceNotDefined(reverseSubSubGroup.get(k)), ResizableRectangleCell.FontStyle.SMALL);
 					MainApp.graph.addCell(cellGroup);
 					MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 5, (int) minY - 5);
 				}
@@ -169,6 +180,12 @@ public class GroupSetter {
 		}
 	}
 
+	/**
+	 * 
+	 * @param cellList
+	 * @param group
+	 * @return int as highest number of the group
+	 */
 	private int getHighestGroup(List<RectangleCell> cellList, int group) {
 		int max = 0;
 		for (RectangleCell rectangleCell : cellList) {
