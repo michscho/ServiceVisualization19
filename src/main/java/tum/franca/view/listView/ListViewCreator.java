@@ -12,6 +12,11 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class ListViewCreator {
 	
 	private ListView<String>  listView;
@@ -131,7 +136,7 @@ public class ListViewCreator {
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty || item == null) {
+            if (item == null || empty) {
                 setText(null);
             } else {
                 setText(item);

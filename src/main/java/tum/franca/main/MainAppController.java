@@ -115,7 +115,7 @@ public class MainAppController {
 	}
 	
 	@FXML
-	public void timeSpecification() {
+	public void timeSpecification() throws InterruptedException {
 		TextInputDialog dialog = new TextInputDialog(GroupSetter.interval + "");
 		dialog.setTitle("Time Specification Settings");
 		dialog.setHeaderText("Set the interval for grouping the time specification.");
@@ -139,16 +139,6 @@ public class MainAppController {
 
 		// The Java 8 way to get the response value (with lambda expression).
 		result.ifPresent(name -> System.out.println("Your name: " + name));
-	}
-	
-	public void alert() {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Your stupid");
-		alert.setHeaderText("No valid integer: ");
-		alert.setContentText("Please provide a valid integer (ex.: 109).");
-
-		alert();
-		alert.showAndWait();
 	}
 
 	@FXML
