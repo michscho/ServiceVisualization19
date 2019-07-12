@@ -99,12 +99,12 @@ public class GroupSetter {
 				}
 			}
 			final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 205, (int) (maxY - minY) + 150,
-					replaceNotDefined(reverseGroup.get(i)),ResizableRectangleCell.FontStyle.BIG);
+					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.FontStyle.BIG);
 			MainApp.graph.addCell(cellGroup);
 			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 50, (int) minY - 50);
 		}
 	}
-	
+
 	private String replaceNotDefined(String input) {
 		return input.replaceAll("notDefined", "");
 	}
@@ -136,7 +136,7 @@ public class GroupSetter {
 					}
 				}
 				final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
-						replaceNotDefined(reverseSubGroup.get(j)),ResizableRectangleCell.FontStyle.MEDIUM);
+						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.FontStyle.MEDIUM);
 				MainApp.graph.addCell(cellGroup);
 				MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 20, (int) minY - 20);
 			}
@@ -154,7 +154,8 @@ public class GroupSetter {
 					double minX = 10000;
 					double minY = 10000;
 					for (RectangleCell rectangleCell : cellList) {
-						if (rectangleCell.getGrouping().get(0) == i && rectangleCell.getGrouping().get(1) == j  && rectangleCell.getGrouping().get(2) == k) {
+						if (rectangleCell.getGrouping().get(0) == i && rectangleCell.getGrouping().get(1) == j
+								&& rectangleCell.getGrouping().get(2) == k) {
 							double x = rectangleCell.getX();
 							double y = rectangleCell.getY();
 							if (x > maxX) {
@@ -172,7 +173,8 @@ public class GroupSetter {
 						}
 					}
 					final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 105,
-							(int) (maxY - minY) + 50, replaceNotDefined(reverseSubSubGroup.get(k)), ResizableRectangleCell.FontStyle.SMALL);
+							(int) (maxY - minY) + 50, replaceNotDefined(reverseSubSubGroup.get(k)),
+							ResizableRectangleCell.FontStyle.SMALL);
 					MainApp.graph.addCell(cellGroup);
 					MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 5, (int) minY - 5);
 				}
@@ -259,6 +261,9 @@ public class GroupSetter {
 				if (string.equals("Safty Critical")) {
 					sB.append(propertiesReader.getSaftyCritical() + " ");
 				}
+				if (string.equals("Time Specification")) {
+					sB.append(getTimeInterval(propertiesReader) + " ");
+				}
 			}
 			if (!uniqueProperties.containsKey(sB.toString()) && !sB.toString().equals("")) {
 				uniqueProperties.put(sB.toString(), counter++);
@@ -266,6 +271,53 @@ public class GroupSetter {
 		}
 		System.out.println(uniqueProperties);
 		return uniqueProperties;
+	}
+	
+	public static int interval = 1000;
+
+	public String getTimeInterval(PropertiesReader propertiesReader) {
+		double time = propertiesReader.getTime();
+		double timeInNS = 0;
+		if (propertiesReader.getTimeSpecification().getName().equals("s")) {
+			timeInNS = time * 1000 * 1000 * 1000;
+		}
+		if (propertiesReader.getTimeSpecification().getName().equals("ms")) {
+			timeInNS = time * 1000 * 1000;
+		}
+		if (propertiesReader.getTimeSpecification().getName().equals("nss")) {
+			timeInNS = time * 1000;
+		}
+		if (propertiesReader.getTimeSpecification().getName().equals("ns")) {
+			timeInNS = time;
+		}
+		if (propertiesReader.getTimeSpecification().getName().equals("notDefined")) {
+			return "notDefined";
+		}
+		String unity = "ns";
+		int length = (int) (Math.log10(timeInNS) + 1);
+		double timeFrom = Math.abs(timeInNS - (timeInNS % interval));
+		double timeTo = timeFrom + interval;
+		if (length > 3 && length <= 6) {
+			timeFrom /= 1000;
+			timeTo /= 1000;
+			unity = "µs";
+		}
+		if (length > 6 && length <= 9) {
+			timeFrom /= 1000*1000;
+			timeTo /= 1000*1000;
+			unity = "ms";
+
+		}
+		if (length > 9) {
+			timeFrom /= 1000*1000*1000;
+			timeTo /= 1000*1000*1000;
+			unity = "s";
+		}
+		if ((int) timeFrom != (int) timeTo) {
+		return "Time between >" + (int) timeFrom + unity + " and <" + (int) timeTo + unity;
+		} else {
+		return "Time of ~" + timeFrom + unity;
+		}
 	}
 
 	/**
@@ -311,6 +363,9 @@ public class GroupSetter {
 			if (string.equals("Safty Critical")) {
 				sB.append(propertiesReader.getSaftyCritical() + " ");
 			}
+			if (string.equals("Time Specification")) {
+				sB.append(getTimeInterval(propertiesReader) + " ");
+			}
 		}
 		if (!group.isEmpty()) {
 			grouping.put(0, group.get(sB.toString()));
@@ -332,6 +387,9 @@ public class GroupSetter {
 			if (string.equals("Safty Critical")) {
 				sB1.append(propertiesReader.getSaftyCritical() + " ");
 			}
+			if (string.equals("Time Specification")) {
+				sB.append(getTimeInterval(propertiesReader) + " ");
+			}
 		}
 		if (!subGroup.isEmpty()) {
 			grouping.put(1, subGroup.get(sB1.toString()));
@@ -352,6 +410,9 @@ public class GroupSetter {
 			}
 			if (string.equals("Safty Critical")) {
 				sB2.append(propertiesReader.getSaftyCritical() + " ");
+			}
+			if (string.equals("Time Specification")) {
+				sB.append(getTimeInterval(propertiesReader) + " ");
 			}
 		}
 		if (!subsubGroup.isEmpty()) {

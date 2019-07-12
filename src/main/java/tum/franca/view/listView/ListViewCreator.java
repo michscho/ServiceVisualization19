@@ -23,7 +23,7 @@ public class ListViewCreator {
 	 */
 	public ListViewCreator(ListView<String> listView) {
 		this.listView = listView;
-		this.items = FXCollections.observableArrayList("Binding",  "Functional Scope",  "Hardware Dependend / na", "Runtime", "Time Specification / na", "Security Critical", "Safty Critical", "");
+		this.items = FXCollections.observableArrayList("Binding",  "Functional Scope",  "Hardware Dependend / na", "Runtime", "Time Specification", "Security Critical", "Safty Critical", "");
 	}
 	
 	public ListViewCreator(ListView<String> listView, boolean empty) {
