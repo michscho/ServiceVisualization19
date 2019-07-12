@@ -59,24 +59,20 @@ public class MainAppController {
 		this.listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
 	}
-
-	private void addTreeView(List<FidlReader> fidlReader) {
-		TreeViewCreator treeView = new TreeViewCreator(fidlReader);
-		treeView.createTree();
-	}
 	
 	@FXML
 	public void applyGrouping() {
 		if (StaticFidlReader.getFidlList() != null) {
 		GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 		gS.createCanvas();
-		addTreeView(StaticFidlReader.getFidlList());
+		TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+		treeView.createTree();
 		splitPane.setDividerPosition(1, 0.85);
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("No Fidl Files available");
 			alert.setHeaderText(null);
-			alert.setContentText("Import Fidl Files to start grouping");
+			alert.setContentText("Import Fidl-Files to start grouping.");
 
 			alert.showAndWait();
 		}
@@ -112,14 +108,51 @@ public class MainAppController {
 		}
 		GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 		gS.createCanvas();
-		addTreeView(StaticFidlReader.getFidlList());
+		TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+		treeView.createTree();
 		splitPane.setDividerPosition(1, 0.85);
 		
+	}
+	
+	@FXML
+	public void timeSpecification() {
+		TextInputDialog dialog = new TextInputDialog(GroupSetter.interval + "");
+		dialog.setTitle("Time Specification Settings");
+		dialog.setHeaderText("Set the interval for grouping the time specification.");
+		dialog.setContentText("Set the interval in ns:");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			try {
+			GroupSetter.interval = Integer.valueOf(result.get());
+			} catch (Exception e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("No valid integer: " + result.get());
+				alert.setContentText("Please provide a valid integer (ex.: 109).");
+
+				alert.showAndWait();
+				timeSpecification();
+			}
+		}
+
+		// The Java 8 way to get the response value (with lambda expression).
+		result.ifPresent(name -> System.out.println("Your name: " + name));
+	}
+	
+	public void alert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Your stupid");
+		alert.setHeaderText("No valid integer: ");
+		alert.setContentText("Please provide a valid integer (ex.: 109).");
+
+		alert();
+		alert.showAndWait();
 	}
 
 	@FXML
 	public void about() {
-		
 		Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("About.fxml"));
@@ -128,7 +161,6 @@ public class MainAppController {
 			stage.setScene(new Scene(root, 450, 450));
 			stage.setAlwaysOnTop(true);
 			stage.show();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

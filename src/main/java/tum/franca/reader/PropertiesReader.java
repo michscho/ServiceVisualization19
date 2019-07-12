@@ -32,6 +32,7 @@ public class PropertiesReader extends InterfaceReader {
 		list.add(getRuntime().getName());
 		list.add(getSaftyCritical().getName());
 		list.add(getSecurityCritical().getName());
+		list.add(getTimeSpecification().getName());
 		return list;
 	}
 	

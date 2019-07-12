@@ -22,7 +22,10 @@
                     <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import File" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit" />
+                <Menu mnemonicParsing="false" text="Settings">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#timeSpecification" text="Time Specification" />
+                     </items></Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#about" text="About" />

@@ -29,7 +29,8 @@ public class MainApp extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		
+
+		// Icon Bar: MacOS
 		try {
 			URL iconURL = MainApp.class.getResource("visualisation.png");
 			Image image = new ImageIcon(iconURL).getImage();
@@ -37,16 +38,14 @@ public class MainApp extends Application {
 		} catch (Exception e) {
 			// Won't work on Windows or Linux.
 		}
-		
-		MainApp.primaryStage = primaryStage;
-		
-		MainApp.root = FXMLLoader.load(getClass().getResource("MainApp.fxml")); 
-						
-		final Scene scene = new Scene(root, 1920, 1080);
-		
-		primaryStage.getIcons().add(new javafx.scene.image.Image("https://img.icons8.com/clouds/100/000000/administrative-tools.png"));
-		
 
+		MainApp.primaryStage = primaryStage;
+		MainApp.root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
+
+		final Scene scene = new Scene(root, 1920, 1080);
+
+		primaryStage.getIcons()
+				.add(new javafx.scene.image.Image("https://img.icons8.com/clouds/100/000000/administrative-tools.png"));
 		primaryStage.setTitle("Service Visualisation");
 		primaryStage.setScene(scene);
 		primaryStage.show();
