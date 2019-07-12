@@ -151,8 +151,8 @@ public class GroupSetter {
 				for (int k = 0; k < getHighestGroup(cellList, 2) + 1; k++) {
 					double maxX = 0;
 					double maxY = 0;
-					double minX = 10000;
-					double minY = 10000;
+					double minX = Double.POSITIVE_INFINITY;
+					double minY = Double.POSITIVE_INFINITY;
 					for (RectangleCell rectangleCell : cellList) {
 						if (rectangleCell.getGrouping().get(0) == i && rectangleCell.getGrouping().get(1) == j
 								&& rectangleCell.getGrouping().get(2) == k) {
