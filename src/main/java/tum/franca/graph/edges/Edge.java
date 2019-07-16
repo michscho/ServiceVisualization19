@@ -9,8 +9,8 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
-import tum.franca.graph.graph.ICell;
 
 public class Edge extends AbstractEdge {
 

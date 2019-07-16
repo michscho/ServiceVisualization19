@@ -6,25 +6,37 @@ import java.util.Map;
 
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
-import tum.franca.graph.graph.ICell;
 import tum.franca.main.MainApp;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.PropertiesReader;
 import tum.franca.reader.StaticFidlReader;
 
-public class GroupTreeViewCreator {
+/**
+ * 
+ * @author michaelschott
+ *
+ */
+public class GroupTreeViewCreator extends AbstractTreeView {
 
-	private TreeItem<String> rootItem;
 	private List<ICell> intersectionCellList;
 
+	/**
+	 * 
+	 * @param rootName
+	 * @param intersectionCellList
+	 */
 	public GroupTreeViewCreator(String rootName, List<ICell> intersectionCellList) {
 		this.rootItem = new TreeItem<String>(rootName);
 		rootItem.setExpanded(true);
 		this.intersectionCellList = intersectionCellList;
 	}
 
-	public void createGroupTree() {
+	/**
+	 *  Creates a tree.
+	 */
+	public void createTree() {
 		if (intersectionCellList.isEmpty()) {
 			TreeView<String> treeView = new TreeView<String>(rootItem);
 			MainApp.root.getItems().set(2, treeView);
@@ -34,7 +46,7 @@ public class GroupTreeViewCreator {
 				FidlReader fidlReader = StaticFidlReader.getFidl(rectCell);
 				TreeItem<String> item = new TreeItem<String>(fidlReader.getFirstInterfaceName());
 				PropertiesReader pR = fidlReader.getPropertiesReader();
-				HashMap<String, String> hashMap = pR.getAllStringProperties();
+				HashMap<String, String> hashMap = pR.getAllStringPropertiesWithoutNotDefinedOnes();
 				for (Map.Entry<String, String> entry : hashMap.entrySet()) {
 					TreeItem<String> itemKey = new TreeItem<String>(entry.getKey());
 					TreeItem<String> itemValue = new TreeItem<String>(entry.getValue());
@@ -48,6 +60,9 @@ public class GroupTreeViewCreator {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void printList() {
 		for (ICell iCell : intersectionCellList) {
 			if (iCell instanceof RectangleCell) {

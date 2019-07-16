@@ -1,7 +1,6 @@
 package tum.franca.graph.edges;
 
-import tum.franca.graph.graph.ICell;
-import tum.franca.graph.graph.IEdge;
+import tum.franca.graph.cells.ICell;
 
 public abstract class AbstractEdge implements IEdge {
 

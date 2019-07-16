@@ -112,6 +112,7 @@ public class ViewportGestures {
 			final double dy = (event.getSceneY() - ((canvas.getBoundsInParent().getHeight() - subY) / 2 + (canvas.getBoundsInParent().getMinY() + minY)));
 
 			canvas.setScale(scale);
+			System.out.println(scale);
 
 			// note: pivot value must be untransformed, i. e. without scaling
 			canvas.setPivot(f * dx, f * dy);

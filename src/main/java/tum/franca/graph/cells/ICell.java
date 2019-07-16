@@ -1,9 +1,11 @@
-package tum.franca.graph.graph;
+package tum.franca.graph.cells;
 
 import java.util.List;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.layout.Region;
+import tum.franca.graph.edges.IEdge;
+import tum.franca.graph.graph.Graph;
 
 public interface ICell extends IGraphNode {
 

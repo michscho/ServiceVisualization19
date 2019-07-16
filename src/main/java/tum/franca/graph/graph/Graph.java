@@ -10,6 +10,9 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Region;
+import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.IGraphNode;
+import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.layout.Layout;
 
 public class Graph {

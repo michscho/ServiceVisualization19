@@ -15,10 +15,9 @@ import tum.franca.reader.PropertiesReader;
  * @author michaelschott
  *
  */
-public class TreeViewCreator {
+public class TreeViewCreator extends AbstractTreeView {
 
 	private List<FidlReader> fidlList;
-	private TreeItem<String> rootItem;
 
 	/**
 	 * 
@@ -37,7 +36,7 @@ public class TreeViewCreator {
 		for (FidlReader fidlReader : fidlList) {
 			TreeItem<String> item = new TreeItem<String>(fidlReader.getFirstInterfaceName());
 			PropertiesReader pR = fidlReader.getPropertiesReader();
-			HashMap<String, String> hashMap = pR.getAllStringProperties();
+			HashMap<String, String> hashMap = pR.getAllStringPropertiesWithoutNotDefinedOnes();
 			for (Map.Entry<String, String> entry : hashMap.entrySet()) {
 				TreeItem<String> itemKey = new TreeItem<String>(entry.getKey());
 				TreeItem<String> itemValue = new TreeItem<String>(entry.getValue());

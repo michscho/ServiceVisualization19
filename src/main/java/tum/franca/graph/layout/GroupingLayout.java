@@ -5,9 +5,9 @@ import java.util.List;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.graph.Graph;
-import tum.franca.graph.graph.ICell;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package tum.franca.graph.layout;
+package tum.franca.graph.cells;
 
 import java.util.ArrayList;
 import java.util.List;
