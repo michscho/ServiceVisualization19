@@ -7,8 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Region;
 import tum.franca.graph.cells.AbstractCell;
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.edges.Edge;
+import tum.franca.graph.edges.IEdge;
 
 public class Model implements Serializable {
 

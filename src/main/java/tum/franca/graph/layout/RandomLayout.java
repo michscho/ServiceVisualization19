@@ -3,8 +3,8 @@ package tum.franca.graph.layout;
 import java.util.List;
 import java.util.Random;
 
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
-import tum.franca.graph.graph.ICell;
 
 public class RandomLayout implements Layout {
 

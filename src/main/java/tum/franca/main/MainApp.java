@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 import tum.franca.graph.graph.Graph;
+import tum.franca.properties.PropertiesUtil;
 
 /**
  * 
@@ -41,6 +42,8 @@ public class MainApp extends Application {
 
 		MainApp.primaryStage = primaryStage;
 		MainApp.root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
+		
+		PropertiesUtil.getAllPropertiesAsEnums();
 
 		final Scene scene = new Scene(root, 1920, 1080);
 

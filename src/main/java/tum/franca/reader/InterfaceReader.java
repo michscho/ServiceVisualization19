@@ -21,8 +21,8 @@ public class InterfaceReader extends FidlModel {
 		return getFirstInterface().getMethods(); 
 	}
 	
-	public List<FAttribute> getFirstAttributes() {
-		return getFirstInterface().getAttributes(); 
+	public List<FAttribute> getFirstAttributes() {		
+		return getFirstInterface().getAttributes();
 	}
 		
 

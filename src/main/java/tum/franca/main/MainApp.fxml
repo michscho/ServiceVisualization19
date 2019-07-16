@@ -5,8 +5,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -19,23 +22,43 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import File" />
+                    <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import File">
+                           <accelerator>
+                              <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#timeSpecification" text="Time Specification" />
+                        <RadioMenuItem fx:id="fileChanges" mnemonicParsing="false" text="Allow File changes">
+                           <accelerator>
+                              <KeyCodeCombination alt="DOWN" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></RadioMenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false">
+                           <accelerator>
+                              <KeyCodeCombination alt="DOWN" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></SeparatorMenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#timeSpecification" text="Time Specification">
+                           <accelerator>
+                              <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                      </items></Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
+                    <MenuItem mnemonicParsing="false" onAction="#about" text="About">
+                           <accelerator>
+                              <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
                 </Menu>
               </menus>
             </MenuBar>
-            <Button layoutX="24.0" layoutY="705.0" mnemonicParsing="false" onAction="#makeNewGroup" text="Define Property Function" />
+            <Button fx:id="functionButton" disable="true" layoutX="24.0" layoutY="705.0" mnemonicParsing="false" onAction="#makeNewGroup" text="Define Property Function" />
             <ListView fx:id="listView" layoutX="21.0" layoutY="87.0" prefHeight="86.0" prefWidth="190.0" />
-            <Button layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" text="Apply Grouping" />
+            <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" text="Apply Grouping" />
             <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group:" wrappingWidth="72.71044921875" />
             <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" />
             <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" />

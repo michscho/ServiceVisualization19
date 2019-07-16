@@ -16,11 +16,10 @@ import tum.franca.reader.StaticFidlReader;
  * @author michaelschott
  *
  */
-public class SimpleTreeViewCreator {
+public class SimpleTreeViewCreator extends AbstractTreeView {
 	
 	private RectangleCell rectCell;
 	private FidlReader fidlReader;
-	private TreeItem<String> rootItem;
 	private PropertiesReader propReader;
 	
 	/**
@@ -38,8 +37,8 @@ public class SimpleTreeViewCreator {
 	/**
 	 * Creates a simple tree with only the current Cell and his properties.
 	 */
-	public void createSimpleTree() {
-		HashMap<String, String> hashMap = propReader.getAllStringProperties();
+	public void createTree() {
+		HashMap<String, String> hashMap = propReader.getAllStringPropertiesWithoutNotDefinedOnes();
 		for (Map.Entry<String, String> entry : hashMap.entrySet()) {
 			TreeItem<String> itemKey = new TreeItem<String>(entry.getKey());
 			itemKey.setExpanded(true);

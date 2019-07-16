@@ -3,8 +3,6 @@ package tum.franca.graph.cells;
 import java.util.ArrayList;
 import java.util.List;
 
-import tum.franca.graph.graph.ICell;
-
 public abstract class AbstractCell implements ICell {
 
 	private final List<ICell> children = new ArrayList<>();

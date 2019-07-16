@@ -10,11 +10,12 @@ import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.edges.Edge;
 import tum.franca.graph.graph.Graph;
-import tum.franca.graph.graph.ICell;
 import tum.franca.graph.graph.Model;
 import tum.franca.graph.layout.GroupingLayout;
 import tum.franca.main.MainApp;
@@ -27,7 +28,7 @@ import tum.franca.view.listView.ListViewWrapper;
  * @author michaelschott
  *
  */
-public class GroupSetter {
+public class GroupSetter{
 
 	private List<FidlReader> fidlList;
 	private ObservableList<String> listViewItems1;
@@ -62,7 +63,7 @@ public class GroupSetter {
 		MainApp.graph.layout(new GroupingLayout());
 
 		MainApp.root.getItems().set(1, MainApp.graph.getCanvas());
-
+		
 		if (!subsubGroup.isEmpty()) {
 			makeSubSubLevelGroup();
 		}
@@ -329,7 +330,7 @@ public class GroupSetter {
 		List<ICell> cellList = new ArrayList<ICell>();
 		for (FidlReader fidlReader : fidlList) {
 			try {
-				final RectangleCell cell = new RectangleCell(fidlReader.getFirstInterfaceName(), getGroup(fidlReader));
+				final RectangleCell cell = new RectangleCell(fidlReader.getFirstInterfaceName(), getGroup(fidlReader), fidlReader);
 				cellList.add(cell);
 				model.addCell(cell);
 			} catch (IndexOutOfBoundsException e) {

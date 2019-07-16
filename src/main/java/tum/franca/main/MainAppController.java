@@ -13,15 +13,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tum.franca.factory.GroupSetter;
+import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.ResizableRectangleCell;
-import tum.franca.graph.graph.ICell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
 import tum.franca.view.listView.ListViewWrapper;
@@ -33,41 +35,50 @@ import tum.franca.view.treeView.TreeViewCreator;
  *
  */
 public class MainAppController {
-	
+
 	@FXML
 	private AnchorPane anchorPane;
-	
+
 	@FXML
 	private SplitPane splitPane;
-	
+
 	@FXML
 	private SplitPane splitPane2;
-	
+
 	@FXML
 	private ListView<String> listView;
-	@FXML 
+	@FXML
 	private ListView<String> listView2;
 	@FXML
 	private ListView<String> listView3;
 	@FXML
 	private ListView<String> listView4;
-	
+
+	@FXML
+	private Button groupingButton;
+	@FXML
+	private Button functionButton;
+
+	@FXML
+	private RadioMenuItem fileChanges;
+
 	private ListViewWrapper listViewWrapper;
 
 	@FXML
 	public void initialize() throws Exception {
-		this.listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
+		listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
+		this.fileChanges.setSelected(true);
 	}
-	
+
 	@FXML
 	public void applyGrouping() {
 		if (StaticFidlReader.getFidlList() != null) {
-		GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
-		gS.createCanvas();
-		TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-		treeView.createTree();
-		splitPane.setDividerPosition(1, 0.85);
+			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
+			gS.createCanvas();
+			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+			treeView.createTree();
+			splitPane.setDividerPosition(1, 0.85);
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("No Fidl Files available");
@@ -84,36 +95,56 @@ public class MainAppController {
 		TextInputDialog dialog = new TextInputDialog("Group");
 		dialog.setTitle("Rectangle Group Name");
 		dialog.setHeaderText("How should the group be called?");
-		dialog.setContentText("Please enter your name:");
+		dialog.setContentText("Please enter the name:");
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			System.out.println("Your name: " + result.get());
-			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(), ResizableRectangleCell.FontStyle.BIG);
+			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(),
+					ResizableRectangleCell.FontStyle.BIG);
 			MainApp.graph.addCell(cellGroup);
 		}
 
 	}
-	
-	String path;
+
+	private String path;
 
 	@FXML
 	public void importFile() throws IOException {
 		final FileChooser fileChooser = new FileChooser();
 		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);
-		StaticFidlReader.newFidlList();
-		for (File file : list) {
-			URI uri = URI.createFileURI(file.getAbsolutePath());
-			StaticFidlReader.getFidlList().add(new FidlReader(uri));
+		if (list == null) {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("No files selected");
+			alert.setHeaderText(null);
+			alert.setContentText("Please select files");
+			
+			alert.showAndWait();
+		} else {
+			StaticFidlReader.newFidlList();
+			for (File file : list) {
+				URI uri = URI.createFileURI(file.getAbsolutePath());
+				StaticFidlReader.getFidlList().add(new FidlReader(uri));
+			}
+			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
+			try {
+				gS.createCanvas();
+				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+				treeView.createTree();
+				splitPane.setDividerPosition(1, 0.85);
+				groupingButton.setDisable(false);
+				functionButton.setDisable(false);
+			} catch (NullPointerException e) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Wrong grouping");
+				alert.setHeaderText(null);
+				alert.setContentText("Please provide a property for grouping 1. then for 2. and ...");
+
+				alert.showAndWait();
+			}
 		}
-		GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
-		gS.createCanvas();
-		TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-		treeView.createTree();
-		splitPane.setDividerPosition(1, 0.85);
-		
 	}
-	
+
 	@FXML
 	public void timeSpecification() throws InterruptedException {
 		TextInputDialog dialog = new TextInputDialog(GroupSetter.interval + "");
@@ -123,9 +154,9 @@ public class MainAppController {
 
 		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
-		if (result.isPresent()){
+		if (result.isPresent()) {
 			try {
-			GroupSetter.interval = Integer.valueOf(result.get());
+				GroupSetter.interval = Integer.valueOf(result.get());
 			} catch (Exception e) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
@@ -136,8 +167,6 @@ public class MainAppController {
 				timeSpecification();
 			}
 		}
-
-		// The Java 8 way to get the response value (with lambda expression).
 		result.ifPresent(name -> System.out.println("Your name: " + name));
 	}
 
