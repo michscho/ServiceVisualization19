@@ -4,8 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BoxLayout;
+
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.main.MainApp;
@@ -53,9 +62,9 @@ public class GroupTreeViewCreator extends AbstractTreeView {
 					itemKey.getChildren().add(itemValue);
 					item.getChildren().add(itemKey);
 				}
+				
 				rootItem.getChildren().add(item);
-				TreeView<String> treeView = new TreeView<String>(rootItem);
-				MainApp.root.getItems().set(2, treeView);
+				setRoot();
 			}
 		}
 	}

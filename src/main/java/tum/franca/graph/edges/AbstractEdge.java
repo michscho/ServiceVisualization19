@@ -1,9 +1,15 @@
 package tum.franca.graph.edges;
 
+import java.io.Serializable;
+
 import tum.franca.graph.cells.ICell;
 
-public abstract class AbstractEdge implements IEdge {
+public abstract class AbstractEdge implements IEdge, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final ICell source;
 	private final ICell target;
 

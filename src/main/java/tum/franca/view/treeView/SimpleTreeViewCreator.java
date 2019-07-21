@@ -47,7 +47,7 @@ public class SimpleTreeViewCreator extends AbstractTreeView {
 			itemKey.getChildren().add(itemValue);
 			rootItem.getChildren().add(itemKey);
 		}
-		MainApp.root.getItems().set(2, new TreeView<String>(rootItem));
+		setRoot();
 	}
 
 }

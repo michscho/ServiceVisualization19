@@ -1,13 +1,19 @@
 package tum.franca.reader;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.EcoreUtil2;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FBinding;
 import org.franca.core.franca.FFunctionalScope;
+import org.franca.core.franca.FInterface;
+import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FRuntime;
 import org.franca.core.franca.FSaftyCritical;
 import org.franca.core.franca.FSecurityCritical;
@@ -24,8 +30,12 @@ import tum.franca.properties.PropertiesWrapper.Properties.BINDING;
  * @author michaelschott
  *
  */
-public class PropertiesReader extends InterfaceReader {
+public class PropertiesReader extends InterfaceReader implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Properties.BINDING binding;
 	public Properties.FUNCTIONALSCOPE functinoalScope;
 	public Properties.RUNTIME runtime;
@@ -62,7 +72,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				getFirstInterface().setBinding(FBinding.NOT_DEFINED);
+				
 				break;
 			}
 
@@ -93,7 +103,6 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				getFirstInterface().setFunctionalScope(FFunctionalScope.NOT_DEFINED);
 				break;
 			}
 
@@ -112,7 +121,6 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				getFirstInterface().setRuntime(FRuntime.NOT_DEFINED);
 				break;
 			}
 
@@ -139,7 +147,6 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				getFirstInterface().setSaftyCritical(FSaftyCritical.NOT_DEFINED);
 				break;
 			}
 
@@ -162,7 +169,6 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				getFirstInterface().setSecurityCritical(FSecurityCritical.NOT_DEFINED);
 				break;
 			}
 
@@ -189,7 +195,6 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				getFirstInterface().setTimeSpecification(FTimeSpecification.NOT_DEFINED);
 				break;
 			}
 
@@ -261,6 +266,7 @@ public class PropertiesReader extends InterfaceReader {
 	}
 
 	public Properties.BINDING getBindingProperties() {
+		System.out.println(getFirstInterface().getBinding().getName());
 		return PropertiesWrapper.bindingHashMap.get(getFirstInterface().getBinding().getName());
 	}
 

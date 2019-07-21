@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -78,6 +79,57 @@
          </children>
       </AnchorPane>
       <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0" />
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0" />
+    <AnchorPane fx:id="zoom" minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0">
+         <children>
+            <TreeView fx:id="treeView" layoutX="-3.0" layoutY="30.0" prefHeight="203.0" prefWidth="291.0" />
+            <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services and Properties:" />
+            <Text layoutX="6.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metriken:" wrappingWidth="143.60400390625">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Text>
+            <Text layoutX="30.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Services:" wrappingWidth="152.71044921875" />
+            <Text layoutX="30.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Groups:" wrappingWidth="152.71044921875" />
+            <Text layoutX="30.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subgroups:" wrappingWidth="152.71044921875" />
+            <Text layoutX="30.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subsubgroups:" wrappingWidth="152.71044921875" />
+            <Text layoutX="14.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General:" wrappingWidth="143.60400390625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="14.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties:" wrappingWidth="143.60400390625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="30.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Most common:" wrappingWidth="152.71044921875" />
+            <Text layoutX="30.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least common:" wrappingWidth="152.71044921875" />
+            <Text layoutX="14.0" layoutY="553.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Relations:" wrappingWidth="143.60400390625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Separator layoutX="-3.0" layoutY="420.0" prefHeight="3.0" prefWidth="284.0" />
+            <Separator layoutX="-10.0" layoutY="524.0" prefHeight="3.0" prefWidth="297.0" />
+            <Text layoutX="30.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Relations:" wrappingWidth="152.71044921875" />
+            <Text layoutX="30.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coupling:" wrappingWidth="152.71044921875" />
+            <Text layoutX="30.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
+            <Separator layoutX="-10.0" layoutY="664.0" prefHeight="3.0" prefWidth="297.0" />
+            <Text layoutX="30.0" layoutY="688.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom:" />
+            <Text layoutX="30.0" layoutY="718.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Layout X:" />
+            <Text layoutX="30.0" layoutY="748.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Layout Y:" />
+            <Text fx:id="servicesText" layoutX="210.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="groupsText" layoutX="210.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="subGroupsText" layoutX="210.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="subSubGroupsText" layoutX="210.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text layoutX="210.0" layoutY="584.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text layoutX="210.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text layoutX="210.0" layoutY="644.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="zoomText" layoutX="210.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="layoutXText" layoutX="210.0" layoutY="717.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="layoutYText" layoutX="210.0" layoutY="747.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text layoutX="183.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" wrappingWidth="72.71044921875" />
+            <Text layoutX="183.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" wrappingWidth="72.71044921875" />
+         </children></AnchorPane>
   </items>
 </SplitPane>

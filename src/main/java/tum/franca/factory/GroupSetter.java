@@ -9,11 +9,16 @@ import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
+import tum.franca.graph.cells.ResizableRectangleCell.FontStyle;
 import tum.franca.graph.edges.Edge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.Model;
@@ -62,16 +67,24 @@ public class GroupSetter{
 		MainApp.graph.endUpdate();
 		MainApp.graph.layout(new GroupingLayout());
 
-		MainApp.root.getItems().set(1, MainApp.graph.getCanvas());
+		makeTopLevelGroup();
+		if (!subGroup.isEmpty()) {
+			makeSubLevelGroup();
+		}
 		
 		if (!subsubGroup.isEmpty()) {
 			makeSubSubLevelGroup();
 		}
-		if (!subGroup.isEmpty()) {
-			makeSubLevelGroup();
-		}
-		makeTopLevelGroup();
+		
+		relocateToForeground();
 
+	}
+	
+	public void relocateToForeground() {
+		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
+		for (RectangleCell rectangleCell : cellList) {
+			rectangleCell.pane.toFront();
+		}
 	}
 
 	public void makeTopLevelGroup() {
@@ -102,6 +115,7 @@ public class GroupSetter{
 			final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 205, (int) (maxY - minY) + 150,
 					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.FontStyle.BIG);
 			MainApp.graph.addCell(cellGroup);
+			MainApp.graph.getModel().addCell(cellGroup);
 			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 50, (int) minY - 50);
 		}
 	}
@@ -136,9 +150,10 @@ public class GroupSetter{
 						}
 					}
 				}
-				final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
+				final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
 						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.FontStyle.MEDIUM);
 				MainApp.graph.addCell(cellGroup);
+				MainApp.graph.getModel().addCell(cellGroup);
 				MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 20, (int) minY - 20);
 			}
 
@@ -173,10 +188,11 @@ public class GroupSetter{
 							}
 						}
 					}
-					final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 105,
+					final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 118,
 							(int) (maxY - minY) + 50, replaceNotDefined(reverseSubSubGroup.get(k)),
 							ResizableRectangleCell.FontStyle.SMALL);
 					MainApp.graph.addCell(cellGroup);
+					MainApp.graph.getModel().addCell(cellGroup);
 					MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 5, (int) minY - 5);
 				}
 			}

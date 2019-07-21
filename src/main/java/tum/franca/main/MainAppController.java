@@ -18,10 +18,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tum.franca.factory.GroupSetter;
+import tum.franca.factory.TabPaneSetter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.reader.FidlReader;
@@ -63,12 +66,42 @@ public class MainAppController {
 	private RadioMenuItem fileChanges;
 
 	private ListViewWrapper listViewWrapper;
+	
+	private TabPaneSetter tabPaneSetter;
+	
+	@FXML
+	private TreeView<String> treeView;
+	public static TreeView<String> staticTreeView;
+	
+	@FXML
+	private Text zoomText;
+	public static Text staticZoomText;
+	@FXML
+	private Text servicesText;
+	public static Text staticServicesText;
+	@FXML
+	private Text groupsText;
+	public static Text staticGroupsText;
+	@FXML
+	private Text subGroupsText;
+	public static Text staticSubGroupsText;
+	@FXML
+	private Text subSubGroupsText;
+	public static Text staticSubSubGroupsText;
+	
 
 	@FXML
 	public void initialize() throws Exception {
 		listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
-		this.fileChanges.setSelected(true);
+		splitPane.setDividerPosition(1, 0.78);
+		fileChanges.setSelected(true);
+		staticTreeView = treeView;
+		staticZoomText = zoomText;
+		staticServicesText = servicesText;
+		staticGroupsText = groupsText;
+		staticSubGroupsText = subGroupsText;
+		staticSubSubGroupsText = subSubGroupsText;
 	}
 
 	@FXML
@@ -76,9 +109,11 @@ public class MainAppController {
 		if (StaticFidlReader.getFidlList() != null) {
 			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			gS.createCanvas();
+			tabPaneSetter.setCanvas();
+			Metrics.setServicesAndGroups();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-			treeView.createTree();
-			splitPane.setDividerPosition(1, 0.85);
+			treeView.createTree(this.treeView);
+			splitPane.setDividerPosition(1, 0.78);
 		} else {
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("No Fidl Files available");
@@ -91,7 +126,6 @@ public class MainAppController {
 
 	@FXML
 	public void makeNewGroup() {
-
 		TextInputDialog dialog = new TextInputDialog("Group");
 		dialog.setTitle("Rectangle Group Name");
 		dialog.setHeaderText("How should the group be called?");
@@ -106,8 +140,6 @@ public class MainAppController {
 		}
 
 	}
-
-	private String path;
 
 	@FXML
 	public void importFile() throws IOException {
@@ -129,11 +161,16 @@ public class MainAppController {
 			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			try {
 				gS.createCanvas();
+				if (tabPaneSetter == null) {					
+					this.tabPaneSetter = new TabPaneSetter();
+				}
+				tabPaneSetter.setCanvas();
+				Metrics.setServicesAndGroups();
 				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-				treeView.createTree();
-				splitPane.setDividerPosition(1, 0.85);
+				treeView.createTree(this.treeView);
 				groupingButton.setDisable(false);
 				functionButton.setDisable(false);
+				splitPane.setDividerPosition(1, 0.82);
 			} catch (NullPointerException e) {
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Wrong grouping");
