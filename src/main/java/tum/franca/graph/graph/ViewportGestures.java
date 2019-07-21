@@ -5,8 +5,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import tum.franca.main.Metrics;
 
 /**
+ * https://github.com/generalic/GraphVisualisation/blob/master/src/hr/fer/zemris/graph/test/GraphPane.java
  * Listeners for making the scene's viewport draggable and zoomable
  */
 public class ViewportGestures {
@@ -112,8 +114,8 @@ public class ViewportGestures {
 			final double dy = (event.getSceneY() - ((canvas.getBoundsInParent().getHeight() - subY) / 2 + (canvas.getBoundsInParent().getMinY() + minY)));
 
 			canvas.setScale(scale);
-			System.out.println(scale);
-
+			Metrics.setZoom(scale);
+			
 			// note: pivot value must be untransformed, i. e. without scaling
 			canvas.setPivot(f * dx, f * dy);
 

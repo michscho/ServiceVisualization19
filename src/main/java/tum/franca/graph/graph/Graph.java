@@ -1,5 +1,6 @@
 package tum.franca.graph.graph;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,12 @@ import tum.franca.graph.cells.IGraphNode;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.layout.Layout;
 
-public class Graph {
+public class Graph implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final Model model;
 	private final PannableCanvas pannableCanvas;
 	private final Map<IGraphNode, Region> graphics;
@@ -115,7 +120,7 @@ public class Graph {
 				}
 	}
 	
-	public void addCell(int x, int y,ICell cell) {
+	public void addCell(int x, int y, ICell cell) {
 		Region cellGraphic = getGraphic(cell);
 		getCanvas().getChildren().add(cellGraphic);
 		if (useNodeGestures.get()) {

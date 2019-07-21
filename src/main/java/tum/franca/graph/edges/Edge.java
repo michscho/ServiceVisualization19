@@ -1,5 +1,7 @@
 package tum.franca.graph.edges;
 
+import java.io.Serializable;
+
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -12,7 +14,7 @@ import javafx.scene.text.Text;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
 
-public class Edge extends AbstractEdge {
+public class Edge extends AbstractEdge implements Serializable {
 
 	private transient final StringProperty textProperty;
 

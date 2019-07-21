@@ -67,7 +67,7 @@ public class GroupingLayout implements Layout {
 				cell.setY(y);
 				skip = true;
 				counter += 1;
-				x += 100;
+				x += 150;
 			}
 		}
 		if (tree.getDepth() == depth && !skip) {
@@ -76,7 +76,7 @@ public class GroupingLayout implements Layout {
 					if (i == 0 || i % 4 == 0) {
 						xGroup = 0;
 					} else {
-						xGroup += 500;
+						xGroup += 700;
 					}
 					if (i % 4 == 0) {
 						yGroup += 200;

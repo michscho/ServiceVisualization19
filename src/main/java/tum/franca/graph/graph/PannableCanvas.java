@@ -1,11 +1,21 @@
 package tum.franca.graph.graph;
 
+import java.io.Serializable;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.layout.Pane;
 
-public class PannableCanvas extends Pane {
+/**
+ * 
+ * https://github.com/sirolf2009/fxgraph/blob/master/src/main/java/com/fxgraph/graph/PannableCanvas.java
+ */
+public class PannableCanvas extends Pane implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final DoubleProperty scaleProperty;
 
 	public PannableCanvas() {

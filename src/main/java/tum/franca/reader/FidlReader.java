@@ -1,5 +1,7 @@
 package tum.franca.reader;
 
+import java.io.Serializable;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.franca.core.franca.FArgument;
@@ -14,7 +16,7 @@ import org.franca.core.franca.FRequires;
 import org.franca.core.franca.FTypeCollection;
 import org.franca.core.franca.Import;
 
-public class FidlReader extends FidlModel {
+public class FidlReader extends FidlModel  {
 	
 	PropertiesReader propertiesReader;
 	

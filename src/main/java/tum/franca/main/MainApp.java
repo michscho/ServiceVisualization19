@@ -7,10 +7,13 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import tum.franca.graph.graph.Graph;
 import tum.franca.properties.PropertiesUtil;
 
@@ -52,6 +55,13 @@ public class MainApp extends Application {
 		primaryStage.setTitle("Service Visualisation");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		    @Override
+		    public void handle(WindowEvent t) {
+		        Platform.exit();
+		        System.exit(0);
+		    }
+		});
 	}
 
 	/**

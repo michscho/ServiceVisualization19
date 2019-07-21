@@ -19,8 +19,40 @@ import javafx.scene.shape.Rectangle;
 public class CellGestures {
 
 	static final double handleRadius = 4d;
+	
+	Rectangle resizeHandleN;
+	Rectangle resizeHandleNE;
+	Rectangle resizeHandleE;
+    Rectangle resizeHandleSE;
+    Rectangle resizeHandleS;
+    Rectangle resizeHandleSW;
+    Rectangle resizeHandleW;
+    Rectangle resizeHandleNW;
 
-	static DragNodeSupplier NORTH = new DragNodeSupplier() {
+ 
+	void setInvisible() {
+		resizeHandleN.setVisible(false);
+		resizeHandleNE.setVisible(false);
+		resizeHandleE.setVisible(false);
+		resizeHandleSE.setVisible(false);
+		resizeHandleS.setVisible(false);
+		resizeHandleSW.setVisible(false);
+		resizeHandleW.setVisible(false);
+		resizeHandleNW.setVisible(false);	    
+	}
+	
+	void setVisible() {
+		resizeHandleN.setVisible(true);
+		resizeHandleNE.setVisible(true);
+		resizeHandleE.setVisible(true);
+		resizeHandleSE.setVisible(true);
+		resizeHandleS.setVisible(true);
+		resizeHandleSW.setVisible(true);
+		resizeHandleW.setVisible(true);
+		resizeHandleNW.setVisible(true);
+	}
+
+	DragNodeSupplier NORTH = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
@@ -28,7 +60,7 @@ public class CellGestures {
 			final ReadOnlyDoubleProperty widthProperty = region.prefWidthProperty();
 			final DoubleBinding halfWidthProperty = widthProperty.divide(2);
 
-			final Rectangle resizeHandleN = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleN = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleN.xProperty().bind(xProperty.add(halfWidthProperty).subtract(handleRadius / 2));
 			resizeHandleN.yProperty().bind(yProperty.subtract(handleRadius / 2));
 
@@ -44,14 +76,14 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier NORTH_EAST = new DragNodeSupplier() {
+	DragNodeSupplier NORTH_EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
 			final DoubleProperty yProperty = region.layoutYProperty();
 			final ReadOnlyDoubleProperty widthProperty = region.prefWidthProperty();
 
-			final Rectangle resizeHandleNE = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleNE = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleNE.xProperty().bind(xProperty.add(widthProperty).subtract(handleRadius / 2));
 			resizeHandleNE.yProperty().bind(yProperty.subtract(handleRadius / 2));
 
@@ -68,7 +100,7 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier EAST = new DragNodeSupplier() {
+	DragNodeSupplier EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
@@ -77,7 +109,7 @@ public class CellGestures {
 			final ReadOnlyDoubleProperty heightProperty = region.prefHeightProperty();
 			final DoubleBinding halfHeightProperty = heightProperty.divide(2);
 
-			final Rectangle resizeHandleE = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleE = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleE.xProperty().bind(xProperty.add(widthProperty).subtract(handleRadius / 2));
 			resizeHandleE.yProperty().bind(yProperty.add(halfHeightProperty).subtract(handleRadius / 2));
 
@@ -93,7 +125,7 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier SOUTH_EAST = new DragNodeSupplier() {
+	DragNodeSupplier SOUTH_EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
@@ -101,7 +133,7 @@ public class CellGestures {
 			final ReadOnlyDoubleProperty widthProperty = region.prefWidthProperty();
 			final ReadOnlyDoubleProperty heightProperty = region.prefHeightProperty();
 
-			final Rectangle resizeHandleSE = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleSE = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleSE.xProperty().bind(xProperty.add(widthProperty).subtract(handleRadius / 2));
 			resizeHandleSE.yProperty().bind(yProperty.add(heightProperty).subtract(handleRadius / 2));
 
@@ -118,7 +150,7 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier SOUTH = new DragNodeSupplier() {
+	 DragNodeSupplier SOUTH = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
@@ -127,7 +159,7 @@ public class CellGestures {
 			final DoubleBinding halfWidthProperty = widthProperty.divide(2);
 			final ReadOnlyDoubleProperty heightProperty = region.prefHeightProperty();
 
-			final Rectangle resizeHandleS = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleS = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleS.xProperty().bind(xProperty.add(halfWidthProperty).subtract(handleRadius / 2));
 			resizeHandleS.yProperty().bind(yProperty.add(heightProperty).subtract(handleRadius / 2));
 
@@ -143,14 +175,14 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier SOUTH_WEST = new DragNodeSupplier() {
+	 DragNodeSupplier SOUTH_WEST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
 			final DoubleProperty yProperty = region.layoutYProperty();
 			final ReadOnlyDoubleProperty heightProperty = region.prefHeightProperty();
 
-			final Rectangle resizeHandleSW = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleSW = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleSW.xProperty().bind(xProperty.subtract(handleRadius / 2));
 			resizeHandleSW.yProperty().bind(yProperty.add(heightProperty).subtract(handleRadius / 2));
 
@@ -167,7 +199,7 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier WEST = new DragNodeSupplier() {
+		DragNodeSupplier WEST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
@@ -175,7 +207,7 @@ public class CellGestures {
 			final ReadOnlyDoubleProperty heightProperty = region.prefHeightProperty();
 			final DoubleBinding halfHeightProperty = heightProperty.divide(2);
 
-			final Rectangle resizeHandleW = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleW = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleW.xProperty().bind(xProperty.subtract(handleRadius / 2));
 			resizeHandleW.yProperty().bind(yProperty.add(halfHeightProperty).subtract(handleRadius / 2));
 
@@ -191,13 +223,13 @@ public class CellGestures {
 		}
 	};
 
-	static DragNodeSupplier NORTH_WEST = new DragNodeSupplier() {
+	DragNodeSupplier NORTH_WEST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
 			final DoubleProperty xProperty = region.layoutXProperty();
 			final DoubleProperty yProperty = region.layoutYProperty();
 
-			final Rectangle resizeHandleNW = new Rectangle(handleRadius, handleRadius, Color.BLACK);
+			resizeHandleNW = new Rectangle(handleRadius, handleRadius, Color.BLACK);
 			resizeHandleNW.xProperty().bind(xProperty.subtract(handleRadius / 2));
 			resizeHandleNW.yProperty().bind(yProperty.subtract(handleRadius / 2));
 
@@ -214,8 +246,8 @@ public class CellGestures {
 		}
 	};
 
-	public static void makeResizable(Region region) {
-		makeResizable(region, NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST);
+	public void makeResizable(Region region) {
+		makeResizable(region, this.NORTH, this.NORTH_EAST, this.EAST, this.SOUTH_EAST, this.SOUTH, this.SOUTH_WEST, this.WEST, this.NORTH_WEST);
 	}
 
 	public static void makeResizable(Region region, DragNodeSupplier... nodeSuppliers) {

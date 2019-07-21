@@ -32,7 +32,7 @@ public class TreeViewCreator extends AbstractTreeView {
 	/**
 	 *  Creates a tree with services and their properties.
 	 */
-	public void createTree() {
+	public void createTree(TreeView<String> treeView) {
 		for (FidlReader fidlReader : fidlList) {
 			TreeItem<String> item = new TreeItem<String>(fidlReader.getFirstInterfaceName());
 			PropertiesReader pR = fidlReader.getPropertiesReader();
@@ -45,8 +45,7 @@ public class TreeViewCreator extends AbstractTreeView {
 			}
 			rootItem.getChildren().add(item);
 		}
-		TreeView<String> treeView =  new TreeView<String>(rootItem);
-		MainApp.root.getItems().set(2, treeView);
+		treeView.setRoot(rootItem);
 	}
 
 }
