@@ -30,12 +30,8 @@ import tum.franca.properties.PropertiesWrapper.Properties.BINDING;
  * @author michaelschott
  *
  */
-public class PropertiesReader extends InterfaceReader implements Serializable {
+public class PropertiesReader extends InterfaceReader {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	public Properties.BINDING binding;
 	public Properties.FUNCTIONALSCOPE functinoalScope;
 	public Properties.RUNTIME runtime;
@@ -52,6 +48,13 @@ public class PropertiesReader extends InterfaceReader implements Serializable {
 		securityCritical = getSecurityCriticalProperties();
 		timeSpecification = getTimeSpecifiactionProperties();
 	}
+	
+	public void setInterfaceName(String string) {
+		getFirstInterface().setName(string);
+		FrancaPersistenceManager fPM = new FrancaPersistenceManager();
+		fPM.saveModel(fmodel, uri.toString());
+	}
+		
 
 	public void setProperty(String group, String property) {
 		System.out.println("PROPERTY" + property + " " + group);

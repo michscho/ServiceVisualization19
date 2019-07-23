@@ -5,7 +5,13 @@ import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell.FontStyle;
+import tum.franca.graph.edges.IEdge;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class Metrics {
 
 	public static void setZoom(double zoom) {
@@ -39,6 +45,15 @@ public class Metrics {
 		MainAppController.staticGroupsText.setText(String.valueOf(groupCounter));
 		MainAppController.staticSubGroupsText.setText(String.valueOf(subGroupCounter)); 
 		MainAppController.staticSubSubGroupsText.setText(String.valueOf(subSubGroupCounter)); 
+	}
+	
+	public static void setRelations() {
+		ObservableList<IEdge> cells = MainApp.graph.getModel().getAddedEdges();
+		int relation = 0;
+		for (IEdge iCell : cells) {
+			relation++;
+		}
+		MainAppController.staticRelationsText.setText(String.valueOf(relation));
 	}
 
 }

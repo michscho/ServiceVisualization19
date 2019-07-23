@@ -64,38 +64,6 @@ public class Binding {
 				
 			}
 		}
-//		for (ICell iCell : cellList) {
-//			if (iCell instanceof RectangleCell) {
-//
-//				RectangleCell cell = (RectangleCell) iCell;
-//				Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-//				Point point2 = ResizableRectangleCell.getPointOfRechtangle(pane.getLayoutX(),
-//						pane.getLayoutY(), pane.getWidth(), pane.getHeight());
-//				Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-//				Point point4 = ResizableRectangleCell.getPointOfRechtangle(cell.pane.getLayoutX(),
-//						cell.pane.getLayoutY(), cell.pane.getWidth(), cell.pane.getHeight());
-//
-//				if (ResizableRectangleCell.doOverlap(point, point2, point3, point4)) {
-//					cell.pane.layoutXProperty().unbind();
-//					cell.pane.layoutYProperty().unbind();
-//				}
-//			} else {
-//					if (iCell instanceof ResizableRectangleCell && ((ResizableRectangleCell) iCell).style.ordinal() < fontStyle) {
-//						ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
-//						Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-//						Point point2 = ResizableRectangleCell.getPointOfRechtangle(pane.getLayoutX(),
-//								pane.getLayoutY(), pane.getWidth(), pane.getHeight());
-//						Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-//						Point point4 = ResizableRectangleCell.getPointOfRechtangle(cell.pane.getLayoutX(),
-//								cell.pane.getLayoutY(), cell.pane.getWidth(), cell.pane.getHeight());
-//
-//						if (ResizableRectangleCell.doOverlap(point, point2, point3, point4)) {
-//							cell.pane.layoutXProperty().unbind();
-//							cell.pane.layoutYProperty().unbind();
-//						}
-//					}
-//			}
-//		}
 	}
 
 }

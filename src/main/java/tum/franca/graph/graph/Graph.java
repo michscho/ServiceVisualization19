@@ -1,6 +1,5 @@
 package tum.franca.graph.graph;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +15,13 @@ import tum.franca.graph.cells.IGraphNode;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.layout.Layout;
 
-public class Graph implements Serializable {
+/**
+ * 
+ * https://github.com/sirolf2009/fxgraph/blob/master/src/main/java/com/fxgraph/graph/Graph.java
+ *
+ */
+public class Graph {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private final Model model;
 	private final PannableCanvas pannableCanvas;
 	private final Map<IGraphNode, Region> graphics;

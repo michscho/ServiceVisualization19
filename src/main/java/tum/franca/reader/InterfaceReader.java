@@ -3,6 +3,7 @@ package tum.franca.reader;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FInterface;
 import org.franca.core.franca.FMethod;
@@ -23,7 +24,6 @@ public class InterfaceReader extends FidlModel {
 	
 	public List<FAttribute> getFirstAttributes() {		
 		return getFirstInterface().getAttributes();
-	}
-		
+	}	
 
 }

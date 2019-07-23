@@ -11,8 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioMenuItem;
@@ -22,6 +20,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import tum.franca.factory.GroupSetter;
 import tum.franca.factory.TabPaneSetter;
@@ -29,6 +28,7 @@ import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
+import tum.franca.save.DataModel;
 import tum.franca.view.listView.ListViewWrapper;
 import tum.franca.view.treeView.TreeViewCreator;
 
@@ -64,6 +64,7 @@ public class MainAppController {
 
 	@FXML
 	private RadioMenuItem fileChanges;
+	public static RadioMenuItem staticFileChanges;
 
 	private ListViewWrapper listViewWrapper;
 	
@@ -88,6 +89,15 @@ public class MainAppController {
 	@FXML
 	private Text subSubGroupsText;
 	public static Text staticSubSubGroupsText;
+	@FXML
+	private Text relationsText;
+	public static Text staticRelationsText;
+	@FXML
+	private Text layoutXText;
+	public static Text staticLayoutXText;
+	@FXML
+	private Text layoutYText;
+	public static Text staticLayoutYText;
 	
 
 	@FXML
@@ -102,6 +112,10 @@ public class MainAppController {
 		staticGroupsText = groupsText;
 		staticSubGroupsText = subGroupsText;
 		staticSubSubGroupsText = subSubGroupsText;
+		staticRelationsText = relationsText;
+		staticLayoutXText = layoutXText;
+		staticLayoutYText = layoutYText;
+		staticFileChanges = fileChanges;
 	}
 
 	@FXML
@@ -111,16 +125,12 @@ public class MainAppController {
 			gS.createCanvas();
 			tabPaneSetter.setCanvas();
 			Metrics.setServicesAndGroups();
+			Metrics.setRelations();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-			treeView.createTree(this.treeView);
-			splitPane.setDividerPosition(1, 0.78);
+			treeView.createTree();
+			splitPane.setDividerPosition(1, 0.82);
 		} else {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("No Fidl Files available");
-			alert.setHeaderText(null);
-			alert.setContentText("Import Fidl-Files to start grouping.");
-
-			alert.showAndWait();
+			VisualisationsAlerts.noFilesSelected();
 		}
 	}
 
@@ -140,18 +150,28 @@ public class MainAppController {
 		}
 
 	}
+	
+	@FXML
+	public void save() {
+		DataModel dataModel = new DataModel();
+		dataModel.save();
+	}
 
+	@FXML
+	public void importSavedFile() {
+		DataModel dataModel = new DataModel();
+		dataModel.deserialize();
+		dataModel.importSavedFile(tabPaneSetter);
+		splitPane.setDividerPosition(1, 0.82);
+	}
+	
 	@FXML
 	public void importFile() throws IOException {
 		final FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Fidl Files","*.fidl"));
 		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);
 		if (list == null) {
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("No files selected");
-			alert.setHeaderText(null);
-			alert.setContentText("Please select files");
-			
-			alert.showAndWait();
+			VisualisationsAlerts.noFilesSelected();
 		} else {
 			StaticFidlReader.newFidlList();
 			for (File file : list) {
@@ -165,19 +185,16 @@ public class MainAppController {
 					this.tabPaneSetter = new TabPaneSetter();
 				}
 				tabPaneSetter.setCanvas();
+				Metrics.setZoom(1.0);
 				Metrics.setServicesAndGroups();
+				Metrics.setRelations();
 				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-				treeView.createTree(this.treeView);
+				treeView.createTree();
 				groupingButton.setDisable(false);
 				functionButton.setDisable(false);
 				splitPane.setDividerPosition(1, 0.82);
 			} catch (NullPointerException e) {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Wrong grouping");
-				alert.setHeaderText(null);
-				alert.setContentText("Please provide a property for grouping 1. then for 2. and ...");
-
-				alert.showAndWait();
+				VisualisationsAlerts.wrongGrouping();
 			}
 		}
 	}
@@ -189,18 +206,12 @@ public class MainAppController {
 		dialog.setHeaderText("Set the interval for grouping the time specification.");
 		dialog.setContentText("Set the interval in ns:");
 
-		// Traditional way to get the response value.
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			try {
 				GroupSetter.interval = Integer.valueOf(result.get());
 			} catch (Exception e) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("No valid integer: " + result.get());
-				alert.setContentText("Please provide a valid integer (ex.: 109).");
-
-				alert.showAndWait();
+				VisualisationsAlerts.noValidInteger(result.get());
 				timeSpecification();
 			}
 		}
@@ -216,6 +227,7 @@ public class MainAppController {
 			stage.setTitle("About VisualFX Franca");
 			stage.setScene(new Scene(root, 450, 450));
 			stage.setAlwaysOnTop(true);
+			stage.setResizable(false);
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

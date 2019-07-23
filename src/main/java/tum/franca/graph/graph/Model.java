@@ -1,6 +1,5 @@
 package tum.franca.graph.graph;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -12,7 +11,7 @@ import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.edges.Edge;
 import tum.franca.graph.edges.IEdge;
 
-public class Model implements Serializable {
+public class Model{
 
 	private static final long serialVersionUID = 172247271876446110L;
 
