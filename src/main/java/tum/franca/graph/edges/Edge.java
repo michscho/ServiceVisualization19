@@ -1,20 +1,22 @@
 package tum.franca.graph.edges;
 
-import java.io.Serializable;
-
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
+import javafx.scene.shape.StrokeType;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
 
-public class Edge extends AbstractEdge implements Serializable {
+public class Edge extends AbstractEdge {
 
 	private transient final StringProperty textProperty;
 
@@ -36,7 +38,6 @@ public class Edge extends AbstractEdge implements Serializable {
 
 		private final Group group;
 		private final Line line;
-		private final Text text;
 
 		public EdgeGraphic(Graph graph, Edge edge, StringProperty textProperty) {
 			group = new Group();
@@ -54,21 +55,37 @@ public class Edge extends AbstractEdge implements Serializable {
 			line.endYProperty().bind(targetY);
 			group.getChildren().add(line);
 
-			final DoubleProperty textWidth = new SimpleDoubleProperty();
-			final DoubleProperty textHeight = new SimpleDoubleProperty();
-			text = new Text();
-			text.textProperty().bind(textProperty);
-			text.getStyleClass().add("edge-text");
-			text.xProperty().bind(line.startXProperty().add(line.endXProperty()).divide(2).subtract(textWidth.divide(2)));
-			text.yProperty().bind(line.startYProperty().add(line.endYProperty()).divide(2).subtract(textHeight.divide(2)));
-			final Runnable recalculateWidth = () -> {
-				textWidth.set(text.getLayoutBounds().getWidth());
-				textHeight.set(text.getLayoutBounds().getHeight());
-			};
-			text.parentProperty().addListener((obs, oldVal, newVal) -> recalculateWidth.run());
-			text.textProperty().addListener((obs, oldVal, newVal) -> recalculateWidth.run());
-			group.getChildren().add(text);
 			getChildren().add(group);
+			
+			Circle circle = new Circle(2);
+			circle.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
+			circle.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
+			Arc arc = new Arc(0, 0, 5, 5, 90, 180);
+			if (sourceX.get() > targetX.get()) {
+			arc.setStartAngle(90);
+			} else {
+			arc.setStartAngle(270);
+			}
+			line.startXProperty().addListener(new ChangeListener<Object>() {
+
+				@Override
+				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+					if (sourceX.get() > targetX.get()) {
+						arc.setStartAngle(90);
+						} else {
+						arc.setStartAngle(270);
+						}
+				}
+			});
+		    arc.setType(ArcType.OPEN);
+		    arc.setStrokeWidth(2);
+		    arc.setStroke(Color.BLACK);
+		    arc.setStrokeType(StrokeType.INSIDE);
+		    arc.setFill(null);
+			arc.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
+			arc.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
+			group.getChildren().add(circle);
+			group.getChildren().add(arc);
 		}
 
 		public Group getGroup() {
@@ -79,9 +96,6 @@ public class Edge extends AbstractEdge implements Serializable {
 			return line;
 		}
 
-		public Text getText() {
-			return text;
-		}
 
 	}
 

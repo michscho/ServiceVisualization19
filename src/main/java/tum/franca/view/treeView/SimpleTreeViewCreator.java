@@ -29,7 +29,7 @@ public class SimpleTreeViewCreator extends AbstractTreeView {
 	public SimpleTreeViewCreator(String rootName) {
 		this.rootItem = new TreeItem<String>(rootName);
 		rootItem.setExpanded(true);
-		this.rectCell = MainApp.graph.getModel().getRectangleCell(rootName);
+		this.rectCell = MainApp.graph.getModel().getRectangleCell(rootName); 
 		this.fidlReader = StaticFidlReader.getFidl(rectCell);
 		this.propReader = fidlReader.getPropertiesReader();
 	}

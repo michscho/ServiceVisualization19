@@ -3,6 +3,7 @@ package tum.franca.main;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -25,6 +26,7 @@ import tum.franca.properties.PropertiesUtil;
 public class MainApp extends Application {
 
 	public static Stage primaryStage;
+	public static Graph[] graphList = new Graph[10];
 	public static Graph graph;
 	public static SplitPane root;
 

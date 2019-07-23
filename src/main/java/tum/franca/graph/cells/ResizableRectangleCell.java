@@ -33,12 +33,14 @@ public class ResizableRectangleCell extends AbstractCell {
 	private static final long serialVersionUID = 1L;
 	private final Rectangle view;
 	private String name;
-	private int x;
-	private int y;
+	public int width;
+	public int heigth;
 	public FontStyle style;
 	public Pane pane;
 	public Color color;
 	public Color colorStroke;
+	public int x;
+	public int y;
 
 	public enum FontStyle {
 		SMALL, MEDIUM, BIG
@@ -46,21 +48,21 @@ public class ResizableRectangleCell extends AbstractCell {
 
 	/**
 	 * 
-	 * @param x
-	 * @param y
+	 * @param width
+	 * @param heigth
 	 * @param name
 	 * @param style
 	 */
-	public ResizableRectangleCell(int x, int y, String name, ResizableRectangleCell.FontStyle style) {
+	public ResizableRectangleCell(int width, int heigth, String name, ResizableRectangleCell.FontStyle style) {
 		this.name = name;
-		this.x = x;
-		this.y = y;
+		this.width = width;
+		this.heigth = heigth;
 		this.style = style;
 		Random random = new Random();
 		final float R = random.nextFloat();
 		final float G = random.nextFloat();
 		final float B = random.nextFloat();
-		this.view = new Rectangle(x, y);
+		this.view = new Rectangle(width, heigth);
 		color = new Color(R, G, B, 0.09);
 		colorStroke = new Color(R, G, B, 0.8);
 	}
@@ -73,7 +75,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		view.setStyle("-fx-stroke-dash-array: 15 15 15 15;");
 
 		pane = new Pane(view);
-		pane.setPrefSize(x, y);
+		pane.setPrefSize(width, heigth);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
 		CellGestures cG = new CellGestures();

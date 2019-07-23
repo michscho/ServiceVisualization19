@@ -2,11 +2,17 @@ package tum.franca.main;
 
 import java.util.List;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import sun.font.TextLabel;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.properties.PropertiesUtil;
 import tum.franca.reader.FidlReader;
@@ -59,7 +65,6 @@ public class ContxtMenuCells {
 			}
 			 contextMenu.getItems().add(menuBinding);
 		} 
-		
 	}
 
  

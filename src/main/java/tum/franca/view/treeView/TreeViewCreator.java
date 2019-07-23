@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import tum.franca.main.MainApp;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.PropertiesReader;
 
@@ -32,7 +30,7 @@ public class TreeViewCreator extends AbstractTreeView {
 	/**
 	 *  Creates a tree with services and their properties.
 	 */
-	public void createTree(TreeView<String> treeView) {
+	public void createTree() {
 		for (FidlReader fidlReader : fidlList) {
 			TreeItem<String> item = new TreeItem<String>(fidlReader.getFirstInterfaceName());
 			PropertiesReader pR = fidlReader.getPropertiesReader();
@@ -45,7 +43,8 @@ public class TreeViewCreator extends AbstractTreeView {
 			}
 			rootItem.getChildren().add(item);
 		}
-		treeView.setRoot(rootItem);
+		setRoot();
 	}
+
 
 }

@@ -1,9 +1,8 @@
 package tum.franca.reader;
 
-import java.io.Serializable;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;
@@ -48,7 +47,8 @@ public class FidlReader extends FidlModel  {
 	public EList<FRequires> getFirstRequires() {
 		return fmodel.getInterfaces().get(0).getRequired();
 	}
-		
+	
+	
 	/**
 	 * Get name of FModel.
 	 * 
