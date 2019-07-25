@@ -1,6 +1,9 @@
 package tum.franca.graph.cells;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
@@ -14,10 +17,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
+import tum.franca.main.Binding;
 import tum.franca.main.ContxtMenuCells;
+import tum.franca.main.MainApp;
 import tum.franca.main.MainAppController;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
+import tum.franca.view.treeView.GroupTreeViewCreator;
 import tum.franca.view.treeView.SimpleTreeViewCreator;
 
 /**
@@ -41,6 +47,7 @@ public class RectangleCell extends AbstractCell {
 		this.fidlReader = fidlReader;
 	}
 
+	// for Example: 0,1 / 1,2 / 2,3
 	public HashMap<Integer, Integer> getGrouping() {
 		return groupNumbers;
 	}
@@ -110,7 +117,113 @@ public class RectangleCell extends AbstractCell {
 				}
 			}
 		});
+		
+		List<ICell> intersectionCellListBefore = new ArrayList<ICell>();
+		List<ICell> intersectionCellListAfter = new ArrayList<ICell>();
 
+		
+		this.pane.addEventFilter(
+			    MouseEvent.MOUSE_PRESSED,
+			    new EventHandler<MouseEvent>() {
+			        @Override
+			        public void handle(MouseEvent event) {
+						List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
+						
+						for (ICell iCell : cellList) {
+							if (iCell instanceof ResizableRectangleCell) {
+
+								ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
+								Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+								Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(), pane.getWidth(),
+										pane.getHeight());
+								Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+								Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+										cell.pane.getWidth(), cell.pane.getHeight());
+
+								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+									intersectionCellListBefore.add(iCell);
+									System.out.println(intersectionCellListBefore);
+								}
+							}
+						}
+			        }
+			    }
+			);
+		
+		this.pane.addEventFilter(
+			    MouseEvent.MOUSE_RELEASED,
+			    new EventHandler<MouseEvent>() {
+			        @Override
+			        public void handle(MouseEvent event) {
+			        	List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
+			    		for (ICell iCell : cellList) {
+			    			if (iCell instanceof ResizableRectangleCell) {
+
+			    				ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
+			    				Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+			    				Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(), pane.getWidth(),
+			    						pane.getHeight());
+			    				Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+			    				Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+			    						cell.pane.getWidth(), cell.pane.getHeight());
+
+			    				if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+			    					intersectionCellListAfter.add(iCell);
+			    				}
+			    			}
+			    		}
+			    		for (ICell iCell : intersectionCellListAfter) {
+			    			boolean sameInBoth = false;
+			    			for (ICell iCell2: intersectionCellListBefore) {
+			    				if (iCell2.equals(iCell)) {
+			    					sameInBoth = true;
+			    				}
+			    			}
+			    			if (!sameInBoth | intersectionCellListAfter.size() != intersectionCellListBefore.size()) {
+			    				// STH HAS CHANGED 
+			    				System.out.println("CHANGED PROPERTY");
+			    			} 
+			    		}
+			    		if (intersectionCellListAfter.size() != intersectionCellListBefore.size()) {
+		    				System.out.println("CHANGED PROPERTY");
+		    			} 
+			    		
+			    		for (ICell iCell2 : intersectionCellListBefore) {
+			    			if (iCell2 instanceof ResizableRectangleCell) {
+			    				String string1 = ((ResizableRectangleCell) iCell2).group;
+			    				String string2 = ((ResizableRectangleCell) iCell2).getName();
+			    				String[] stringArray1 = string1.split(" ");
+			    				String[] stringArray2 = string2.split(" ");
+			    				for (int i = 0; i < stringArray1.length; i++) {
+			    					System.out.println(stringArray1[i].toString());
+			    				}
+			    				for (int i = 0; i < stringArray2.length; i++) {
+			    					System.out.println(stringArray2[i].toString());
+			    				}
+			    			}
+			    		}
+			    		for (ICell iCell2 : intersectionCellListAfter) {
+			    			if (iCell2 instanceof ResizableRectangleCell) {
+			    				String string1 = ((ResizableRectangleCell) iCell2).group;
+			    				String string2 = ((ResizableRectangleCell) iCell2).getName();
+			    				String[] stringArray1 = string1.split(" ");
+			    				String[] stringArray2 = string2.split(" ");
+			    				for (int i = 0; i < stringArray1.length; i++) {
+			    					System.out.println(stringArray1[i].toString());
+			    				}
+			    				for (int i = 0; i < stringArray2.length; i++) {
+			    					System.out.println(stringArray2[i].toString());
+			    				}
+			    			}
+			    		}
+			    		intersectionCellListAfter.clear();
+			    		intersectionCellListBefore.clear();
+			        }
+			    }
+			);
+		
+	
+		
 		pane.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
