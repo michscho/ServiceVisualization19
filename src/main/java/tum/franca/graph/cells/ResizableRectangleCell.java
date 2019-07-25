@@ -41,6 +41,7 @@ public class ResizableRectangleCell extends AbstractCell {
 	public Color colorStroke;
 	public int x;
 	public int y;
+	public String group;
 
 	public enum FontStyle {
 		SMALL, MEDIUM, BIG
@@ -52,8 +53,9 @@ public class ResizableRectangleCell extends AbstractCell {
 	 * @param heigth
 	 * @param name
 	 * @param style
+	 * @param gropu
 	 */
-	public ResizableRectangleCell(int width, int heigth, String name, ResizableRectangleCell.FontStyle style) {
+	public ResizableRectangleCell(int width, int heigth, String name, ResizableRectangleCell.FontStyle style, String group) {
 		this.name = name;
 		this.width = width;
 		this.heigth = heigth;
@@ -65,6 +67,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		this.view = new Rectangle(width, heigth);
 		color = new Color(R, G, B, 0.09);
 		colorStroke = new Color(R, G, B, 0.8);
+		this.group = group;
 	}
 
 	@Override
@@ -138,13 +141,13 @@ public class ResizableRectangleCell extends AbstractCell {
 
 								RectangleCell cell = (RectangleCell) iCell;
 								Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-								Point point2 = getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(), pane.getWidth(),
+								Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(), pane.getWidth(),
 										pane.getHeight());
 								Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-								Point point4 = getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+								Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
 										cell.pane.getWidth(), cell.pane.getHeight());
 
-								if (doOverlap(point, point2, point3, point4)) {
+								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
 									intersectionCellList.add(iCell);
 								}
 							}
@@ -187,25 +190,6 @@ public class ResizableRectangleCell extends AbstractCell {
 
 	public void setPane(Pane pane) {
 		this.pane = pane;
-	}
-
-	public static Point getPointOfRechtangle(double x, double y, double width, double height) {
-		double newX = x + width;
-		double newY = y + height;
-		return new Point((int) newX, (int) newY);
-	}
-
-
-	public static boolean doOverlap(Point l1, Point r1, Point l2, Point r2) {
-		if (l1.x > r2.x || l2.x > r1.x) {
-			return false;
-		}
-
-		if (l1.y > r2.y || l2.y > r1.y) {
-			return false;
-		}
-
-		return true;
 	}
 
 }

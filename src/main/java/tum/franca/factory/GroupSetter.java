@@ -29,10 +29,10 @@ import tum.franca.view.listView.ListViewWrapper;
  */
 public class GroupSetter{
 
-	private List<FidlReader> fidlList;
-	private ObservableList<String> listViewItems1;
-	private ObservableList<String> listViewItems2;
-	private ObservableList<String> listViewItems3;
+	public static List<FidlReader> fidlList;
+	private static ObservableList<String> listViewItems1;
+	private static ObservableList<String> listViewItems2;
+	private static ObservableList<String> listViewItems3;
 
 	/**
 	 * 
@@ -40,23 +40,23 @@ public class GroupSetter{
 	 * @param listViewWrapper
 	 */
 	public GroupSetter(List<FidlReader> fidlList, ListViewWrapper listViewWrapper) {
-		this.fidlList = fidlList;
-		this.listViewItems1 = listViewWrapper.getListView1().getItems();
-		this.listViewItems2 = listViewWrapper.getListView2().getItems();
-		this.listViewItems3 = listViewWrapper.getListView3().getItems();
+		GroupSetter.fidlList = fidlList;
+		listViewItems1 = listViewWrapper.getListView1().getItems();
+		listViewItems2 = listViewWrapper.getListView2().getItems();
+		listViewItems3 = listViewWrapper.getListView3().getItems();
 	}
 
 	/**
 	 * Main steps to create the canvas.
 	 */
-	public void createCanvas() {
+	public static void createCanvas() {
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
 
 		grouping(model);
-		addCells(model);
-		addRequiredEdge(model);
-		addProvidedEdge(model);
+		ModelSetter.addCells(model);
+		ModelSetter.addRequiredEdge(model);
+		ModelSetter.addProvidedEdge(model);
 
 		MainApp.graph.endUpdate();
 		MainApp.graph.layout(new GroupingLayout());
@@ -74,20 +74,26 @@ public class GroupSetter{
 
 	}
 	
-	public void relocateToForeground() {
+	/**
+	 * RectangleCell should be in the Foreground.
+	 */
+	public static void relocateToForeground() {
 		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
 		for (RectangleCell rectangleCell : cellList) {
 			rectangleCell.pane.toFront();
 		}
 	}
 
-	public void makeTopLevelGroup() {
+	/**
+	 * Make Top Level Group.
+	 */
+	public static void makeTopLevelGroup() {
 		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
-		for (int i = 0; i < getHighestGroup(cellList, 0) + 1; i++) {
+		for (int i = 0; i < getHighestGroup(cellList, 0) + 1; ++i) {
 			double maxX = 0;
 			double maxY = 0;
-			double minX = 10000;
-			double minY = 10000;
+			double minX = Double.POSITIVE_INFINITY;
+			double minY = Double.POSITIVE_INFINITY;
 			for (RectangleCell rectangleCell : cellList) {
 				if (rectangleCell.getGrouping().get(0) == i) {
 					double x = rectangleCell.getX();
@@ -106,26 +112,39 @@ public class GroupSetter{
 					}
 				}
 			}
+			ObservableList<String> list = listViewItems1;
+			StringBuilder builder = new StringBuilder();
+			for (String string : list) {
+				if (!string.equals("")) {
+					StringBuilder innerBuilder = new StringBuilder();
+					String[] inner = string.split(" ");
+					for (int l = 0; l < inner.length; l++) {
+						innerBuilder.append(inner[l]);
+					}
+					builder.append(innerBuilder.toString() + " ");
+				}
+			}
 			final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 205, (int) (maxY - minY) + 150,
-					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.FontStyle.BIG);
+					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.FontStyle.BIG, builder.toString());
 			MainApp.graph.addCell(cellGroup);
 			MainApp.graph.getModel().addCell(cellGroup);
 			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 50, (int) minY - 50);
 		}
 	}
 
-	private String replaceNotDefined(String input) {
-		return input.replaceAll("notDefined", "");
+	private static String replaceNotDefined(String input) {
+		return input;
+		//return input.replaceAll("notDefined", "");
 	}
 
-	public void makeSubLevelGroup() {
+	public static void makeSubLevelGroup() {
 		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
 		for (int i = 0; i < getHighestGroup(cellList, 0) + 1; i++) {
 			for (int j = 0; j < getHighestGroup(cellList, 1) + 1; j++) {
 				double maxX = 0;
 				double maxY = 0;
-				double minX = 10000;
-				double minY = 10000;
+				double minX = Double.POSITIVE_INFINITY;
+				double minY = Double.POSITIVE_INFINITY;
 				for (RectangleCell rectangleCell : cellList) {
 					if (rectangleCell.getGrouping().get(0) == i && rectangleCell.getGrouping().get(1) == j) {
 						double x = rectangleCell.getX();
@@ -144,8 +163,21 @@ public class GroupSetter{
 						}
 					}
 				}
+				
+				ObservableList<String> list = listViewItems2;
+				StringBuilder builder = new StringBuilder();
+				for (String string : list) {
+					if (!string.equals("")) {
+						StringBuilder innerBuilder = new StringBuilder();
+						String[] inner = string.split(" ");
+						for (int l = 0; l < inner.length; l++) {
+							innerBuilder.append(inner[l]);
+						}
+						builder.append(innerBuilder.toString() + " ");
+					} 
+				}
 				final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
-						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.FontStyle.MEDIUM);
+						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.FontStyle.MEDIUM, builder.toString());
 				MainApp.graph.addCell(cellGroup);
 				MainApp.graph.getModel().addCell(cellGroup);
 				MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 20, (int) minY - 20);
@@ -154,7 +186,7 @@ public class GroupSetter{
 		}
 	}
 
-	public void makeSubSubLevelGroup() {
+	public static void makeSubSubLevelGroup() {
 		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
 		for (int i = 0; i < getHighestGroup(cellList, 0) + 1; i++) {
 			for (int j = 0; j < getHighestGroup(cellList, 1) + 1; j++) {
@@ -182,9 +214,21 @@ public class GroupSetter{
 							}
 						}
 					}
+					ObservableList<String> list = listViewItems3;
+					StringBuilder builder = new StringBuilder();
+					for (String string : list) {
+						if (!string.equals("")) {
+							StringBuilder innerBuilder = new StringBuilder();
+							String[] inner = string.split(" ");
+							for (int l = 0; l < inner.length; l++) {
+								innerBuilder.append(inner[l]);
+							}
+							builder.append(innerBuilder.toString() + " ");
+						}
+					}
 					final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 118,
 							(int) (maxY - minY) + 50, replaceNotDefined(reverseSubSubGroup.get(k)),
-							ResizableRectangleCell.FontStyle.SMALL);
+							ResizableRectangleCell.FontStyle.SMALL, builder.toString());
 					MainApp.graph.addCell(cellGroup);
 					MainApp.graph.getModel().addCell(cellGroup);
 					MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 5, (int) minY - 5);
@@ -199,7 +243,7 @@ public class GroupSetter{
 	 * @param group
 	 * @return int as highest number of the group
 	 */
-	private int getHighestGroup(List<RectangleCell> cellList, int group) {
+	private static int getHighestGroup(List<RectangleCell> cellList, int group) {
 		int max = 0;
 		for (RectangleCell rectangleCell : cellList) {
 			if (rectangleCell.getGrouping().get(group) > max) {
@@ -214,7 +258,7 @@ public class GroupSetter{
 	 * @param iCellList
 	 * @return RectangleCellList
 	 */
-	private List<RectangleCell> getRectangleList(ObservableList<ICell> iCellList) {
+	private static List<RectangleCell> getRectangleList(ObservableList<ICell> iCellList) {
 		List<RectangleCell> cellRecList = new ArrayList<RectangleCell>();
 		iCellList.stream().forEach(cell -> {
 			if (cell instanceof RectangleCell) {
@@ -224,21 +268,26 @@ public class GroupSetter{
 		return cellRecList;
 	}
 
-	private HashMap<String, Integer> group;
-	private HashMap<Integer, String> reverseGroup = new HashMap<Integer, String>();
-	private HashMap<String, Integer> subGroup;
-	private HashMap<Integer, String> reverseSubGroup = new HashMap<Integer, String>();
-	private HashMap<String, Integer> subsubGroup;
-	private HashMap<Integer, String> reverseSubSubGroup = new HashMap<Integer, String>();
+	// ASIL_A, 1; ASIL_B 2 
+	// can also have multiple Properties ASIL_A, crossfunctional;
+	private static HashMap<String, Integer> group;
+	private static HashMap<Integer, String> reverseGroup = new HashMap<Integer, String>();
+	private static HashMap<String, Integer> subGroup;
+	private static HashMap<Integer, String> reverseSubGroup = new HashMap<Integer, String>();
+	private static HashMap<String, Integer> subsubGroup;
+	private static HashMap<Integer, String> reverseSubSubGroup = new HashMap<Integer, String>();
 
-	public void grouping(Model model) {
-		this.group = setGroups(listViewItems1);
-		this.subGroup = setGroups(listViewItems2);
-		this.subsubGroup = setGroups(listViewItems3);
+	public static void grouping(Model model) {
+		group = setGroups(listViewItems1);
+		subGroup = setGroups(listViewItems2);
+		subsubGroup = setGroups(listViewItems3);
 		reverseMaps();
 	}
 
-	public void reverseMaps() {
+	/**
+	 * ASIL_A, 1 -> 1, ASIL_A
+	 */
+	public static void reverseMaps() {
 		for (Map.Entry<String, Integer> entry : group.entrySet()) {
 			reverseGroup.put(entry.getValue(), entry.getKey());
 		}
@@ -250,7 +299,15 @@ public class GroupSetter{
 		}
 	}
 
-	private HashMap<String, Integer> setGroups(ObservableList<String> list) {
+	/**
+	 * A name is created depending on the selected properties. 
+	 * Then these names are stored in a HashMap to remove duplicate properties.
+	 * Example: {ASIL_A crossfunctional,0};{ASIL_B,1}...
+	 * Is made for all groups and then the parent groups are added. 
+	 * @param list - List of properties selected in List groups/subgroups/subsubgroups
+	 * @return HashMap<String, Integer>
+	 */
+	private static HashMap<String, Integer> setGroups(ObservableList<String> list) {
 		HashMap<String, Integer> uniqueProperties = new HashMap<>();
 		int counter = 0;
 		for (FidlReader fidlReader : fidlList) {
@@ -276,7 +333,7 @@ public class GroupSetter{
 					sB.append(getTimeInterval(propertiesReader) + " ");
 				}
 			}
-			if (!uniqueProperties.containsKey(sB.toString()) && !sB.toString().equals("")) {
+			if (!(uniqueProperties.containsKey(sB.toString()) | sB.toString().equals(""))) {
 				uniqueProperties.put(sB.toString(), counter++);
 			}
 		}
@@ -286,7 +343,13 @@ public class GroupSetter{
 	
 	public static int interval = 1000;
 
-	public String getTimeInterval(PropertiesReader propertiesReader) {
+	/**
+	 * Adjusts the time interval.
+	 * 
+	 * @param propertiesReader
+	 * @return String
+	 */
+	public static String getTimeInterval(PropertiesReader propertiesReader) {
 		double time = propertiesReader.getTime();
 		double timeInNS = 0;
 		if (propertiesReader.getTimeSpecification().getName().equals("s")) {
@@ -331,30 +394,15 @@ public class GroupSetter{
 		}
 	}
 
-	/**
-	 * Add cells to the Model with his interface name
-	 * 
-	 * @param model
-	 */
-	private void addCells(Model model) {
-		List<ICell> cellList = new ArrayList<ICell>();
-		for (FidlReader fidlReader : fidlList) {
-			try {
-				final RectangleCell cell = new RectangleCell(fidlReader.getFirstInterfaceName(), getGroup(fidlReader), fidlReader);
-				cellList.add(cell);
-				model.addCell(cell);
-			} catch (IndexOutOfBoundsException e) {
-			}
-		}
-	}
 
 	/**
-	 * Setting the groups, subGroups
-	 * 
+	 * The property and its characteristics are assigned to corresponding groups or subgroups. 
+	 * Safty Critical -> ASIL A (1.3) and FunctionalScope -> Crossfunctional (2.1)
+	 * --> {(1.3),(2.1)}
 	 * @param fidlReader
 	 * @return HashMap<Integer,Integer>
 	 */
-	private HashMap<Integer, Integer> getGroup(FidlReader fidlReader) {
+	static HashMap<Integer, Integer> getGroup(FidlReader fidlReader) {
 		HashMap<Integer, Integer> grouping = new HashMap<Integer, Integer>();
 		PropertiesReader propertiesReader = fidlReader.getPropertiesReader();
 		StringBuilder sB = new StringBuilder();
@@ -431,60 +479,6 @@ public class GroupSetter{
 
 		}
 		return grouping;
-	}
-
-	/**
-	 * Add required Edges to the model.
-	 * 
-	 * @param model
-	 */
-	private void addRequiredEdge(Model model) {
-		List<ICell> cellList = model.getAddedCells();
-		for (FidlReader fidlReader : fidlList) {
-			try {
-				EList<FProvides> providesList = fidlReader.getFirstProvides();
-				for (FProvides fProvides : providesList) {
-					String providesString = fProvides.getProvidedImport();
-					for (ICell iCell : cellList) {
-						if (iCell instanceof RectangleCell) {
-							if (((RectangleCell) iCell).getName().equals(providesString)) {
-								final Edge edge = new Edge(model.getRectangleCell(fidlReader.getFirstInterfaceName()),
-										iCell);
-								model.addEdge(edge);
-							}
-						}
-					}
-				}
-			} catch (IndexOutOfBoundsException e) {
-			}
-		}
-	}
-
-	/**
-	 * Add provided Egdes to the model.
-	 * 
-	 * @param model
-	 */
-	private void addProvidedEdge(Model model) {
-		List<ICell> cellList = model.getAddedCells();
-		for (FidlReader fidlReader : fidlList) {
-			try {
-				EList<FRequires> requiresList = fidlReader.getFirstRequires();
-				for (FRequires fRequires : requiresList) {
-					String requiredString = fRequires.getRequiresImport();
-					for (ICell iCell : cellList) {
-						if (iCell instanceof RectangleCell) {
-							if (((RectangleCell) iCell).getName().equals(requiredString)) {
-								final Edge edge = new Edge((model.getRectangleCell(fidlReader.getFirstInterfaceName())),
-										iCell);
-								model.addEdge(edge);
-							}
-						}
-					}
-				}
-			} catch (IndexOutOfBoundsException e) {
-			}
-		}
 	}
 
 }

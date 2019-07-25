@@ -138,7 +138,7 @@ public class DataModel implements Serializable {
 		ObservableList<ICell> cellList = FXCollections.observableArrayList();
 		for (int i = 0; i < groupRectangleName.size(); i++) {
 			ResizableRectangleCell rec = new ResizableRectangleCell(groupRectangleWidth.get(i),
-					groupRectangleHeight.get(i), groupRectangleName.get(i), groupRectangleStyle.get(i));
+					groupRectangleHeight.get(i), groupRectangleName.get(i), groupRectangleStyle.get(i), "");
 			rec.color = Color.web(groupRectangleColor.get(i));
 			rec.colorStroke = Color.web(groupRectangleColorStroke.get(i));
 			rec.setX(groupRectangleX.get(i));

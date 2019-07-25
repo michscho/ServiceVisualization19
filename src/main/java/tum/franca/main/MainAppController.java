@@ -145,7 +145,7 @@ public class MainAppController {
 		if (result.isPresent()) {
 			System.out.println("Your name: " + result.get());
 			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(),
-					ResizableRectangleCell.FontStyle.BIG);
+					ResizableRectangleCell.FontStyle.BIG, "");
 			MainApp.graph.addCell(cellGroup);
 		}
 

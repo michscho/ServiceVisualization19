@@ -1,29 +1,23 @@
 package tum.franca.reader;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.xtext.EcoreUtil2;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FBinding;
 import org.franca.core.franca.FFunctionalScope;
-import org.franca.core.franca.FInterface;
-import org.franca.core.franca.FMethod;
 import org.franca.core.franca.FRuntime;
 import org.franca.core.franca.FSaftyCritical;
 import org.franca.core.franca.FSecurityCritical;
 import org.franca.core.franca.FTimeSpecification;
-import org.franca.core.utils.ModelPersistenceHandler;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tum.franca.properties.PropertiesWrapper;
 import tum.franca.properties.PropertiesWrapper.Properties;
-import tum.franca.properties.PropertiesWrapper.Properties.BINDING;
 
 /**
  * 
@@ -48,16 +42,17 @@ public class PropertiesReader extends InterfaceReader {
 		securityCritical = getSecurityCriticalProperties();
 		timeSpecification = getTimeSpecifiactionProperties();
 	}
-	
+
 	public void setInterfaceName(String string) {
 		getFirstInterface().setName(string);
 		FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 		fPM.saveModel(fmodel, uri.toString());
 	}
-		
 
 	public void setProperty(String group, String property) {
 		System.out.println("PROPERTY" + property + " " + group);
+		group = group.toLowerCase();
+		property = property.toLowerCase();
 		FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 		switch (group) {
 
@@ -75,7 +70,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-				
+
 				break;
 			}
 
