@@ -220,18 +220,8 @@ public class MainAppController {
 
 	@FXML
 	public void about() {
-		Parent root;
-		try {
-			root = FXMLLoader.load(getClass().getResource("About.fxml"));
-			Stage stage = new Stage();
-			stage.setTitle("About VisualFX Franca");
-			stage.setScene(new Scene(root, 450, 450));
-			stage.setAlwaysOnTop(true);
-			stage.setResizable(false);
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AboutWindow window = new AboutWindow();
+		window.showAboutWindow();
 	}
 
 }

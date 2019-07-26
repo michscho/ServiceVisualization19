@@ -5,15 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
-import org.franca.core.franca.FProvides;
-import org.franca.core.franca.FRequires;
-
 import javafx.collections.ObservableList;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
-import tum.franca.graph.edges.Edge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.Model;
 import tum.franca.graph.layout.GroupingLayout;
