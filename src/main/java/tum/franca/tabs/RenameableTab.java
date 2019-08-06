@@ -1,4 +1,4 @@
-package tum.franca.factory;
+package tum.franca.tabs;
 
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;

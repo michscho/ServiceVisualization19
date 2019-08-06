@@ -43,7 +43,7 @@ public class NodeGestures {
 
 		@Override
 		public void handle(MouseEvent event) {
-			if (event.getButton() == MouseButton.PRIMARY) {
+			if (event.getButton() == MouseButton.PRIMARY && !event.isSecondaryButtonDown()) {
 				final Node node = (Node) event.getSource();
 
 				double offsetX = event.getScreenX() + dragContext.x;

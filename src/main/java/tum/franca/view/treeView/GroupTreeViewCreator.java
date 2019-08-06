@@ -43,7 +43,7 @@ public class GroupTreeViewCreator extends AbstractTreeView {
 	}
 
 	/**
-	 *  Creates a tree.
+	 * Creates a tree.
 	 */
 	public void createTree() {
 		if (intersectionCellList.isEmpty()) {
@@ -52,17 +52,21 @@ public class GroupTreeViewCreator extends AbstractTreeView {
 		} else {
 			for (ICell iCell : intersectionCellList) {
 				RectangleCell rectCell = (RectangleCell) iCell;
-				FidlReader fidlReader = StaticFidlReader.getFidl(rectCell);
-				TreeItem<String> item = new TreeItem<String>(fidlReader.getFirstInterfaceName());
-				PropertiesReader pR = fidlReader.getPropertiesReader();
-				HashMap<String, String> hashMap = pR.getAllStringPropertiesWithoutNotDefinedOnes();
-				for (Map.Entry<String, String> entry : hashMap.entrySet()) {
-					TreeItem<String> itemKey = new TreeItem<String>(entry.getKey());
-					TreeItem<String> itemValue = new TreeItem<String>(entry.getValue());
-					itemKey.getChildren().add(itemValue);
-					item.getChildren().add(itemKey);
+				TreeItem<String> item = new TreeItem<String>("");
+				if (StaticFidlReader.getFidl(rectCell) == null) {
+					item.setValue("notAvailable");
+				} else {
+					FidlReader fidlReader = StaticFidlReader.getFidl(rectCell);
+					item = new TreeItem<String>(fidlReader.getFirstInterfaceName());
+					PropertiesReader pR = fidlReader.getPropertiesReader();
+					HashMap<String, String> hashMap = pR.getAllStringPropertiesWithoutNotDefinedOnes();
+					for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+						TreeItem<String> itemKey = new TreeItem<String>(entry.getKey());
+						TreeItem<String> itemValue = new TreeItem<String>(entry.getValue());
+						itemKey.getChildren().add(itemValue);
+						item.getChildren().add(itemKey);
+					}
 				}
-				
 				rootItem.getChildren().add(item);
 				setRoot();
 			}

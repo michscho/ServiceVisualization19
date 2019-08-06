@@ -13,8 +13,6 @@ import tum.franca.graph.edges.IEdge;
 
 public class Model{
 
-	private static final long serialVersionUID = 172247271876446110L;
-
 	private final ICell root;
 
 	private transient ObservableList<ICell> cells;

@@ -3,7 +3,6 @@ package tum.franca.main;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 

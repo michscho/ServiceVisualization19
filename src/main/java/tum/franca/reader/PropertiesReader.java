@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FBinding;
 import org.franca.core.franca.FFunctionalScope;
+import org.franca.core.franca.FHardwareDependend;
 import org.franca.core.franca.FRuntime;
 import org.franca.core.franca.FSaftyCritical;
 import org.franca.core.franca.FSecurityCritical;
@@ -70,11 +71,29 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
-
+				getFirstInterface().setBinding(FBinding.NOT_DEFINED);
 				break;
 			}
 
 			break;
+			
+		// Hardware Dependend
+		case "hardwaredependend":
+			
+			switch (property) {
+			case "ishardwaredependend":
+				getFirstInterface().setHardwareDependend(FHardwareDependend.IS_HARDWARE_DEPENDEND);
+				break;
+				
+			case "isnothardwaredepend":
+				getFirstInterface().setHardwareDependend(FHardwareDependend.IS_NOT_HARDWARE_DEPENDEND);
+				break;
+				
+			default:
+				getFirstInterface().setHardwareDependend(FHardwareDependend.NOT_DEFINED);
+				break;
+				
+			}
 
 		// FUNCTIONAL SCOPE
 		case "functionalscope":
@@ -101,6 +120,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
+				getFirstInterface().setFunctionalScope(FFunctionalScope.NOT_DEFINED);
 				break;
 			}
 
@@ -119,6 +139,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
+				getFirstInterface().setRuntime(FRuntime.NOT_DEFINED);
 				break;
 			}
 
@@ -145,6 +166,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
+				getFirstInterface().setSaftyCritical(FSaftyCritical.NOT_DEFINED);
 				break;
 			}
 
@@ -167,6 +189,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
+				getFirstInterface().setSecurityCritical(FSecurityCritical.NOT_DEFINED);
 				break;
 			}
 
@@ -193,6 +216,7 @@ public class PropertiesReader extends InterfaceReader {
 				break;
 
 			default:
+				getFirstInterface().setTimeSpecification(FTimeSpecification.NOT_DEFINED);
 				break;
 			}
 
@@ -209,6 +233,7 @@ public class PropertiesReader extends InterfaceReader {
 		List<String> list = new ArrayList<String>();
 		list.add(getBinding().getName());
 		list.add(getFunctionalScope().getName());
+		list.add(getHardwareDependend().getName());
 		list.add(getRuntime().getName());
 		list.add(getSaftyCritical().getName());
 		list.add(getSecurityCritical().getName());
@@ -237,6 +262,9 @@ public class PropertiesReader extends InterfaceReader {
 		}
 		if (getRuntime().getName() != "notDefined") {
 			propertiesMap.put("Runtime", getRuntime().getName());
+		}
+		if (getHardwareDependend().getName()!= "notDefined") {
+			propertiesMap.put("HardwareDependend", getRuntime().getName());
 		}
 
 		return propertiesMap;
@@ -327,10 +355,10 @@ public class PropertiesReader extends InterfaceReader {
 
 	/**
 	 * 
-	 * @return
+	 * @return FHardwareDependend: isHardwareDepenend, isNotHardwareDependend
 	 */
-	public Boolean getHardwareDependend() {
-		return getFirstInterface().isHardwareDependend();
+	public FHardwareDependend getHardwareDependend() {
+		return getFirstInterface().getHardwareDependend();
 	}
 
 }

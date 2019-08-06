@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -27,24 +28,21 @@ import tum.franca.view.treeView.GroupTreeViewCreator;
  */
 public class ResizableRectangleCell extends AbstractCell {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private final Rectangle view;
 	private String name;
 	public int width;
 	public int heigth;
-	public FontStyle style;
+	public GroupType style;
 	public Pane pane;
 	public Color color;
 	public Color colorStroke;
 	public int x;
 	public int y;
 	public String group;
+	public CellGestures cellGestures;
 
-	public enum FontStyle {
-		SMALL, MEDIUM, BIG
+	public enum GroupType {
+		SUBSUBLEVEL, SUBLEVEL, TOPLEVEL
 	}
 
 	/**
@@ -53,9 +51,10 @@ public class ResizableRectangleCell extends AbstractCell {
 	 * @param heigth
 	 * @param name
 	 * @param style
-	 * @param gropu
+	 * @param group
 	 */
-	public ResizableRectangleCell(int width, int heigth, String name, ResizableRectangleCell.FontStyle style, String group) {
+	public ResizableRectangleCell(int width, int heigth, String name, ResizableRectangleCell.GroupType style,
+			String group) {
 		this.name = name;
 		this.width = width;
 		this.heigth = heigth;
@@ -81,95 +80,57 @@ public class ResizableRectangleCell extends AbstractCell {
 		pane.setPrefSize(width, heigth);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
-		CellGestures cG = new CellGestures();
-		cG.makeResizable(pane);
-		cG.setInvisible();
-		
-		pane.setOnContextMenuRequested(new EventHandler<ContextMenuEvent>() {
- 
-            @Override
-            public void handle(ContextMenuEvent event) {
-            	ColorPickerWindow colorPickerWindow = new ColorPickerWindow();
-        		colorPickerWindow.start(new Stage());
-        		color = (Color) view.getFill();
-        		colorStroke = (Color) view.getStroke();
-        		ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY());
-            	
-            }
-        });
+		cellGestures = new CellGestures();
+		cellGestures.makeResizable(pane, this);
+		cellGestures.setInvisible();
 
-	
 		Text text = new Text(getName());
-		if (style == FontStyle.SMALL) {
+		if (style == GroupType.SUBSUBLEVEL) {
 			text.setStyle("-fx-font: 16 arial;");
-		} else if (style == FontStyle.MEDIUM) {
+		} else if (style == GroupType.SUBLEVEL) {
 			text.setStyle("-fx-font: 18 arial;");
 		} else {
 			text.setStyle("-fx-font: 20 arial;");
 		}
 		pane.getChildren().add(text);
 		
-				
-		pane.addEventFilter(
-			    MouseEvent.MOUSE_ENTERED,
-			    new EventHandler<MouseEvent>() {
-			        @Override
-			        public void handle(MouseEvent event) {
-			        	cG.setVisible();
-			        }
-			    }
-			);
+		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 		
-	pane.setOnMouseExited(new EventHandler<MouseEvent>()
-    {
-        @Override
-        public void handle(MouseEvent t) {
-        	cG.setInvisible();
-        }
-    });
+		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
+
+		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
 		
-		this.pane.addEventFilter(
-			    MouseEvent.MOUSE_PRESSED,
-			    new EventHandler<MouseEvent>() {
-			        @Override
-			        public void handle(MouseEvent event) {
-			        	Binding.bind(pane, style.ordinal());
-						List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
-						List<ICell> intersectionCellList = new ArrayList<ICell>();
-						for (ICell iCell : cellList) {
-							if (iCell instanceof RectangleCell) {
-
-								RectangleCell cell = (RectangleCell) iCell;
-								Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-								Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(), pane.getWidth(),
-										pane.getHeight());
-								Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-								Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
-										cell.pane.getWidth(), cell.pane.getHeight());
-
-								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
-									intersectionCellList.add(iCell);
-								}
-							}
-						}
-						GroupTreeViewCreator groupTreeView = new GroupTreeViewCreator(name, intersectionCellList);
-						groupTreeView.createTree();
-			        }
-			    }
-			);
-		
-		this.pane.addEventFilter(
-			    MouseEvent.MOUSE_RELEASED,
-			    new EventHandler<MouseEvent>() {
-			        @Override
-			        public void handle(MouseEvent event) {
-			        	Binding.unBind(pane, style.ordinal());
-			        }
-			    }
-			);
-
+		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
 
 		return pane;
+	}
+	
+	/**
+	 * 
+	 * @return List<ResizableRectangleCell>
+	 */
+	public List<RectangleCell> getRectangleCells() {
+		List<RectangleCell> outputList = new ArrayList<RectangleCell>();
+		List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
+		for (ICell iCell : cellList) {
+			if (iCell instanceof RectangleCell) {
+
+				RectangleCell cell = (RectangleCell) iCell;
+				Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+				Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
+						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getHeight(),
+						pane.getHeight() == 0 ? pane.getPrefHeight() : pane.getHeight());
+				Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+				Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+						cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
+						cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+
+				if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+					outputList.add(cell);
+				}
+			}
+		}
+		return outputList;
 	}
 
 	public String getName() {
@@ -188,8 +149,67 @@ public class ResizableRectangleCell extends AbstractCell {
 		return pane;
 	}
 
-	public void setPane(Pane pane) {
+	public void setPane(StackPane pane) {
 		this.pane = pane;
 	}
+	
+	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			cellGestures.setVisible();
+		}
+	};
+	
+	EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent t) {
+			cellGestures.setInvisible();
+		}
+	};
+	
+	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			Binding.bind(pane, style.ordinal());
+			List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
+			List<ICell> intersectionCellList = new ArrayList<ICell>();
+			for (ICell iCell : cellList) {
+				if (iCell instanceof RectangleCell) {
+				
+
+					RectangleCell cell = (RectangleCell) iCell;
+					Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+					Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
+							pane.getWidth(), pane.getHeight());
+					Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+					Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
+							cell.pane.getLayoutY(), cell.pane.getWidth(), cell.pane.getHeight());
+				
+
+					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+						intersectionCellList.add(iCell);
+					}
+				}
+			}
+			GroupTreeViewCreator groupTreeView = new GroupTreeViewCreator(name, intersectionCellList);
+			groupTreeView.createTree();
+			if (event.isSecondaryButtonDown() && !event.isPrimaryButtonDown()) {
+				ColorPickerWindow colorPickerWindow = new ColorPickerWindow();
+				colorPickerWindow.start(new Stage());
+				color = (Color) view.getFill();
+				colorStroke = (Color) view.getStroke();
+				ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY());
+			}
+		}
+	};
+	
+
+	EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			Binding.unbind(pane, style.ordinal());
+		}
+	};
+
 
 }

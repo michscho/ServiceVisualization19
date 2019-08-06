@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.AnchorPane;
@@ -23,12 +26,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import tum.franca.factory.GroupSetter;
-import tum.franca.factory.TabPaneSetter;
 import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
 import tum.franca.save.DataModel;
+import tum.franca.tabs.TabPaneSetter;
 import tum.franca.view.listView.ListViewWrapper;
 import tum.franca.view.treeView.TreeViewCreator;
 
@@ -67,13 +71,13 @@ public class MainAppController {
 	public static RadioMenuItem staticFileChanges;
 
 	private ListViewWrapper listViewWrapper;
-	
+
 	private TabPaneSetter tabPaneSetter;
-	
+
 	@FXML
 	private TreeView<String> treeView;
 	public static TreeView<String> staticTreeView;
-	
+
 	@FXML
 	private Text zoomText;
 	public static Text staticZoomText;
@@ -93,18 +97,28 @@ public class MainAppController {
 	private Text relationsText;
 	public static Text staticRelationsText;
 	@FXML
-	private Text layoutXText;
-	public static Text staticLayoutXText;
+	private Text couplingText;
+	public static Text staticCouplingText;
 	@FXML
-	private Text layoutYText;
-	public static Text staticLayoutYText;
-	
+	private Text cohesionText;
+	public static Text staticCohesionText;
+	@FXML
+	private Text mostCommon;
+	public static Text staticMostCommonText;
+	@FXML
+	private Text leastCommon;
+	public static Text staticLeastCommonText;
 
+	/**
+	 * Initalizes the controller and will be called at the beginning.
+	 * 
+	 * @throws Exception
+	 */
 	@FXML
 	public void initialize() throws Exception {
 		listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
-		splitPane.setDividerPosition(1, 0.78);
+		StaticSplitter.setStaticSplitPane(splitPane);
 		fileChanges.setSelected(true);
 		staticTreeView = treeView;
 		staticZoomText = zoomText;
@@ -113,9 +127,11 @@ public class MainAppController {
 		staticSubGroupsText = subGroupsText;
 		staticSubSubGroupsText = subSubGroupsText;
 		staticRelationsText = relationsText;
-		staticLayoutXText = layoutXText;
-		staticLayoutYText = layoutYText;
 		staticFileChanges = fileChanges;
+		staticCouplingText = couplingText;
+		staticCohesionText = cohesionText;
+		staticMostCommonText = mostCommon;
+		staticLeastCommonText = leastCommon;
 	}
 
 	@FXML
@@ -128,7 +144,7 @@ public class MainAppController {
 			Metrics.setRelations();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
-			splitPane.setDividerPosition(1, 0.82);
+			StaticSplitter.setStaticSplitPane(splitPane);
 		} else {
 			VisualisationsAlerts.noFilesSelected();
 		}
@@ -136,21 +152,9 @@ public class MainAppController {
 
 	@FXML
 	public void makeNewGroup() {
-		TextInputDialog dialog = new TextInputDialog("Group");
-		dialog.setTitle("Rectangle Group Name");
-		dialog.setHeaderText("How should the group be called?");
-		dialog.setContentText("Please enter the name:");
-
-		Optional<String> result = dialog.showAndWait();
-		if (result.isPresent()) {
-			System.out.println("Your name: " + result.get());
-			final ICell cellGroup = new ResizableRectangleCell(60, 120, result.get(),
-					ResizableRectangleCell.FontStyle.BIG, "");
-			MainApp.graph.addCell(cellGroup);
-		}
-
+		// TODO
 	}
-	
+
 	@FXML
 	public void save() {
 		DataModel dataModel = new DataModel();
@@ -162,13 +166,13 @@ public class MainAppController {
 		DataModel dataModel = new DataModel();
 		dataModel.deserialize();
 		dataModel.importSavedFile(tabPaneSetter);
-		splitPane.setDividerPosition(1, 0.82);
+		StaticSplitter.setStaticSplitPane(splitPane);
 	}
-	
+
 	@FXML
 	public void importFile() throws IOException {
 		final FileChooser fileChooser = new FileChooser();
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Fidl Files","*.fidl"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Fidl Files", "*.fidl"));
 		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);
 		if (list == null) {
 			VisualisationsAlerts.noFilesSelected();
@@ -178,21 +182,24 @@ public class MainAppController {
 				URI uri = URI.createFileURI(file.getAbsolutePath());
 				StaticFidlReader.getFidlList().add(new FidlReader(uri));
 			}
-			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
+			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			try {
-				gS.createCanvas();
-				if (tabPaneSetter == null) {					
+				GroupSetter.createCanvas();
+				if (tabPaneSetter == null) {
 					this.tabPaneSetter = new TabPaneSetter();
 				}
 				tabPaneSetter.setCanvas();
 				Metrics.setZoom(1.0);
 				Metrics.setServicesAndGroups();
 				Metrics.setRelations();
+				Metrics.setCoupling();
+				Metrics.setCohesion();
+				Metrics.setMostCommon();
 				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 				treeView.createTree();
 				groupingButton.setDisable(false);
 				functionButton.setDisable(false);
-				splitPane.setDividerPosition(1, 0.82);
+				StaticSplitter.setStaticSplitPane(splitPane);
 			} catch (NullPointerException e) {
 				VisualisationsAlerts.wrongGrouping();
 			}
