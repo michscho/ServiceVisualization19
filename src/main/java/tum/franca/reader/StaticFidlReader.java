@@ -18,12 +18,16 @@ public class StaticFidlReader {
 	}
 	
 	public static FidlReader getFidl(RectangleCell cell) {
+		if (fidlList == null) { 
+			return null;
+		} 
 		for (FidlReader fidlReader : fidlList) {
 			if(cell.getName().equals(fidlReader.getFirstInterfaceName())) {
 				return fidlReader;
 			}
 		}
 		return null;
+		
 	}
 
 }

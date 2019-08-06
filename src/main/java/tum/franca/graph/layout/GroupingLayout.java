@@ -27,8 +27,31 @@ public class GroupingLayout implements Layout {
 		for (RectangleCell rectangleCell : cells) {
 			build(rectangleCell, tree, 0);
 		}
-		printTree(tree, " ");
 		createGroups(tree, graph, tree.getDepth());
+	}
+	
+	public void build(RectangleCell cell, DefaultMutableTreeNode tree, int counter) {
+		if (counter < cell.getGrouping().size()) {
+			DefaultMutableTreeNode subTree = new DefaultMutableTreeNode(cell.getGrouping().get(counter));
+			if (hasSameNodeChild(tree, subTree) == -1) {
+				tree.add(subTree);
+				build(cell, subTree, counter + 1);
+			} else {
+				build(cell, (DefaultMutableTreeNode) tree.getChildAt(hasSameNodeChild(tree, subTree)), counter + 1);
+			}
+		} else { // counter == cell.getGrouping().size()
+			tree.add(new DefaultMutableTreeNode(cell));
+		}
+	}
+
+	public int hasSameNodeChild(DefaultMutableTreeNode tree, DefaultMutableTreeNode subTree) {
+		for (int i = 0; i < tree.getChildCount(); i++) {
+			DefaultMutableTreeNode childTree = (DefaultMutableTreeNode) tree.getChildAt(i);
+			if (childTree.getUserObject().toString().equals(subTree.getUserObject().toString())) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	int x = 0;
@@ -93,32 +116,6 @@ public class GroupingLayout implements Layout {
 			}
 		}
 	
-
-
-	public void build(RectangleCell cell, DefaultMutableTreeNode tree, int counter) {
-		if (counter < cell.getGrouping().size()) {
-			DefaultMutableTreeNode subTree = new DefaultMutableTreeNode(cell.getGrouping().get(counter));
-			if (hasSameNodeCild(tree, subTree) == -1) {
-				tree.add(subTree);
-				build(cell, subTree, counter + 1);
-			} else {
-				build(cell, (DefaultMutableTreeNode) tree.getChildAt(hasSameNodeCild(tree, subTree)), counter + 1);
-			}
-		}
-		if (counter == cell.getGrouping().size()) {
-			tree.add(new DefaultMutableTreeNode(cell));
-		}
-	}
-
-	public int hasSameNodeCild(DefaultMutableTreeNode tree, DefaultMutableTreeNode subTree) {
-		for (int i = 0; i < tree.getChildCount(); i++) {
-			DefaultMutableTreeNode childTree = (DefaultMutableTreeNode) tree.getChildAt(i);
-			if (childTree.getUserObject().toString().equals(subTree.getUserObject().toString())) {
-				return i;
-			}
-		}
-		return -1;
-	}
 
 	public void printTree(DefaultMutableTreeNode tree, String appender) {
 		if (tree.getUserObject() instanceof RectangleCell) {

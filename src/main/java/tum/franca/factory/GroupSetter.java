@@ -69,6 +69,7 @@ public class GroupSetter{
 
 	}
 	
+	
 	/**
 	 * RectangleCell should be in the Foreground.
 	 */
@@ -120,7 +121,7 @@ public class GroupSetter{
 				}
 			}
 			final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 205, (int) (maxY - minY) + 150,
-					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.FontStyle.BIG, builder.toString());
+					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.GroupType.TOPLEVEL, builder.toString());
 			MainApp.graph.addCell(cellGroup);
 			MainApp.graph.getModel().addCell(cellGroup);
 			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 50, (int) minY - 50);
@@ -172,7 +173,7 @@ public class GroupSetter{
 					} 
 				}
 				final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
-						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.FontStyle.MEDIUM, builder.toString());
+						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.GroupType.SUBLEVEL, builder.toString());
 				MainApp.graph.addCell(cellGroup);
 				MainApp.graph.getModel().addCell(cellGroup);
 				MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 20, (int) minY - 20);
@@ -222,8 +223,8 @@ public class GroupSetter{
 						}
 					}
 					final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 118,
-							(int) (maxY - minY) + 50, replaceNotDefined(reverseSubSubGroup.get(k)),
-							ResizableRectangleCell.FontStyle.SMALL, builder.toString());
+							(int) (maxY - minY) + 55, replaceNotDefined(reverseSubSubGroup.get(k)),
+							ResizableRectangleCell.GroupType.SUBSUBLEVEL, builder.toString());
 					MainApp.graph.addCell(cellGroup);
 					MainApp.graph.getModel().addCell(cellGroup);
 					MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 5, (int) minY - 5);
@@ -314,6 +315,9 @@ public class GroupSetter{
 				}
 				if (string.equals("Functional Scope")) {
 					sB.append(propertiesReader.getFunctionalScope() + " ");
+				}
+				if (string.equals("Hardware Dependend")) {
+					sB.append(propertiesReader.getHardwareDependend() + " ");
 				}
 				if (string.equals("Runtime")) {
 					sB.append(propertiesReader.getRuntime() + " ");
@@ -408,6 +412,9 @@ public class GroupSetter{
 			if (string.equals("Functional Scope")) {
 				sB.append(propertiesReader.getFunctionalScope() + " ");
 			}
+			if (string.equals("Hardware Dependend")) {
+				sB.append(propertiesReader.getHardwareDependend() + " ");
+			}
 			if (string.equals("Runtime")) {
 				sB.append(propertiesReader.getRuntime() + " ");
 			}
@@ -432,6 +439,9 @@ public class GroupSetter{
 			if (string.equals("Functional Scope")) {
 				sB1.append(propertiesReader.getFunctionalScope() + " ");
 			}
+			if (string.equals("Hardware Dependend")) {
+				sB1.append(propertiesReader.getHardwareDependend() + " ");
+			}
 			if (string.equals("Runtime")) {
 				sB1.append(propertiesReader.getRuntime() + " ");
 			}
@@ -455,6 +465,9 @@ public class GroupSetter{
 			}
 			if (string.equals("Functional Scope")) {
 				sB2.append(propertiesReader.getFunctionalScope() + " ");
+			}
+			if (string.equals("Hardware Dependend")) {
+				sB2.append(propertiesReader.getHardwareDependend() + " ");
 			}
 			if (string.equals("Runtime")) {
 				sB2.append(propertiesReader.getRuntime() + " ");

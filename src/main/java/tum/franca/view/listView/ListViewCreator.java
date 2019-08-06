@@ -29,7 +29,7 @@ public class ListViewCreator {
 	 */
 	public ListViewCreator(ListView<String> listView) {
 		this.listView = listView;
-		this.items = FXCollections.observableArrayList("Hardware Dependend / na");
+		this.items = FXCollections.observableArrayList();
 		this.items.addAll(PropertiesUtil.getAllPropertiesAsStrings());
 		this.items.add("");
 	}

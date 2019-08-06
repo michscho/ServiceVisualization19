@@ -17,19 +17,20 @@
 
 <SplitPane fx:id="splitPane" dividerPositions="0.2, 0.85" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tum.franca.main.MainAppController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="384.0">
          <children>
             <MenuBar prefHeight="29.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import Fidl File">
+                    <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import Fidl File(s)">
                            <accelerator>
                               <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" text="Persist Fidl File(s)" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#save" text="Save File" />
-                        <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import saved File" />
+                        <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import Visualisation (.vis)" />
+                        <MenuItem mnemonicParsing="false" onAction="#save" text="Save Visualisation" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">
@@ -53,6 +54,7 @@
                            <accelerator>
                               <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" text="How To" />
                   </items>
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -60,9 +62,9 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <Button fx:id="functionButton" disable="true" layoutX="24.0" layoutY="705.0" mnemonicParsing="false" onAction="#makeNewGroup" text="Define Property Function" />
+            <Button fx:id="functionButton" disable="true" layoutX="21.0" layoutY="705.0" mnemonicParsing="false" onAction="#makeNewGroup" prefHeight="27.0" prefWidth="190.0" text="Persist Fidl" />
             <ListView fx:id="listView" layoutX="21.0" layoutY="87.0" prefHeight="86.0" prefWidth="190.0" />
-            <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" text="Apply Grouping" />
+            <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" />
             <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group:" wrappingWidth="72.71044921875" />
             <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" />
             <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" />
@@ -86,7 +88,7 @@
          <children>
             <TreeView fx:id="treeView" layoutX="-3.0" layoutY="30.0" prefHeight="203.0" prefWidth="291.0" />
             <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services and Properties:" />
-            <Text layoutX="6.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metriken:" wrappingWidth="143.60400390625">
+            <Text layoutX="6.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metrics:" wrappingWidth="143.60400390625">
                <font>
                   <Font size="16.0" />
                </font>
@@ -119,20 +121,16 @@
             <Text layoutX="30.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
             <Separator layoutX="-10.0" layoutY="664.0" prefHeight="3.0" prefWidth="297.0" />
             <Text layoutX="30.0" layoutY="688.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom:" />
-            <Text layoutX="30.0" layoutY="718.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Layout X:" />
-            <Text layoutX="30.0" layoutY="748.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Layout Y:" />
             <Text fx:id="servicesText" layoutX="210.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="groupsText" layoutX="210.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="subGroupsText" layoutX="210.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="subSubGroupsText" layoutX="210.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="relationsText" layoutX="210.0" layoutY="584.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text layoutX="210.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text layoutX="210.0" layoutY="644.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="couplingText" layoutX="210.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="cohesionText" layoutX="210.0" layoutY="644.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="zoomText" layoutX="210.0" layoutY="687.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="layoutXText" layoutX="210.0" layoutY="717.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="layoutYText" layoutX="210.0" layoutY="747.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text layoutX="183.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" wrappingWidth="72.71044921875" />
-            <Text layoutX="183.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" wrappingWidth="72.71044921875" />
+            <Text fx:id="mostCommon" layoutX="139.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
+            <Text fx:id="leastCommon" layoutX="139.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
          </children></AnchorPane>
   </items>
 </SplitPane>

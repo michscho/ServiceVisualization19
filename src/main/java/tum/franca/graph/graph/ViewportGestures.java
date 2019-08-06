@@ -3,6 +3,7 @@ package tum.franca.graph.graph;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import tum.franca.main.Metrics;
@@ -47,7 +48,6 @@ public class ViewportGestures {
 		@Override
 		public void handle(MouseEvent event) {
 
-			// right mouse button => panning
 			if(!event.isSecondaryButtonDown()) {
 				return;
 			}
@@ -67,7 +67,7 @@ public class ViewportGestures {
 		public void handle(MouseEvent event) {
 
 			// right mouse button => panning
-			if(!event.isSecondaryButtonDown()) {
+			if(!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
 				return;
 			}
 

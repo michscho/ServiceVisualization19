@@ -11,6 +11,11 @@ import javafx.stage.Stage;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class ChangeWindow {
 	
 	public static List<ICell> intersectionCellListBefore;

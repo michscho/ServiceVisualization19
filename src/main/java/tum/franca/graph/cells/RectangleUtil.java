@@ -2,10 +2,21 @@ package tum.franca.graph.cells;
 
 import java.awt.Point;
 
+import tum.franca.main.MainApp;
+
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class RectangleUtil {
 	
 	/**
 	 * Get low right Point of Rectangle.
+	 * 
+	 * *********		
+	 * *       *			
+	 * ********X <----      
 	 * 
 	 * @param x
 	 * @param y
@@ -39,6 +50,43 @@ public class RectangleUtil {
 		}
 
 		return true;
+	}
+	
+	/**
+	 * Returns the highest group of Graph.
+	 * A graph can have 1-3 groups (Group, subgroups, subsubgroup).
+	 * Depending on the available ResizableRectangleCell you can
+	 * determine the numbers of different groups.
+	 * 
+	 * @return int
+	 */
+	public static int getHighestGroup() {
+		int highestGroup = -1;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (((ResizableRectangleCell) iCell).style.ordinal() > highestGroup) {
+					highestGroup = ((ResizableRectangleCell) iCell).style.ordinal();
+				}
+			}
+		}
+		return highestGroup;
+	}
+	
+	/**
+	 * Returns the number of Top-Level Groups.
+	 * 
+	 * @return int
+	 */
+	public static int getNumberOfTopLevelGroup() {
+		int counter = 0;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (((ResizableRectangleCell) iCell).style.ordinal() == getHighestGroup()) {
+					counter++;
+				}
+			}
+		}
+		return counter;
 	}
 
 }

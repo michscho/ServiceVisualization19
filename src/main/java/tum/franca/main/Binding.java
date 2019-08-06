@@ -1,7 +1,6 @@
 package tum.franca.main;
 
 import java.awt.Point;
-import java.util.List;
 
 import javafx.scene.layout.Pane;
 import tum.franca.graph.cells.ICell;
@@ -9,11 +8,15 @@ import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.RectangleUtil;
 import tum.franca.graph.cells.ResizableRectangleCell;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class Binding {
 	
 	public static void bind(Pane pane, int fontStyle) {
-		List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
-		for (ICell iCell : cellList) {
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
 				RectangleCell cell = (RectangleCell) iCell;
 				Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
@@ -50,11 +53,10 @@ public class Binding {
 		}
 	}
 	
-	public static void unBind(Pane pane, int fontStyle) {
-		List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
+	public static void unbind(Pane pane, int fontStyle) {
 		pane.layoutXProperty().unbind();
 		pane.layoutYProperty().unbind();
-		for (ICell iCell: cellList) {
+		for (ICell iCell: MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
 				((RectangleCell) iCell).pane.layoutXProperty().unbind();
 				((RectangleCell) iCell).pane.layoutYProperty().unbind();

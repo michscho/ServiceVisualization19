@@ -11,11 +11,12 @@ public final class PropertiesWrapper {
 
 	public final static String BINDING = "Binding";
 	public final static String FUNCTIONALSCOPE = "Functional Scope";
+	public final static String HARDWAREDENDEND = "Hardware Dependend";
 	public final static String RUNTIME = "Runtime";
 	public final static String TIMESPECIFICATION = "Time Specification";
 	public final static String SAFTYCRITICAL = "Safty Critical";
 	public final static String SECURITYCRITICAL = "Security Critical";
-
+;
 	public final static HashMap<String, Properties.BINDING> bindingHashMap = new HashMap<String, Properties.BINDING>() {
 		private static final long serialVersionUID = 1L;
 		{
@@ -33,6 +34,14 @@ public final class PropertiesWrapper {
 			put("interior", Properties.FUNCTIONALSCOPE.INTERIOR);
 			put("telematics", Properties.FUNCTIONALSCOPE.TELEMATICS);
 			put("crossfunctional", Properties.FUNCTIONALSCOPE.CROSSFUNCTIONAL);
+		}
+	};
+	public final static HashMap<String, Properties.HARDWAREDEPENDEND> hardwareDependendHashMap = new HashMap<String, Properties.HARDWAREDEPENDEND>() {
+		private static final long serialVersionUID = 1L;
+		{
+			put("notDefined", Properties.HARDWAREDEPENDEND.NOTDEFINED);
+			put("isHardwareDependend", Properties.HARDWAREDEPENDEND.ISHARDWAREDEPENDEND);
+			put("isNotHardwareDependend", Properties.HARDWAREDEPENDEND.ISNOTHARDWAREDEPENDEND);
 		}
 	};
 	public final static HashMap<String, Properties.RUNTIME> runtimeHashMap = new HashMap<String, Properties.RUNTIME>() {
@@ -103,6 +112,19 @@ public final class PropertiesWrapper {
 			}
 		};
 
+		public enum HARDWAREDEPENDEND {
+			NOTDEFINED("notDefined"), ISHARDWAREDEPENDEND("ishardwaredependend"), ISNOTHARDWAREDEPENDEND("isnothardwaredependend");
+			private String string;
+
+			private HARDWAREDEPENDEND(String string) {
+				this.string = string;
+			}
+
+			public String toString() {
+				return string;
+			}
+		};
+		
 		public enum RUNTIME {
 			NOTDEFINED("notDefined"), ONBOARD("onboard"), OFFBOARD("offboard");
 			private String string;

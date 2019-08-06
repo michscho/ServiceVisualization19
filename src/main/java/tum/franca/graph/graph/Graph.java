@@ -97,36 +97,43 @@ public class Graph {
 	}
 
 	public void endUpdate() {
-		
-		// add components to graph pane
+
 		addEdges(model.getAddedEdges());
 		addCells(model.getAddedCells());
 
-		// clean up the model
 		getModel().endUpdate();
 	}
-	
+
 	/**
 	 * 
-	 * Adding a single Cell to the graph.
+	 * Adding a single cell to the graph.
 	 * 
 	 * @param cell
 	 */
 	public void addCell(ICell cell) {
-				Region cellGraphic = getGraphic(cell);
-				getCanvas().getChildren().add(cellGraphic);
-				if (useNodeGestures.get()) {
-					nodeGestures.makeDraggable(cellGraphic);
-				}
+		Region cellGraphic = getGraphic(cell);
+		getCanvas().getChildren().add(cellGraphic);
+		if (useNodeGestures.get()) {
+			nodeGestures.makeDraggable(cellGraphic);
+		}
 	}
-	
+
 	public void addCell(int x, int y, ICell cell) {
 		Region cellGraphic = getGraphic(cell);
 		getCanvas().getChildren().add(cellGraphic);
 		if (useNodeGestures.get()) {
 			nodeGestures.makeDraggable(cellGraphic);
 		}
-}
+	}
+
+	public void addEgde(IEdge edge) {
+		try {
+			Region edgeGraphic = getGraphic(edge);
+			getCanvas().getChildren().add(edgeGraphic);
+		} catch (final Exception e) {
+			throw new RuntimeException("failed to add " + edge, e);
+		}
+	}
 
 	private void addEdges(List<IEdge> edges) {
 		edges.forEach(edge -> {
@@ -138,7 +145,6 @@ public class Graph {
 			}
 		});
 	}
-
 
 	private void addCells(List<ICell> cells) {
 		cells.forEach(cell -> addCell(cell));
