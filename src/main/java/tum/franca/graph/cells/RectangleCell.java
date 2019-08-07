@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.ShadowBuilder;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
@@ -23,15 +28,18 @@ import tum.franca.main.MainApp;
 import tum.franca.main.MainAppController;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
+import tum.franca.tabs.MenuBarTop;
 import tum.franca.view.treeView.SimpleTreeViewCreator;
 
 /**
  * 
  * @author michaelschott
+ * @param <onRectangleLayoutXChange>
  *
  */
 public class RectangleCell extends AbstractCell {
 
+	public RectangleCell recCell;
 	public String name;
 	public HashMap<Integer, Integer> groupNumbers;
 	public boolean used;
@@ -42,6 +50,7 @@ public class RectangleCell extends AbstractCell {
 	private TextField textField;
 
 	public RectangleCell(String name, HashMap<Integer, Integer> groupNumbers, FidlReader fidlReader) {
+		this.recCell = this;
 		this.name = name;
 		this.groupNumbers = groupNumbers;
 		this.fidlReader = fidlReader;
@@ -88,7 +97,7 @@ public class RectangleCell extends AbstractCell {
 
 		// pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onPressedEventHandler);
 
-		// pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
+		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
 
@@ -135,12 +144,9 @@ public class RectangleCell extends AbstractCell {
 		return outputList;
 	}
 
-	EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
-		@Override
-		public void handle(MouseEvent t) {
-			if (textField != null) {
-				pane.getChildren().remove(textField);
-			}
+	EventHandler<MouseEvent> onMouseExitedEventHandler = t -> {
+		if (textField != null) {
+			pane.getChildren().remove(textField);
 		}
 	};
 
@@ -200,9 +206,23 @@ public class RectangleCell extends AbstractCell {
 
 	List<ICell> intersectionCellListAfter = new ArrayList<ICell>();
 
-//	EventHandler<MouseEvent> onReleasedEventHandler = new EventHandler<MouseEvent>() {
-//		@Override
-//		public void handle(MouseEvent event) {
+	EventHandler<MouseEvent> onReleasedEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			if (MenuBarTop.alignOnGrid) {
+				if (pane.getLayoutX() % 50 < 15) {
+					pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
+				}
+				if (pane.getLayoutX() % 50 > 35) {
+					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+				}
+				if (pane.getLayoutY() % 50 < 15) {
+					pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
+				}
+				if (pane.getLayoutY() % 50 > 35) {
+					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+				}
+			}
 //			if (MainAppController.staticFileChanges.isSelected()  && event.isPrimaryButtonDown() && !event.isSecondaryButtonDown()) {
 //				List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
 //				for (ICell iCell : cellList) {
@@ -245,7 +265,7 @@ public class RectangleCell extends AbstractCell {
 //				intersectionCellListAfter.clear();
 //				intersectionCellListBefore.clear();
 //			}
-//		}
-//	};
+		}
+	};
 
 }

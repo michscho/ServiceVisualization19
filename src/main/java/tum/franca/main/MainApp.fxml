@@ -62,7 +62,7 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <Button fx:id="functionButton" disable="true" layoutX="21.0" layoutY="705.0" mnemonicParsing="false" onAction="#makeNewGroup" prefHeight="27.0" prefWidth="190.0" text="Persist Fidl" />
+            <Button fx:id="functionButton" disable="true" layoutX="21.0" layoutY="705.0" mnemonicParsing="false" onAction="#persistFidlClicked" prefHeight="27.0" prefWidth="190.0" text="Persist Fidl" />
             <ListView fx:id="listView" layoutX="21.0" layoutY="87.0" prefHeight="86.0" prefWidth="190.0" />
             <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" />
             <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Group:" wrappingWidth="72.71044921875" />

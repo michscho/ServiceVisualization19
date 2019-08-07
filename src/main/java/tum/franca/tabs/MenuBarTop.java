@@ -7,13 +7,17 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.RectangleUtil;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.graph.edges.Edge;
 import tum.franca.graph.edges.IEdge;
+import tum.franca.graph.graph.Grid;
 import tum.franca.main.MainApp;
 
 /**
@@ -22,7 +26,11 @@ import tum.franca.main.MainApp;
  * @author michaelschott
  *
  */
-class MenuBarTop {
+public class MenuBarTop {
+
+	public static boolean alignOnGrid = false;
+
+	private static RadioMenuItem menuItemAlign = new RadioMenuItem("Align on Grid");
 
 	/**
 	 * Service Groups: Rearrange Relations: Show all, show cohesion, show coupling,
@@ -33,14 +41,46 @@ class MenuBarTop {
 	static MenuBar getMenuBar() {
 		MenuBar menuBar = new MenuBar();
 
+		// Grid
+		Menu menuGrid = new Menu("Grid");
+		Image gridIcon = new Image(MenuBarTop.class.getResourceAsStream("grid.png"));
+		ImageView imageView = new ImageView(gridIcon);
+		imageView.setFitHeight(16);
+		imageView.setFitWidth(16);
+		menuGrid.setGraphic(imageView);
+		ToggleGroup toggleGroupGrid = new ToggleGroup();
+		ToggleGroup toggleGroupGrid2 = new ToggleGroup();
+		SeparatorMenuItem seperatorItem = new SeparatorMenuItem();
+		menuItemAlign.setOnAction(onClickOnMenuItemAlign);
+		RadioMenuItem menuItemGrid1 = new RadioMenuItem("Show Grids");
+		menuItemGrid1.setOnAction(onClickOnMenuItemGrid1);
+		RadioMenuItem menuItemGrid2 = new RadioMenuItem("Disable Grids");
+		menuItemGrid2.setOnAction(onClickOnMenuItemGrid2);
+		menuItemAlign.setToggleGroup(toggleGroupGrid2);
+		menuItemGrid1.setToggleGroup(toggleGroupGrid);
+		menuItemGrid2.setToggleGroup(toggleGroupGrid);
+		menuItemAlign.setSelected(false);
+		menuItemGrid2.setSelected(true);
+		menuGrid.getItems().addAll(menuItemAlign, seperatorItem, menuItemGrid1, menuItemGrid2);
+
 		// Service Groups
 		Menu menuGroups = new Menu("Service Groups");
+		Image groupIcon = new Image(MenuBarTop.class.getResourceAsStream("group.png"));
+		ImageView imageView2 = new ImageView(groupIcon);
+		imageView2.setFitHeight(16);
+		imageView2.setFitWidth(16);
+		menuGroups.setGraphic(imageView2);
 		MenuItem menuItemGrous = new MenuItem("Rearrange Service Groups");
 		menuGroups.getItems().add(menuItemGrous);
 		menuGroups.setOnAction(onClickOnMenuGroups);
 
 		// Relations
 		Menu menuEdges = new Menu("Relations");
+		Image edgeIcon = new Image(MenuBarTop.class.getResourceAsStream("relation.png"));
+		ImageView imageView3 = new ImageView(edgeIcon);
+		imageView3.setFitHeight(16);
+		imageView3.setFitWidth(16);
+		menuEdges.setGraphic(imageView3);
 		ToggleGroup toggleGroup = new ToggleGroup();
 		RadioMenuItem menuItem0 = new RadioMenuItem("Show All");
 		menuItem0.setOnAction(onClickOnMenuItem0);
@@ -58,9 +98,51 @@ class MenuBarTop {
 		menuEdges.getItems().addAll(menuItem0, menuItem1, menuItem2, menuItem3);
 
 		// Adding
-		menuBar.getMenus().addAll(menuGroups, menuEdges);
+		menuBar.getMenus().addAll(menuGrid, menuGroups, menuEdges);
 		return menuBar;
 	}
+
+	/**
+	 * Toggle Align boolean.
+	 */
+	static EventHandler<ActionEvent> onClickOnMenuItemAlign = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent event) {
+			if (alignOnGrid) {
+				alignOnGrid = false;
+				menuItemAlign.setSelected(false);
+			} else {
+				alignOnGrid = true;
+				menuItemAlign.setSelected(true);
+			}
+		}
+
+	};
+
+	/**
+	 * Show grids.
+	 */
+	static EventHandler<ActionEvent> onClickOnMenuItemGrid1 = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent event) {
+			Grid.add();
+		}
+
+	};
+
+	/**
+	 * Disable grids.
+	 */
+	static EventHandler<ActionEvent> onClickOnMenuItemGrid2 = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent event) {
+			Grid.remove();
+		}
+
+	};
 
 	/**
 	 * Show all.

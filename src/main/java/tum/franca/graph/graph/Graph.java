@@ -9,7 +9,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.IGraphNode;
 import tum.franca.graph.edges.IEdge;
@@ -79,7 +82,6 @@ public class Graph {
 		});
 
 		graphics = new HashMap<>();
-
 		addEdges(getModel().getAddedEdges());
 		addCells(getModel().getAddedCells());
 	}

@@ -49,6 +49,7 @@ public class GroupSetter{
 		final Model model = MainApp.graph.getModel();
 
 		grouping(model);
+		
 		ModelSetter.addCells(model);
 		ModelSetter.addRequiredEdge(model);
 		ModelSetter.addProvidedEdge(model);

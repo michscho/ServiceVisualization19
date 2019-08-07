@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.shape.Line;
 
 /**
  * 
@@ -23,24 +24,10 @@ public class PannableCanvas extends Pane {
 	}
 
 	public PannableCanvas(DoubleProperty scaleProperty) {
-		super(createGrid());
 		this.scaleProperty = scaleProperty;
 		scaleXProperty().bind(scaleProperty);
 		scaleYProperty().bind(scaleProperty);
 	}
-	
-	private static GridPane createGrid() {
-
-		GridPane gridPane = new GridPane();
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; i < 10; j++) {
-				Button button1 = new Button("Button 1");
-				gridPane.add(button1, i, j);
-			}
-		}
-        gridPane.setGridLinesVisible(true);
-        return gridPane;
-    }
 
 	public double getScale() {
 		return scaleProperty.get();
