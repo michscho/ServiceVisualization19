@@ -19,6 +19,7 @@ import tum.franca.graph.graph.Graph;
 import tum.franca.main.Binding;
 import tum.franca.main.ColorPickerWindow;
 import tum.franca.main.MainApp;
+import tum.franca.tabs.MenuBarTop;
 import tum.franca.view.treeView.GroupTreeViewCreator;
 
 /**
@@ -93,43 +94,53 @@ public class ResizableRectangleCell extends AbstractCell {
 			text.setStyle("-fx-font: 20 arial;");
 		}
 		pane.getChildren().add(text);
-		
+
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
-		
+
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
-		
+
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
 
 		return pane;
 	}
-	
+
 	/**
 	 * 
 	 * @return List<ResizableRectangleCell>
 	 */
 	public List<RectangleCell> getRectangleCells() {
 		List<RectangleCell> outputList = new ArrayList<RectangleCell>();
-		List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
-		for (ICell iCell : cellList) {
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
 
 				RectangleCell cell = (RectangleCell) iCell;
-				Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-				Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
-						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getHeight(),
+				Point thisResRectanglePoint1 = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+				Point thisResRectanglePoint2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
+						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getWidth(),
 						pane.getHeight() == 0 ? pane.getPrefHeight() : pane.getHeight());
-				Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-				Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+				Point innerRectanglePoint3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+				Point innerRectanglePoint4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
 						cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
 						cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+				
+				System.out.println(this.name);
+				System.out.println(cell.name);
+				System.out.println(pane.layoutXProperty());
+				System.out.println(pane.layoutYProperty());
+				System.out.println(cell.pane.layoutXProperty());
+				System.out.println(cell.pane.layoutYProperty());
+				System.out.println(cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+				System.out.println(cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth());
 
-				if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+				if (RectangleUtil.doOverlap(innerRectanglePoint3, innerRectanglePoint4, thisResRectanglePoint1, thisResRectanglePoint2)) {
+					System.out.println("doOverlap");
 					outputList.add(cell);
 				}
 			}
 		}
+		System.out.println(outputList);
 		return outputList;
 	}
 
@@ -152,21 +163,21 @@ public class ResizableRectangleCell extends AbstractCell {
 	public void setPane(StackPane pane) {
 		this.pane = pane;
 	}
-	
+
 	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
 			cellGestures.setVisible();
 		}
 	};
-	
+
 	EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
 			cellGestures.setInvisible();
 		}
 	};
-	
+
 	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
@@ -175,16 +186,14 @@ public class ResizableRectangleCell extends AbstractCell {
 			List<ICell> intersectionCellList = new ArrayList<ICell>();
 			for (ICell iCell : cellList) {
 				if (iCell instanceof RectangleCell) {
-				
 
 					RectangleCell cell = (RectangleCell) iCell;
 					Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
 					Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
 							pane.getWidth(), pane.getHeight());
 					Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-					Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
-							cell.pane.getLayoutY(), cell.pane.getWidth(), cell.pane.getHeight());
-				
+					Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+							cell.pane.getWidth(), cell.pane.getHeight());
 
 					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
 						intersectionCellList.add(iCell);
@@ -202,14 +211,34 @@ public class ResizableRectangleCell extends AbstractCell {
 			}
 		}
 	};
-	
 
 	EventHandler<MouseEvent> onMouseReleasedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
 			Binding.unbind(pane, style.ordinal());
+			if (MenuBarTop.alignOnGrid) {
+				if (pane.getLayoutX() % 50 < 15) {
+					Binding.bind(pane, style.ordinal());
+					pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
+					Binding.unbind(pane, style.ordinal());
+				}
+				if (pane.getLayoutX() % 50 > 35) {
+					Binding.bind(pane, style.ordinal());
+					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+					Binding.unbind(pane, style.ordinal());
+				}
+				if (pane.getLayoutY() % 50 < 15) {
+					Binding.bind(pane, style.ordinal());
+					pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
+					Binding.unbind(pane, style.ordinal());
+				}
+				if (pane.getLayoutY() % 50 > 35) {
+					Binding.bind(pane, style.ordinal());
+					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+					Binding.unbind(pane, style.ordinal());
+				}
+			}
 		}
 	};
-
 
 }

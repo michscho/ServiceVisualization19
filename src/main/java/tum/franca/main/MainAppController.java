@@ -2,6 +2,7 @@ package tum.franca.main;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -151,8 +152,25 @@ public class MainAppController {
 	}
 
 	@FXML
-	public void makeNewGroup() {
-		// TODO
+	public void persistFidlClicked() {
+		for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell2 instanceof ResizableRectangleCell) {
+				String string1 = ((ResizableRectangleCell) iCell2).group;
+				String string2 = ((ResizableRectangleCell) iCell2).getName();
+				String[] stringArray1 = string1.split(" ");
+				String[] stringArray2 = string2.split(" ");
+				for (int i = 0; i < stringArray1.length; i++) {
+					for (int j = 0; j < stringArray2.length; j++) {
+						if (i == j) {
+							for (RectangleCell cell : ((ResizableRectangleCell) iCell2).getRectangleCells()) {
+								System.out.println(cell.name);
+								cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@FXML
