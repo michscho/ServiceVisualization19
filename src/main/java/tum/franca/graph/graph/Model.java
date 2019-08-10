@@ -11,6 +11,11 @@ import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.edges.Edge;
 import tum.franca.graph.edges.IEdge;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class Model{
 
 	private final ICell root;
@@ -26,7 +31,6 @@ public class Model{
 				return null;
 			}
 		};
-		// clear model, create lists
 		clear();
 	}
 

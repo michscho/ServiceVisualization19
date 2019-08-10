@@ -121,26 +121,17 @@ public class ResizableRectangleCell extends AbstractCell {
 						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getWidth(),
 						pane.getHeight() == 0 ? pane.getPrefHeight() : pane.getHeight());
 				Point innerRectanglePoint3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-				Point innerRectanglePoint4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+				Point innerRectanglePoint4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
+						cell.pane.getLayoutY(),
 						cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
 						cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
-				
-				System.out.println(this.name);
-				System.out.println(cell.name);
-				System.out.println(pane.layoutXProperty());
-				System.out.println(pane.layoutYProperty());
-				System.out.println(cell.pane.layoutXProperty());
-				System.out.println(cell.pane.layoutYProperty());
-				System.out.println(cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
-				System.out.println(cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth());
 
-				if (RectangleUtil.doOverlap(innerRectanglePoint3, innerRectanglePoint4, thisResRectanglePoint1, thisResRectanglePoint2)) {
-					System.out.println("doOverlap");
+				if (RectangleUtil.doOverlap(innerRectanglePoint3, innerRectanglePoint4, thisResRectanglePoint1,
+						thisResRectanglePoint2)) {
 					outputList.add(cell);
 				}
 			}
 		}
-		System.out.println(outputList);
 		return outputList;
 	}
 
@@ -186,7 +177,6 @@ public class ResizableRectangleCell extends AbstractCell {
 			List<ICell> intersectionCellList = new ArrayList<ICell>();
 			for (ICell iCell : cellList) {
 				if (iCell instanceof RectangleCell) {
-
 					RectangleCell cell = (RectangleCell) iCell;
 					Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
 					Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
@@ -217,25 +207,48 @@ public class ResizableRectangleCell extends AbstractCell {
 		public void handle(MouseEvent event) {
 			Binding.unbind(pane, style.ordinal());
 			if (MenuBarTop.alignOnGrid) {
-				if (pane.getLayoutX() % 50 < 15) {
-					Binding.bind(pane, style.ordinal());
-					pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
-					Binding.unbind(pane, style.ordinal());
+				if (pane.getLayoutX() >= 0) {
+					if (pane.getLayoutX() % 50 < 15 && pane.getLayoutX() % 50 != 0) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
+						Binding.unbind(pane, style.ordinal());
+					} else if (pane.getLayoutX() % 50 > 35) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+						Binding.unbind(pane, style.ordinal());
+					}
+				} else { // pane.getLayoutX() < 0
+					if (pane.getLayoutX() % 50 > -15 && pane.getLayoutX() % 50 != -0) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
+						Binding.unbind(pane, style.ordinal());
+					} else if (pane.getLayoutX() % 50 < -35) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
+						Binding.unbind(pane, style.ordinal());
+					}
 				}
-				if (pane.getLayoutX() % 50 > 35) {
-					Binding.bind(pane, style.ordinal());
-					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
-					Binding.unbind(pane, style.ordinal());
-				}
-				if (pane.getLayoutY() % 50 < 15) {
-					Binding.bind(pane, style.ordinal());
-					pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
-					Binding.unbind(pane, style.ordinal());
-				}
-				if (pane.getLayoutY() % 50 > 35) {
-					Binding.bind(pane, style.ordinal());
-					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
-					Binding.unbind(pane, style.ordinal());
+				if (pane.getLayoutY() >= 0) {
+					if (pane.getLayoutY() % 50 < 10 && pane.getLayoutY() % 50 != 0) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
+						Binding.unbind(pane, style.ordinal());
+					} else if (pane.getLayoutY() % 50 > 40) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutY(pane.getLayoutY() + 50 - (pane.getLayoutY() % 50));
+						Binding.unbind(pane, style.ordinal());
+					}
+				} else { // pane.getLayoutY() < 0
+					if (pane.getLayoutY() % 50 > -15 && pane.getLayoutY() % 50 != -0) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
+						Binding.unbind(pane, style.ordinal());
+					} else if (pane.getLayoutY() % 50 < -35) {
+						Binding.bind(pane, style.ordinal());
+						pane.setLayoutY(pane.getLayoutX() - (50 + (pane.getLayoutY() % 50)));
+						Binding.unbind(pane, style.ordinal());
+					}
+
 				}
 			}
 		}

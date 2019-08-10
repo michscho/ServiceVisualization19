@@ -3,6 +3,7 @@ package tum.franca.tabs;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -11,6 +12,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.RectangleUtil;
@@ -19,6 +21,7 @@ import tum.franca.graph.edges.Edge;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Grid;
 import tum.franca.main.MainApp;
+import tum.franca.save.SaveGraphState;
 
 /**
  * MenuBar at the top of the Grouping Canvas.
@@ -30,7 +33,7 @@ public class MenuBarTop {
 
 	public static boolean alignOnGrid = false;
 
-	private static RadioMenuItem menuItemAlign = new RadioMenuItem("Align on Grid");
+	private static RadioMenuItem menuItemAlign;
 
 	/**
 	 * Service Groups: Rearrange Relations: Show all, show cohesion, show coupling,
@@ -39,17 +42,19 @@ public class MenuBarTop {
 	 * @return MenuBar
 	 */
 	static MenuBar getMenuBar() {
+		
 		MenuBar menuBar = new MenuBar();
 
 		// Grid
-		Menu menuGrid = new Menu("Grid");
+		Menu gridMenu = new Menu("Grid");
 		Image gridIcon = new Image(MenuBarTop.class.getResourceAsStream("grid.png"));
 		ImageView imageView = new ImageView(gridIcon);
-		imageView.setFitHeight(16);
-		imageView.setFitWidth(16);
-		menuGrid.setGraphic(imageView);
+		imageView.setFitHeight(15);
+		imageView.setFitWidth(15);
+		gridMenu.setGraphic(imageView);
 		ToggleGroup toggleGroupGrid = new ToggleGroup();
 		ToggleGroup toggleGroupGrid2 = new ToggleGroup();
+		menuItemAlign = new RadioMenuItem("Align on Grid");
 		SeparatorMenuItem seperatorItem = new SeparatorMenuItem();
 		menuItemAlign.setOnAction(onClickOnMenuItemAlign);
 		RadioMenuItem menuItemGrid1 = new RadioMenuItem("Show Grids");
@@ -61,26 +66,26 @@ public class MenuBarTop {
 		menuItemGrid2.setToggleGroup(toggleGroupGrid);
 		menuItemAlign.setSelected(false);
 		menuItemGrid2.setSelected(true);
-		menuGrid.getItems().addAll(menuItemAlign, seperatorItem, menuItemGrid1, menuItemGrid2);
+		gridMenu.getItems().addAll(menuItemAlign, seperatorItem, menuItemGrid1, menuItemGrid2);
 
 		// Service Groups
-		Menu menuGroups = new Menu("Service Groups");
+		Menu groupsMenu = new Menu("Service Groups");
 		Image groupIcon = new Image(MenuBarTop.class.getResourceAsStream("group.png"));
 		ImageView imageView2 = new ImageView(groupIcon);
-		imageView2.setFitHeight(16);
-		imageView2.setFitWidth(16);
-		menuGroups.setGraphic(imageView2);
+		imageView2.setFitHeight(15);
+		imageView2.setFitWidth(15);
+		groupsMenu.setGraphic(imageView2);
 		MenuItem menuItemGrous = new MenuItem("Rearrange Service Groups");
-		menuGroups.getItems().add(menuItemGrous);
-		menuGroups.setOnAction(onClickOnMenuGroups);
+		groupsMenu.getItems().add(menuItemGrous);
+		groupsMenu.setOnAction(onClickOnMenuGroups);
 
 		// Relations
-		Menu menuEdges = new Menu("Relations");
+		Menu edgesMenu = new Menu("Relations");
 		Image edgeIcon = new Image(MenuBarTop.class.getResourceAsStream("relation.png"));
 		ImageView imageView3 = new ImageView(edgeIcon);
-		imageView3.setFitHeight(16);
-		imageView3.setFitWidth(16);
-		menuEdges.setGraphic(imageView3);
+		imageView3.setFitHeight(15);
+		imageView3.setFitWidth(15);
+		edgesMenu.setGraphic(imageView3);
 		ToggleGroup toggleGroup = new ToggleGroup();
 		RadioMenuItem menuItem0 = new RadioMenuItem("Show All");
 		menuItem0.setOnAction(onClickOnMenuItem0);
@@ -95,10 +100,10 @@ public class MenuBarTop {
 		menuItem2.setToggleGroup(toggleGroup);
 		menuItem3.setToggleGroup(toggleGroup);
 		menuItem0.setSelected(true);
-		menuEdges.getItems().addAll(menuItem0, menuItem1, menuItem2, menuItem3);
+		edgesMenu.getItems().addAll(menuItem0, menuItem1, menuItem2, menuItem3);
 
 		// Adding
-		menuBar.getMenus().addAll(menuGrid, menuGroups, menuEdges);
+		menuBar.getMenus().addAll(undoRedoMenu, gridMenu, groupsMenu, edgesMenu);
 		return menuBar;
 	}
 

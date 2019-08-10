@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
+import tum.franca.main.Binding;
 import tum.franca.main.ChangeWindow;
 import tum.franca.main.ContxtMenuCells;
 import tum.franca.main.MainApp;
@@ -129,7 +130,7 @@ public class RectangleCell extends AbstractCell {
 				ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
 				Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
 				Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
-						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getHeight(),
+						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getWidth(),
 						pane.getHeight() == 0 ? pane.getPrefHeight() : pane.getHeight());
 				Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
 				Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
@@ -210,17 +211,32 @@ public class RectangleCell extends AbstractCell {
 		@Override
 		public void handle(MouseEvent event) {
 			if (MenuBarTop.alignOnGrid) {
-				if (pane.getLayoutX() % 50 < 15) {
-					pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
+				if (pane.getLayoutX() >= 0) {
+					if (pane.getLayoutX() % 50 < 15 && pane.getLayoutX() % 50 != 0) {
+						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
+					} else if (pane.getLayoutX() % 50 > 35) {
+						pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+					}
+				} else { // pane.getLayoutX() < 0
+					if (pane.getLayoutX() % 50 > -15 && pane.getLayoutX() % 50 != -0) {
+						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
+					} else if (pane.getLayoutX() % 50 < -35) {
+						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
+					}
 				}
-				if (pane.getLayoutX() % 50 > 35) {
-					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
-				}
-				if (pane.getLayoutY() % 50 < 15) {
-					pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
-				}
-				if (pane.getLayoutY() % 50 > 35) {
-					pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
+				if (pane.getLayoutY() >= 0) {
+					if (pane.getLayoutY() % 50 < 10 && pane.getLayoutY() % 50 != 0) {
+						pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
+					} else if (pane.getLayoutY() % 50 > 40) {
+						pane.setLayoutY(pane.getLayoutY() + 50 - (pane.getLayoutY() % 50));
+					}
+				} else { // pane.getLayoutY() < 0
+					if (pane.getLayoutY() % 50 > -15 && pane.getLayoutY() % 50 != -0) {
+						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
+					} else if (pane.getLayoutY() % 50 < -35) {
+						pane.setLayoutY(pane.getLayoutX() - (50 + (pane.getLayoutY() % 50)));
+					}
+
 				}
 			}
 //			if (MainAppController.staticFileChanges.isSelected()  && event.isPrimaryButtonDown() && !event.isSecondaryButtonDown()) {

@@ -1,5 +1,6 @@
 package tum.franca.graph.cells;
 
+import java.awt.Point;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import tum.franca.main.MainApp;
 
 public class CellGestures {
 
@@ -245,15 +247,14 @@ public class CellGestures {
 			return resizeHandleNW;
 		}
 	};
-	
-	public ResizableRectangleCell rectangleCell;
+
+	public ResizableRectangleCell rezRectangle;
 
 	public void makeResizable(Region region, ResizableRectangleCell rectangleCell) {
-		this.rectangleCell = rectangleCell;
+		this.rezRectangle = rectangleCell;
 		makeResizable(region, this.NORTH, this.NORTH_EAST, this.EAST, this.SOUTH_EAST, this.SOUTH, this.SOUTH_WEST,
 				this.WEST, this.NORTH_WEST);
 	}
-	
 
 	public void makeResizable(Region region, DragNodeSupplier... nodeSuppliers) {
 		final Wrapper<Point2D> mouseLocation = new Wrapper<>();
@@ -269,51 +270,392 @@ public class CellGestures {
 				c.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						rectangleCell.cellGestures.setVisible();
+						rezRectangle.cellGestures.setVisible();
 					}
 				});
 				c.addEventFilter(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						rectangleCell.cellGestures.setInvisible();
+						rezRectangle.cellGestures.setInvisible();
 					}
 				});
 			}
 		});
 	}
 
-	private static void dragNorth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region,
-			double handleRadius) {
+	private void dragNorth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
+		ResizableRectangleCell cell = rezRectangle;
+		int counter = 0;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+					counter++;
+				}
+			}
+		}
 		final double deltaY = event.getSceneY() - mouseLocation.value.getY();
 		final double newY = region.getLayoutY() + deltaY;
+
+		int counter2 = 0;
+
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = newY;
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter2++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = newY;
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+					counter2++;
+				}
+			}
+		}
+
+		if (counter > counter2) {
+			return;
+		}
+		// When same group == same group
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (!iCell.equals(cell)) {
+				if (iCell instanceof ResizableRectangleCell
+						&& ((ResizableRectangleCell) iCell).style.ordinal() == cell.style.ordinal()) {
+					ResizableRectangleCell cell2 = (ResizableRectangleCell) iCell;
+					Point point = new Point((int) cell.pane.getLayoutX(), (int) newY);
+					Point point2 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), newY,
+							cell.pane.getWidth(), region.getPrefHeight() - deltaY);
+					Point point3 = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+					Point point4 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(), cell2.pane.getLayoutY(),
+							cell2.pane.getWidth(), cell2.pane.getHeight());
+					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+						return;
+					}
+				}
+			}
+		}
 		if (newY != 0 && newY >= handleRadius && newY <= region.getLayoutY() + region.getHeight() - handleRadius) {
 			region.setLayoutY(newY);
 			region.setPrefHeight(region.getPrefHeight() - deltaY);
 		}
 	}
 
-	private static void dragEast(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
+	private void dragEast(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
+		ResizableRectangleCell cell = rezRectangle;
+		int counter = 0;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+					counter++;
+				}
+			}
+		}
 		final double deltaX = event.getSceneX() - mouseLocation.value.getX();
 		final double newMaxX = region.getLayoutX() + region.getWidth() + deltaX;
+
+		int counter2 = 0;
+
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + region.getPrefWidth() + deltaX))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter2++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + region.getPrefWidth() + deltaX))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getWidth()))) {
+					counter2++;
+				}
+			}
+		}
+
+		if (counter > counter2) {
+			System.out.println(counter);
+			System.out.println(counter2);
+			System.out.println(CellGestures.class);
+			return;
+		}
+		// When same group == same group
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (!iCell.equals(cell)) {
+				if (iCell instanceof ResizableRectangleCell
+						&& ((ResizableRectangleCell) iCell).style.ordinal() == cell.style.ordinal()) {
+					ResizableRectangleCell cell2 = (ResizableRectangleCell) iCell;
+					Point point = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+					Point point2 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+							region.getPrefWidth() + deltaX, cell.pane.getHeight());
+					Point point3 = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+					Point point4 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(), cell2.pane.getLayoutY(),
+							cell2.pane.getWidth(), cell2.pane.getHeight());
+					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+						System.out.println(CellGestures.class);
+						System.out.println(cell.getName());
+						System.out.println(cell2.getName());
+						return;
+					}
+				}
+			}
+		}
 		if (newMaxX >= region.getLayoutX()
 				&& newMaxX <= region.getParent().getBoundsInLocal().getWidth() - handleRadius) {
 			region.setPrefWidth(region.getPrefWidth() + deltaX);
 		}
 	}
 
-	private static void dragSouth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region,
-			double handleRadius) {
+	private void dragSouth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
+
+		ResizableRectangleCell cell = rezRectangle;
+		int counter = 0;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+					counter++;
+				}
+			}
+		}
 		final double deltaY = event.getSceneY() - mouseLocation.value.getY();
 		final double newMaxY = region.getLayoutY() + region.getHeight() + deltaY;
+
+		int counter2 = 0;
+
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+							&& ((y + h) <= (y0 + region.getPrefHeight() + deltaY))) {
+						counter2++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+						&& ((y + h) <= (y0 + region.getPrefHeight() + deltaY))) {
+					counter2++;
+				}
+			}
+		}
+
+		if (counter > counter2) {
+			return;
+		}
+		// When same group == same group
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (!iCell.equals(cell)) {
+				if (iCell instanceof ResizableRectangleCell
+						&& ((ResizableRectangleCell) iCell).style.ordinal() == cell.style.ordinal()) {
+					ResizableRectangleCell cell2 = (ResizableRectangleCell) iCell;
+					Point point = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+					Point point2 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(), cell.pane.getLayoutY(),
+							cell.pane.getWidth(), region.getPrefHeight() + deltaY);
+					Point point3 = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+					Point point4 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(), cell2.pane.getLayoutY(),
+							cell2.pane.getWidth(), cell2.pane.getHeight());
+					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+						return;
+					}
+				}
+			}
+		}
 		if (newMaxY >= region.getLayoutY()
 				&& newMaxY <= region.getParent().getBoundsInLocal().getHeight() - handleRadius) {
 			region.setPrefHeight(region.getPrefHeight() + deltaY);
 		}
 	}
 
-	private static void dragWest(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
+	private void dragWest(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
+
+		ResizableRectangleCell cell = rezRectangle;
+
+		int counter = 0;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = rezRectangle.pane.getLayoutX();
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = rezRectangle.pane.getLayoutX();
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + rezRectangle.pane.getWidth()))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+					counter++;
+				}
+			}
+		}
+
 		final double deltaX = event.getSceneX() - mouseLocation.value.getX();
 		final double newX = region.getLayoutX() + deltaX;
+
+		int counter2 = 0;
+
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				if (!iCell.equals(rezRectangle)) {
+					final double x0 = newX;
+					final double y0 = rezRectangle.pane.getLayoutY();
+					final double x = ((ResizableRectangleCell) iCell).pane.getLayoutX();
+					final double y = ((ResizableRectangleCell) iCell).pane.getLayoutY();
+					final double w = ((ResizableRectangleCell) iCell).pane.getPrefWidth();
+					final double h = ((ResizableRectangleCell) iCell).pane.getPrefHeight();
+					if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + (region.getPrefWidth() - deltaX)))
+							&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+						counter2++;
+					}
+				}
+			}
+			if (iCell instanceof RectangleCell) {
+				final double x0 = newX;
+				final double y0 = rezRectangle.pane.getLayoutY();
+				final double x = ((RectangleCell) iCell).pane.getLayoutX();
+				final double y = ((RectangleCell) iCell).pane.getLayoutY();
+				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
+				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
+				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + (region.getPrefWidth() - deltaX)))
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
+					counter2++;
+				}
+			}
+		}
+
+		if (counter > counter2) {
+			return;
+		}
+
+		// When same group == same group
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (!iCell.equals(cell)) {
+				if (iCell instanceof ResizableRectangleCell
+						&& ((ResizableRectangleCell) iCell).style.ordinal() == cell.style.ordinal()) {
+					ResizableRectangleCell cell2 = (ResizableRectangleCell) iCell;
+					Point point = new Point((int) newX, (int) cell.pane.getLayoutY());
+					Point point2 = RectangleUtil.getPointOfRechtangle(newX, cell.pane.getLayoutY(),
+							region.getPrefWidth() - deltaX, cell.pane.getHeight());
+					Point point3 = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+					Point point4 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(), cell2.pane.getLayoutY(),
+							cell2.pane.getWidth(), cell2.pane.getHeight());
+					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+						return;
+					}
+				}
+			}
+		}
 		if (newX != 0 && newX <= region.getParent().getBoundsInLocal().getWidth() - handleRadius) {
 			region.setLayoutX(newX);
 			region.setPrefWidth(region.getPrefWidth() - deltaX);

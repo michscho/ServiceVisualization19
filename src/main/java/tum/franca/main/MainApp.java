@@ -59,8 +59,12 @@ public class MainApp extends Application {
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		    @Override
 		    public void handle(WindowEvent t) {
+		    	if (VisualisationsAlerts.saveDialog()) {
 		        Platform.exit();
 		        System.exit(0);
+		    	} else {
+		    		t.consume();
+		    	}
 		    }
 		});
 	}
