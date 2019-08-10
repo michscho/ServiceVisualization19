@@ -10,13 +10,11 @@ import tum.franca.main.MainApp;
  *
  */
 public class RectangleUtil {
-	
+
 	/**
 	 * Get low right Point of Rectangle.
 	 * 
-	 * *********		
-	 * *       *			
-	 * ********X <----      
+	 * ********* * * ********X <----
 	 * 
 	 * @param x
 	 * @param y
@@ -29,7 +27,6 @@ public class RectangleUtil {
 		double newY = y + height;
 		return new Point((int) newX, (int) newY);
 	}
-	
 
 	/**
 	 * Method to check if two Rectangles do overlap.
@@ -51,12 +48,11 @@ public class RectangleUtil {
 
 		return true;
 	}
-	
+
 	/**
-	 * Returns the highest group of Graph.
-	 * A graph can have 1-3 groups (Group, subgroups, subsubgroup).
-	 * Depending on the available ResizableRectangleCell you can
-	 * determine the numbers of different groups.
+	 * Returns the highest group of Graph. A graph can have 1-3 groups (Group,
+	 * subgroups, subsubgroup). Depending on the available ResizableRectangleCell
+	 * you can determine the numbers of different groups.
 	 * 
 	 * @return int
 	 */
@@ -71,7 +67,7 @@ public class RectangleUtil {
 		}
 		return highestGroup;
 	}
-	
+
 	/**
 	 * Returns the number of Top-Level Groups.
 	 * 
@@ -89,4 +85,39 @@ public class RectangleUtil {
 		return counter;
 	}
 
+	public static boolean inconsistantBoardState() {
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
+				if (!iCell.equals(iCell2)) {
+					if (iCell instanceof ResizableRectangleCell) {
+						if (iCell2 instanceof ResizableRectangleCell) {
+							if (((ResizableRectangleCell) iCell).style == ((ResizableRectangleCell) iCell2).style) {
+								ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
+								ResizableRectangleCell cell2 = (ResizableRectangleCell) iCell2;
+								Point point = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+								Point point2 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(),
+										cell2.pane.getLayoutY(),
+										cell2.pane.getWidth() == 0 ? cell2.pane.getPrefWidth() : cell2.pane.getWidth(),
+										cell2.pane.getHeight() == 0 ? cell2.pane.getPrefHeight()
+												: cell2.pane.getHeight());
+								Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+								Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
+										cell.pane.getLayoutY(),
+										cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
+										cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+
+								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+									System.out.println(cell2.getName());
+									System.out.println(cell.getName());
+									System.out.println("inconsistant");
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

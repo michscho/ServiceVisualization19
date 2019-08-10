@@ -27,6 +27,10 @@ public class FidlReader extends FidlModel  {
 	public FModel getFModel() {
 		return fmodel;
 	}
+	
+	public URI getURI() {
+		return uri;
+	}
 
 	public PropertiesReader getPropertiesReader() {
 		return propertiesReader;

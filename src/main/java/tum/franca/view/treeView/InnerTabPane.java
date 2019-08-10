@@ -1,5 +1,8 @@
 package tum.franca.view.treeView;
 
+import java.io.IOException;
+
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
@@ -15,9 +18,19 @@ public class InnerTabPane {
 		innerTabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		innerTabPane.setSide(Side.BOTTOM);
 		innerTabMain = new Tab("Visualisation");
-		Tab innterTab2 = new Tab("Metrics");
-		Tab innterTab3 = new Tab("Fidl-File");
-		innerTabPane.getTabs().addAll(innerTabMain, innterTab2, innterTab3);
+		Tab innerTab2 = new Tab("Metrics");
+		Tab innerTab3 = new Tab("Fidl-File");
+		try {
+			innerTab2.setContent(FXMLLoader.load(InnerTabPane.class.getResource("MetricsView.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			innerTab3.setContent(FXMLLoader.load(InnerTabPane.class.getResource("FidlView.fxml")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		innerTabPane.getTabs().addAll(innerTabMain, innerTab2, innerTab3);
 		return innerTabPane;
 	}
 	

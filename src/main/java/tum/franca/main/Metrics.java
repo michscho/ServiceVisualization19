@@ -65,7 +65,7 @@ public class Metrics {
 		MainAppController.staticSubSubGroupsText.setText(String.valueOf(subSubGroupCounter));
 	}
 
-	private static int getRelations() {
+	public static int getRelations() {
 		ObservableList<IEdge> cells = MainApp.graph.getModel().getAddedEdges();
 		int relation = 0;
 		for (@SuppressWarnings("unused")
@@ -82,7 +82,7 @@ public class Metrics {
 		MainAppController.staticRelationsText.setText(String.valueOf(getRelations()));
 	}
 
-	private static int getCoupling() {
+	public static int getCoupling() {
 		int couplingCounter = 0;
 		for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
 			ICell sourceCell = edge.getSource();
@@ -110,7 +110,7 @@ public class Metrics {
 
 	}
 
-	private static int getCohesion() {
+	public static int getCohesion() {
 		return getRelations() - getCoupling();
 	}
 
@@ -121,7 +121,7 @@ public class Metrics {
 		MainAppController.staticCohesionText.setText(String.valueOf(getCohesion()));
 	}
 	
-	private static String getMostCommonProperty() {
+	public static String getMostCommonProperty() {
 		int i = 0;
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof ResizableRectangleCell) {
@@ -147,7 +147,7 @@ public class Metrics {
 		MainAppController.staticMostCommonText.setText(getMostCommonProperty());
 	}
 	
-	private static String getLeastCommonProperty() {
+	public static String getLeastCommonProperty() {
 		int i = 1000;
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof ResizableRectangleCell) {

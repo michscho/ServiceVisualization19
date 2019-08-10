@@ -2,30 +2,29 @@ package tum.franca.main;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.imageio.ImageIO;
+
 import org.eclipse.emf.common.util.URI;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.SplitPane.Divider;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Transform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
@@ -53,6 +52,9 @@ public class MainAppController {
 	@FXML
 	private SplitPane splitPane2;
 
+	private TabPaneSetter tabPaneSetter;
+
+	// ListView
 	@FXML
 	private ListView<String> listView;
 	@FXML
@@ -62,23 +64,25 @@ public class MainAppController {
 	@FXML
 	private ListView<String> listView4;
 
+	private ListViewWrapper listViewWrapper;
+
+	// TreeView
+	@FXML
+	private TreeView<String> treeView;
+	public static TreeView<String> staticTreeView;
+
+	// Buttons
 	@FXML
 	private Button groupingButton;
 	@FXML
 	private Button functionButton;
 
+	// TODO Delete
 	@FXML
 	private RadioMenuItem fileChanges;
 	public static RadioMenuItem staticFileChanges;
 
-	private ListViewWrapper listViewWrapper;
-
-	private TabPaneSetter tabPaneSetter;
-
-	@FXML
-	private TreeView<String> treeView;
-	public static TreeView<String> staticTreeView;
-
+	// Metrics
 	@FXML
 	private Text zoomText;
 	public static Text staticZoomText;
@@ -110,6 +114,13 @@ public class MainAppController {
 	private Text leastCommon;
 	public static Text staticLeastCommonText;
 
+	@FXML
+	private Menu menuFile;
+	@FXML
+	private Menu menuSettings;
+	@FXML
+	private Menu menuHelp;
+
 	/**
 	 * Initalizes the controller and will be called at the beginning.
 	 * 
@@ -139,7 +150,7 @@ public class MainAppController {
 	public void applyGrouping() {
 		if (StaticFidlReader.getFidlList() != null) {
 			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
-			gS.createCanvas();
+			GroupSetter.createCanvas();
 			tabPaneSetter.setCanvas();
 			Metrics.setServicesAndGroups();
 			Metrics.setRelations();
@@ -247,6 +258,24 @@ public class MainAppController {
 	public void about() {
 		AboutWindow window = new AboutWindow();
 		window.showAboutWindow();
+	}
+
+	@FXML
+	public void saveAsPng() {
+		SnapshotParameters param = new SnapshotParameters();
+        param.setDepthBuffer(true);
+        param.setTransform(Transform.scale(4, 4));
+        WritableImage image = MainApp.graph.getCanvas().snapshot(param, null);
+
+		final FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save png");
+		fileChooser.setInitialFileName("snapshot.png");
+		File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
+
+		try {
+			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", savedFile);
+		} catch (IOException e) {
+		}
 	}
 
 }
