@@ -107,6 +107,7 @@ public class NodeGestures {
 		@Override
 		public void handle(MouseEvent event) {
 			pressedBefore = false;
+			RectangleUtil.inconsistantBoardState2();
 		}
 	};
 

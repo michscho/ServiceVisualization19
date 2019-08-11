@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import javax.imageio.ImageIO;
 
 import org.eclipse.emf.common.util.URI;
 
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -20,6 +23,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -265,7 +269,7 @@ public class MainAppController {
 	public void saveAsPng() {
 		SnapshotParameters param = new SnapshotParameters();
         param.setDepthBuffer(true);
-        param.setTransform(Transform.scale(4, 4));
+        param.setTransform(Transform.scale(5, 5));
         WritableImage image = MainApp.graph.getCanvas().snapshot(param, null);
 
 		final FileChooser fileChooser = new FileChooser();

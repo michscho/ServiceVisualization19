@@ -29,7 +29,7 @@ import tum.franca.view.treeView.GroupTreeViewCreator;
  */
 public class ResizableRectangleCell extends AbstractCell {
 
-	private final Rectangle view;
+	public Rectangle view;
 	private String name;
 	public int width;
 	public int heigth;

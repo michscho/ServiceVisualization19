@@ -1,6 +1,8 @@
 package tum.franca.graph.cells;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import tum.franca.main.MainApp;
 
@@ -107,6 +109,7 @@ public class RectangleUtil {
 										cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
 
 								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+									System.out.println(RectangleUtil.class);
 									System.out.println(cell2.getName());
 									System.out.println(cell.getName());
 									System.out.println("inconsistant");
@@ -119,5 +122,99 @@ public class RectangleUtil {
 			}
 		}
 		return false;
+	}
+
+	private static List<ResizableRectangleCell> inconsistantList;
+
+	/**
+	 * Sub-Level Group bigger than High-Level Group
+	 * 
+	 * @return
+	 */
+	public static void inconsistantBoardState2() {
+		inconsistantList = new ArrayList<ResizableRectangleCell>();
+		boolean inconsitant = false;
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
+				if (!iCell.equals(iCell2)) {
+					if (iCell instanceof ResizableRectangleCell) {
+						if (iCell2 instanceof ResizableRectangleCell) {
+							if (((ResizableRectangleCell) iCell).style
+									.ordinal() > ((ResizableRectangleCell) iCell2).style.ordinal()) {
+								ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
+								ResizableRectangleCell cell2 = (ResizableRectangleCell) iCell2;
+								Point point = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+								Point point2 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(),
+										cell2.pane.getLayoutY(),
+										cell2.pane.getWidth() == 0 ? cell2.pane.getPrefWidth() : cell2.pane.getWidth(),
+										cell2.pane.getHeight() == 0 ? cell2.pane.getPrefHeight()
+												: cell2.pane.getHeight());
+								Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+								Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
+										cell.pane.getLayoutY(),
+										cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
+										cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+
+								int counter = 0;
+								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
+									counter++;
+								}
+								final double x0 = cell.pane.getLayoutX();
+								final double y0 = cell.pane.getLayoutY();
+								final double x = cell2.pane.getLayoutX();
+								final double y = cell2.pane.getLayoutY();
+								final double w = cell2.pane.getWidth();
+								final double h = cell2.pane.getHeight();
+
+								// consists of
+								if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + cell.pane.getWidth()))
+										&& ((y + h) <= (y0 + cell.pane.getHeight()))) {
+									counter++;
+								}
+
+								if (counter == 1) {
+									inconsistantList.add(cell2);
+								}
+
+							}
+						}
+					}
+				}
+			}
+		}
+		if (inconsistantList.size() == 0) {
+			for (ICell rezCell : MainApp.graph.getModel().getAddedCells()) {
+				if (rezCell instanceof ResizableRectangleCell) {
+					((ResizableRectangleCell) rezCell).view.setStrokeWidth(1);
+					MainApp.graph.getNodeGestures().makeDraggable(MainApp.graph.getGraphic(rezCell), rezCell);
+				}
+			}
+		} else {
+			for (ICell rezCell : MainApp.graph.getModel().getAddedCells()) {
+				if (rezCell instanceof ResizableRectangleCell) {
+					
+					((ResizableRectangleCell) rezCell).view.setStrokeWidth(1);
+						MainApp.graph.getNodeGestures().makeUndraggable(MainApp.graph.getGraphic(rezCell));
+					}
+				}
+			}
+			for (ResizableRectangleCell rezCell2 : inconsistantList) {
+				if (getHighestGroup(inconsistantList) == ((ResizableRectangleCell) rezCell2).style.ordinal()) {
+				rezCell2.view.setStrokeWidth(8);
+				MainApp.graph.getNodeGestures().makeDraggable(MainApp.graph.getGraphic(rezCell2), rezCell2);
+				} else {
+					MainApp.graph.getNodeGestures().makeUndraggable(MainApp.graph.getGraphic(rezCell2));	
+			}
+		}
+	}
+	
+	public static int getHighestGroup(List<ResizableRectangleCell> inconsistantList) {
+		int i = 0;
+		for (ResizableRectangleCell cell : inconsistantList) {
+			if (cell.style.ordinal() > i) {
+				i = cell.style.ordinal();
+			}
+		}
+		return i;
 	}
 }
