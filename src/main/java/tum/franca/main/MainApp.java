@@ -37,7 +37,7 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		
-		System.out.println("************** Newest Version ***************");
+		System.out.println("************** Visualisation ***************");
 		System.out.println(FArgument.class);
 		// Icon Bar: MacOS
 //		try {

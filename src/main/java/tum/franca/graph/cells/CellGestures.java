@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.print.DocFlavor.READER;
+
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -21,7 +23,7 @@ import tum.franca.main.MainApp;
 
 public class CellGestures {
 
-	static final double handleRadius = 5d;
+	static final double handleRadius = 6d;
 
 	Rectangle resizeHandleN;
 	Rectangle resizeHandleNE;
@@ -102,6 +104,9 @@ public class CellGestures {
 		}
 	};
 
+	/**
+	 * EAST
+	 */
 	DragNodeSupplier EAST = new DragNodeSupplier() {
 		@Override
 		public Node apply(Region region, Wrapper<Point2D> mouseLocation) {
@@ -369,10 +374,15 @@ public class CellGestures {
 				}
 			}
 		}
+
 		if (newY != 0 && newY >= handleRadius && newY <= region.getLayoutY() + region.getHeight() - handleRadius) {
 			region.setLayoutY(newY);
 			region.setPrefHeight(region.getPrefHeight() - deltaY);
 		}
+		
+		RectangleUtil.inconsistantBoardState2();
+
+
 	}
 
 	private void dragEast(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
@@ -434,16 +444,13 @@ public class CellGestures {
 				final double w = ((RectangleCell) iCell).pane.getPrefWidth();
 				final double h = ((RectangleCell) iCell).pane.getPrefHeight();
 				if ((x >= x0) && (y >= y0) && ((x + w) <= (x0 + region.getPrefWidth() + deltaX))
-						&& ((y + h) <= (y0 + rezRectangle.pane.getWidth()))) {
+						&& ((y + h) <= (y0 + rezRectangle.pane.getHeight()))) {
 					counter2++;
 				}
 			}
 		}
 
 		if (counter > counter2) {
-			System.out.println(counter);
-			System.out.println(counter2);
-			System.out.println(CellGestures.class);
 			return;
 		}
 		// When same group == same group
@@ -467,12 +474,25 @@ public class CellGestures {
 				}
 			}
 		}
+
+
 		if (newMaxX >= region.getLayoutX()
 				&& newMaxX <= region.getParent().getBoundsInLocal().getWidth() - handleRadius) {
 			region.setPrefWidth(region.getPrefWidth() + deltaX);
 		}
+		
+		RectangleUtil.inconsistantBoardState2();
+
 	}
 
+	/**
+	 * SOUTH
+	 * 
+	 * @param event
+	 * @param mouseLocation
+	 * @param region
+	 * @param handleRadius
+	 */
 	private void dragSouth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
 
 		ResizableRectangleCell cell = rezRectangle;
@@ -560,12 +580,29 @@ public class CellGestures {
 				}
 			}
 		}
+
+		double height = region.getPrefHeight();
+
 		if (newMaxY >= region.getLayoutY()
 				&& newMaxY <= region.getParent().getBoundsInLocal().getHeight() - handleRadius) {
 			region.setPrefHeight(region.getPrefHeight() + deltaY);
 		}
-	}
+		
+		RectangleUtil.inconsistantBoardState2();
 
+
+	}
+	
+	// SOUTH
+
+	/**
+	 * WEST
+	 * 
+	 * @param event
+	 * @param mouseLocation
+	 * @param region
+	 * @param handleRadius
+	 */
 	private void dragWest(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
 
 		ResizableRectangleCell cell = rezRectangle;
@@ -656,10 +693,15 @@ public class CellGestures {
 				}
 			}
 		}
+
 		if (newX != 0 && newX <= region.getParent().getBoundsInLocal().getWidth() - handleRadius) {
 			region.setLayoutX(newX);
 			region.setPrefWidth(region.getPrefWidth() - deltaX);
 		}
+		
+		RectangleUtil.inconsistantBoardState2();
+
+
 	}
 
 	private static void setUpDragging(Node node, Wrapper<Point2D> mouseLocation, Cursor hoverCursor) {
