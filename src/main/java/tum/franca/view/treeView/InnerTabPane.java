@@ -21,12 +21,12 @@ public class InnerTabPane {
 		Tab innerTab2 = new Tab("Metrics");
 		Tab innerTab3 = new Tab("Fidl-File");
 		try {
-			innerTab2.setContent(FXMLLoader.load(InnerTabPane.class.getResource("MetricsView.fxml")));
+			innerTab2.setContent(FXMLLoader.load(InnerTabPane.class.getResource("/MetricsView.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			innerTab3.setContent(FXMLLoader.load(InnerTabPane.class.getResource("FidlView.fxml")));
+			innerTab3.setContent(FXMLLoader.load(InnerTabPane.class.getResource("/FidlView.fxml")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -3,7 +3,6 @@ package tum.franca.tabs;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -12,7 +11,6 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.RectangleUtil;
@@ -21,7 +19,6 @@ import tum.franca.graph.edges.Edge;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Grid;
 import tum.franca.main.MainApp;
-import tum.franca.save.SaveGraphState;
 
 /**
  * MenuBar at the top of the Grouping Canvas.
@@ -47,7 +44,7 @@ public class MenuBarTop {
 
 		// Grid
 		Menu gridMenu = new Menu("Grid");
-		Image gridIcon = new Image(MenuBarTop.class.getResourceAsStream("grid.png"));
+		Image gridIcon = new Image(MenuBarTop.class.getResourceAsStream("/grid.png"));
 		ImageView imageView = new ImageView(gridIcon);
 		imageView.setFitHeight(15);
 		imageView.setFitWidth(15);
@@ -70,7 +67,7 @@ public class MenuBarTop {
 
 		// Service Groups
 		Menu groupsMenu = new Menu("Service Groups");
-		Image groupIcon = new Image(MenuBarTop.class.getResourceAsStream("group.png"));
+		Image groupIcon = new Image(MenuBarTop.class.getResourceAsStream("/group.png"));
 		ImageView imageView2 = new ImageView(groupIcon);
 		imageView2.setFitHeight(15);
 		imageView2.setFitWidth(15);
@@ -81,7 +78,7 @@ public class MenuBarTop {
 
 		// Relations
 		Menu edgesMenu = new Menu("Relations");
-		Image edgeIcon = new Image(MenuBarTop.class.getResourceAsStream("relation.png"));
+		Image edgeIcon = new Image(MenuBarTop.class.getResourceAsStream("/relation.png"));
 		ImageView imageView3 = new ImageView(edgeIcon);
 		imageView3.setFitHeight(15);
 		imageView3.setFitWidth(15);
@@ -103,7 +100,7 @@ public class MenuBarTop {
 		edgesMenu.getItems().addAll(menuItem0, menuItem1, menuItem2, menuItem3);
 
 		// Adding
-		menuBar.getMenus().addAll(undoRedoMenu, gridMenu, groupsMenu, edgesMenu);
+		menuBar.getMenus().addAll(gridMenu, groupsMenu, edgesMenu);
 		return menuBar;
 	}
 

@@ -12,7 +12,7 @@ public class AboutWindow {
 	public void showAboutWindow() {
 		Parent root;
 		try {
-			root = FXMLLoader.load(getClass().getResource("About.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/About.fxml"));
 			Stage stage = new Stage();
 			stage.setTitle("About VisualFX Franca");
 			stage.setScene(new Scene(root, 450, 450));

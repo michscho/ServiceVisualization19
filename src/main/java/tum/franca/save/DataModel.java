@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Tab;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -26,6 +27,7 @@ import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.Model;
 import tum.franca.graph.layout.GroupingLayout;
 import tum.franca.main.MainApp;
+import tum.franca.tabs.RenameableTab;
 import tum.franca.tabs.TabPaneSetter;
 
 /**
@@ -71,7 +73,13 @@ public class DataModel implements Serializable {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Visualisation Files", "*.vis"));
 			fileChooser.setTitle("Save file");
-			fileChooser.setInitialFileName("serviceGroup.vis");
+			Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
+			String string = "default";
+			if (tab instanceof RenameableTab) {
+				RenameableTab renTab = (RenameableTab) tab;
+				string = ((RenameableTab) tab).name.get();
+			}
+			fileChooser.setInitialFileName("visualisation-"+ string  + ".vis");
 			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
 			FileOutputStream fileOut = new FileOutputStream(savedFile.getAbsolutePath());
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);

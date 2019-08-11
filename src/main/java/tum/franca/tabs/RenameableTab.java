@@ -1,5 +1,6 @@
 package tum.franca.tabs;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -12,14 +13,17 @@ import javafx.scene.control.TextField;
  */
 public class RenameableTab extends Tab {
 
+	public StringProperty name;
+
 	public RenameableTab(StringProperty name) {
 		Label label = new Label();
 		label.textProperty().bind(name);
+		this.name = new SimpleStringProperty(name.get());
 		setGraphic(label);
 
 		TextField textField = new TextField();
 		label.setOnMouseClicked(event -> {
-			if(event.getClickCount() == 2) {
+			if (event.getClickCount() == 2) {
 				textField.setText(label.getText());
 				setGraphic(textField);
 				textField.selectAll();
@@ -29,12 +33,14 @@ public class RenameableTab extends Tab {
 
 		textField.setOnAction(event -> {
 			name.setValue(textField.getText());
+			this.name = name;
 			setGraphic(label);
 		});
 
 		textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-			if(!newValue) {
+			if (!newValue) {
 				name.setValue(textField.getText());
+				this.name = name;
 				setGraphic(label);
 			}
 		});

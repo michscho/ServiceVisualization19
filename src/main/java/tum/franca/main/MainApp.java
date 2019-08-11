@@ -1,10 +1,6 @@
 package tum.franca.main;
 
-import java.awt.Image;
 import java.io.IOException;
-import java.net.URL;
-
-import javax.swing.ImageIcon;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tum.franca.graph.graph.Graph;
 import tum.franca.properties.PropertiesUtil;
+import org.franca.core.franca.FArgument;
+
 
 /**
  * 
@@ -23,6 +21,10 @@ import tum.franca.properties.PropertiesUtil;
  *
  */
 public class MainApp extends Application {
+	
+	public MainApp() {
+		
+	}
 
 	public static Stage primaryStage;
 	public static Graph[] graphList = new Graph[10];
@@ -34,18 +36,20 @@ public class MainApp extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-
+		
+		System.out.println("************** Newest Version ***************");
+		System.out.println(FArgument.class);
 		// Icon Bar: MacOS
-		try {
-			URL iconURL = MainApp.class.getResource("visualisation.png");
-			Image image = new ImageIcon(iconURL).getImage();
-			com.apple.eawt.Application.getApplication().setDockIconImage(image);
-		} catch (Exception e) {
-			// Won't work on Windows or Linux.
-		}
+//		try {
+//			URL iconURL = MainApp.class.getResource("visualisation.png");
+//			Image image = new ImageIcon(iconURL).getImage();
+//			com.apple.eawt.Application.getApplication().setDockIconImage(image);
+//		} catch (Exception e) {
+//			// Won't work on Windows or Linux.
+//		}
 
 		MainApp.primaryStage = primaryStage;
-		MainApp.root = FXMLLoader.load(getClass().getResource("MainApp.fxml"));
+		MainApp.root = FXMLLoader.load(getClass().getResource("/MainApp.fxml"));
 		
 		PropertiesUtil.getAllPropertiesAsEnums();
 
