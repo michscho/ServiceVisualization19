@@ -2,7 +2,6 @@ package tum.franca.reader;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FArgument;
 import org.franca.core.franca.FAttribute;
 import org.franca.core.franca.FBroadcast;

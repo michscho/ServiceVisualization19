@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.WritableImage;
@@ -32,6 +33,7 @@ import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
 import tum.franca.save.DataModel;
+import tum.franca.tabs.RenameableTab;
 import tum.franca.tabs.TabPaneSetter;
 import tum.franca.view.listView.ListViewWrapper;
 import tum.franca.view.treeView.TreeViewCreator;
@@ -120,6 +122,9 @@ public class MainAppController {
 	private Menu menuSettings;
 	@FXML
 	private Menu menuHelp;
+	
+	public MainAppController() {
+	}
 
 	/**
 	 * Initalizes the controller and will be called at the beginning.
@@ -212,26 +217,22 @@ public class MainAppController {
 				StaticFidlReader.getFidlList().add(new FidlReader(uri));
 			}
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
-			try {
+//			try {
 				GroupSetter.createCanvas();
 				if (tabPaneSetter == null) {
 					this.tabPaneSetter = new TabPaneSetter();
 				}
 				tabPaneSetter.setCanvas();
 				Metrics.setZoom(1.0);
-				Metrics.setServicesAndGroups();
-				Metrics.setRelations();
-				Metrics.setCoupling();
-				Metrics.setCohesion();
-				Metrics.setMostCommon();
+				Metrics.setAll();
 				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 				treeView.createTree();
 				groupingButton.setDisable(false);
 				functionButton.setDisable(false);
 				StaticSplitter.setStaticSplitPane(splitPane);
-			} catch (NullPointerException e) {
-				VisualisationsAlerts.wrongGrouping();
-			}
+//			} catch (NullPointerException e) {
+//				VisualisationsAlerts.wrongGrouping();
+//			}
 		}
 	}
 
@@ -269,7 +270,13 @@ public class MainAppController {
 
 		final FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save png");
-		fileChooser.setInitialFileName("snapshot.png");
+		String string = "default";
+		Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
+		if (tab instanceof RenameableTab) {
+			RenameableTab renTab = (RenameableTab) tab;
+			string = ((RenameableTab) tab).name.get();
+		}
+		fileChooser.setInitialFileName(string+"-snapshot.png");
 		File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
 
 		try {
