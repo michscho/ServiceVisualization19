@@ -1,5 +1,7 @@
 package tum.franca.main;
 
+import java.awt.Desktop;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +16,7 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -24,6 +27,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -33,6 +37,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
+import tum.franca.graph.cells.RectangleUtil;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
@@ -126,7 +131,7 @@ public class MainAppController {
 	private Menu menuSettings;
 	@FXML
 	private Menu menuHelp;
-	
+
 	public MainAppController() {
 	}
 
@@ -161,8 +166,8 @@ public class MainAppController {
 			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			GroupSetter.createCanvas();
 			tabPaneSetter.setCanvas();
-			Metrics.setServicesAndGroups();
-			Metrics.setRelations();
+			Metrics.setAll();
+			RectangleUtil.recolorCanvas();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
 			StaticSplitter.setStaticSplitPane(splitPane);
@@ -222,18 +227,20 @@ public class MainAppController {
 			}
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 //			try {
-				GroupSetter.createCanvas();
-				if (tabPaneSetter == null) {
-					this.tabPaneSetter = new TabPaneSetter();
-				}
-				tabPaneSetter.setCanvas();
-				Metrics.setZoom(1.0);
-				Metrics.setAll();
-				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-				treeView.createTree();
-				groupingButton.setDisable(false);
-				functionButton.setDisable(false);
-				StaticSplitter.setStaticSplitPane(splitPane);
+			GroupSetter.createCanvas();
+			if (tabPaneSetter == null) {
+				this.tabPaneSetter = new TabPaneSetter();
+			}
+			tabPaneSetter.setCanvas();
+			RectangleUtil.recolorCanvas();
+			MainApp.graph.getCanvas().setScale(1.0);
+			Metrics.setZoom(1.0);
+			Metrics.setAll();
+			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+			treeView.createTree();
+			groupingButton.setDisable(false);
+			functionButton.setDisable(false);
+			StaticSplitter.setStaticSplitPane(splitPane);
 //			} catch (NullPointerException e) {
 //				VisualisationsAlerts.wrongGrouping();
 //			}
@@ -266,12 +273,11 @@ public class MainAppController {
 	}
 
 	@FXML
-	public void saveAsPng() {
+	public void saveAsPng() throws IOException {
 		SnapshotParameters param = new SnapshotParameters();
-        param.setDepthBuffer(true);
-        param.setTransform(Transform.scale(5, 5));
-        WritableImage image = MainApp.graph.getCanvas().snapshot(param, null);
-
+		param.setDepthBuffer(true);
+		param.setTransform(Transform.scale(2, 2));
+		WritableImage image = MainApp.root.snapshot(param, null);
 		final FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save png");
 		String string = "default";
@@ -280,13 +286,81 @@ public class MainAppController {
 			RenameableTab renTab = (RenameableTab) tab;
 			string = ((RenameableTab) tab).name.get();
 		}
-		fileChooser.setInitialFileName(string+"-snapshot.png");
+		fileChooser.setInitialFileName(string + "-snapshot.png");
 		File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
+		RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
+		ImageIO.write(renderedImage, "png", savedFile);
+		Desktop.getDesktop().open(savedFile);
 
-		try {
-			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", savedFile);
-		} catch (IOException e) {
-		}
 	}
-
 }
+//		SnapshotParameters param = new SnapshotParameters();
+//		param.setDepthBuffer(true);
+//		param.setTransform(Transform.scale(2, 2));
+//		try {
+//			WritableImage image = MainApp.graph.getCanvas().snapshot(param, null);
+//			final FileChooser fileChooser = new FileChooser();
+//			fileChooser.setTitle("Save png");
+//			String string = "default";
+//			Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
+//			if (tab instanceof RenameableTab) {
+//				RenameableTab renTab = (RenameableTab) tab;
+//				string = ((RenameableTab) tab).name.get();
+//			}
+//			fileChooser.setInitialFileName(string + "-snapshot.png");
+//			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
+//
+//			try {
+//				RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
+//				ImageIO.write(renderedImage, "png", savedFile);
+//				Desktop.getDesktop().open(savedFile);
+//			} catch (IOException e) {
+//			}
+//		} catch (Exception e) {
+//			double scale = MainApp.graph.getScale();
+//			param.setDepthBuffer(true);
+//			param.setTransform(Transform.scale(2, 2));
+//			double maxX = Double.NEGATIVE_INFINITY;
+//			double maxY = Double.NEGATIVE_INFINITY;
+//			double minX = Double.POSITIVE_INFINITY;
+//			double minY = Double.POSITIVE_INFINITY;
+//			for (ICell cell : MainApp.graph.getModel().getAddedCells()) {
+//				double x = cell.getX();
+//				double y = cell.getY();
+//				if (x > maxX) {
+//					maxX = x;
+//				}
+//				if (y > maxY) {
+//					maxY = y;
+//				}
+//				if (x < minX) {
+//					minX = x;
+//				}
+//				if (y < minY) {
+//					minY = y;
+//				}
+//			}
+//			WritableImage writableImage = new WritableImage((int) ((maxX - minX) * 2), (int) ((maxY - minY) * 2));
+//			MainApp.graph.getCanvas().setScale(0.5);
+//			MainApp.graph.getCanvas().snapshot(param, writableImage);
+//			MainApp.graph.getCanvas().setScale(scale);
+//
+//			final FileChooser fileChooser = new FileChooser();
+//			fileChooser.setTitle("Save png");
+//			String string = "default";
+//			Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
+//			if (tab instanceof RenameableTab) {
+//				RenameableTab renTab = (RenameableTab) tab;
+//				string = ((RenameableTab) tab).name.get();
+//			}
+//			fileChooser.setInitialFileName(string + "-snapshot.png");
+//			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
+//
+//			try {
+//				RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+//				ImageIO.write(renderedImage, "png", savedFile);
+//				Desktop.getDesktop().open(savedFile);
+//			} catch (IOException ee) {
+//			}
+//		}
+//	}

@@ -34,7 +34,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import Visualisation (.vis)" />
                         <MenuItem mnemonicParsing="false" onAction="#save" text="Save Visualisation" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Save as Png" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Export as Png" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
