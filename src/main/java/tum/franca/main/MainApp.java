@@ -1,6 +1,8 @@
 package tum.franca.main;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -36,7 +38,6 @@ public class MainApp extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws IOException {
-		
 		System.out.println("************** Visualisation ***************");
 		System.out.println(FArgument.class);
 		// Icon Bar: MacOS
@@ -76,6 +77,8 @@ public class MainApp extends Application {
 	/**
 	 * 
 	 * @param args
+	 * @throws URISyntaxException 
+	 * @throws IOException 
 	 */
 	public static void main(String[] args) {
 		launch(args);

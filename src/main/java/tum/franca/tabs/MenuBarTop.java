@@ -54,9 +54,9 @@ public class MenuBarTop {
 		menuItemAlign = new RadioMenuItem("Align on Grid");
 		SeparatorMenuItem seperatorItem = new SeparatorMenuItem();
 		menuItemAlign.setOnAction(onClickOnMenuItemAlign);
-		RadioMenuItem menuItemGrid1 = new RadioMenuItem("Show Grids");
+		RadioMenuItem menuItemGrid1 = new RadioMenuItem("Enable Grid");
 		menuItemGrid1.setOnAction(onClickOnMenuItemGrid1);
-		RadioMenuItem menuItemGrid2 = new RadioMenuItem("Disable Grids");
+		RadioMenuItem menuItemGrid2 = new RadioMenuItem("Disable Grid");
 		menuItemGrid2.setOnAction(onClickOnMenuItemGrid2);
 		menuItemAlign.setToggleGroup(toggleGroupGrid2);
 		menuItemGrid1.setToggleGroup(toggleGroupGrid);
@@ -84,11 +84,11 @@ public class MenuBarTop {
 		imageView3.setFitWidth(15);
 		edgesMenu.setGraphic(imageView3);
 		ToggleGroup toggleGroup = new ToggleGroup();
-		RadioMenuItem menuItem0 = new RadioMenuItem("Show All");
+		RadioMenuItem menuItem0 = new RadioMenuItem("Enable All");
 		menuItem0.setOnAction(onClickOnMenuItem0);
-		RadioMenuItem menuItem1 = new RadioMenuItem("Show Coehison");
+		RadioMenuItem menuItem1 = new RadioMenuItem("Enable Coehison");
 		menuItem1.setOnAction(onClickOnMenuItem1);
-		RadioMenuItem menuItem2 = new RadioMenuItem("Show Coupling");
+		RadioMenuItem menuItem2 = new RadioMenuItem("Enable Coupling");
 		menuItem2.setOnAction(onClickOnMenuItem2);
 		RadioMenuItem menuItem3 = new RadioMenuItem("Disable All");
 		menuItem3.setOnAction(onClickOnMenuItem3);
