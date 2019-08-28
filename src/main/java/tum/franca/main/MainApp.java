@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tum.franca.graph.graph.Graph;
@@ -73,7 +74,7 @@ public class MainApp extends Application {
 		    }
 		});
 	}
-
+	
 	/**
 	 * 
 	 * @param args

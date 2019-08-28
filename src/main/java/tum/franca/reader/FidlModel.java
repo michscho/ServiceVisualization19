@@ -8,10 +8,12 @@ import org.franca.core.franca.FModel;
 public abstract class FidlModel {
 	
 	protected URI uri;
+
 	
 	public FidlModel(URI uri) {
 		this.uri = uri;
 		this.fmodel = FrancaIDLHelpers.instance().loadModel(uri, uri);
+		
 	}
 
 	protected FModel fmodel;

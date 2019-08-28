@@ -87,6 +87,11 @@
 			<version>4.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.9</version>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
 			<version>2.18.0.M2</version>
@@ -110,20 +115,22 @@
 			<artifactId>org.franca.core</artifactId>
 			<version>0.13.1-SNAPSHOT</version>
 		</dependency>
-		<!-- dependency>
-			<groupId>org.franca.core</groupId>
-			<artifactId>org.franca.core</artifactId>
-			<version>0.13.1-SNAPSHOT</version>
-			<scope>compile</scope>
-			<systemPath>${pom.basedir}/repo/org.franca.core-0.13.1-SNAPSHOT.jar</systemPath>
-		</dependency -->
+		<!-- dependency> <groupId>org.franca.core</groupId> <artifactId>org.franca.core</artifactId> 
+			<version>0.13.1-SNAPSHOT</version> <scope>compile</scope> <systemPath>${pom.basedir}/repo/org.franca.core-0.13.1-SNAPSHOT.jar</systemPath> 
+			</dependency -->
 		<dependency>
 			<groupId>org.franca.core.dsl</groupId>
 			<artifactId>org.franca.core.dsl</artifactId>
 			<version>0.13.1-SNAPSHOT</version>
-			<!--scope>system</scope>
-			<systemPath>${pom.basedir}/repo/org.franca.core.dsl-0.13.1-SNAPSHOT.jar</systemPath -->
+			<!--scope>system</scope> <systemPath>${pom.basedir}/repo/org.franca.core.dsl-0.13.1-SNAPSHOT.jar</systemPath -->
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.edit -->
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.edit</artifactId>
+			<version>2.15.0</version>
+		</dependency>
+
 	</dependencies>
 
 </project>

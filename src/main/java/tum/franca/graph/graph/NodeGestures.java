@@ -1,6 +1,7 @@
 package tum.franca.graph.graph;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.util.HashMap;
 
 import javafx.event.EventHandler;
@@ -11,6 +12,8 @@ import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleUtil;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.main.MainApp;
+import tum.franca.save.RedoManager;
+import tum.franca.save.RedoManagerWrapper;
 
 public class NodeGestures {
 
@@ -41,6 +44,12 @@ public class NodeGestures {
 
 		@Override
 		public void handle(MouseEvent event) {
+			try {
+				RedoManagerWrapper.saveState();
+				RectangleUtil.inconsistantBoardState2();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			final Node node = (Node) event.getSource();
 
 			final double scale = graph.getScale();

@@ -72,9 +72,15 @@ public class MenuBarTop {
 		imageView2.setFitHeight(15);
 		imageView2.setFitWidth(15);
 		groupsMenu.setGraphic(imageView2);
-		MenuItem menuItemGrous = new MenuItem("Rearrange Service Groups");
-		groupsMenu.getItems().add(menuItemGrous);
-		groupsMenu.setOnAction(onClickOnMenuGroups);
+		MenuItem menuItemGroups = new MenuItem("Rearrange Service Groups");
+		groupsMenu.getItems().add(menuItemGroups);
+		MenuItem menuItemGroups2 = new MenuItem("Recolor (Shift color index rigth)");
+		groupsMenu.getItems().add(menuItemGroups2);
+		MenuItem menuItemGroups3 = new MenuItem("Recolor (Shift color index left)");
+		groupsMenu.getItems().add(menuItemGroups3);
+		menuItemGroups.setOnAction(onClickOnMenuGroups);
+		menuItemGroups2.setOnAction(onClickOnMenuGroups2);
+		menuItemGroups3.setOnAction(onClickOnMenuGroups3);
 
 		// Relations
 		Menu edgesMenu = new Menu("Relations");
@@ -235,7 +241,8 @@ public class MenuBarTop {
 			}
 		}
 	};
-
+	
+	
 	/**
 	 * Rearranges the top group.
 	 */
@@ -267,5 +274,24 @@ public class MenuBarTop {
 
 		}
 	};
+	
+	static EventHandler<ActionEvent> onClickOnMenuGroups2 = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent event) {
+			RectangleUtil.colorIndex++;
+			RectangleUtil.recolorCanvas();
+		}
+	};
+
+	static EventHandler<ActionEvent> onClickOnMenuGroups3 = new EventHandler<ActionEvent>() {
+
+		@Override
+		public void handle(ActionEvent event) {
+			RectangleUtil.colorIndex--;
+			RectangleUtil.recolorCanvas();
+		}
+	};
+
 
 }
