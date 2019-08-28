@@ -326,8 +326,8 @@ public class GroupSetter{
 				if (string.equals("Security Critical")) {
 					sB.append(propertiesReader.getSecurityCritical() + " ");
 				}
-				if (string.equals("Safty Critical")) {
-					sB.append(propertiesReader.getSaftyCritical() + " ");
+				if (string.equals("Safety Critical")) {
+					sB.append(propertiesReader.getSafetyCritical() + " ");
 				}
 				if (string.equals("Time Specification")) {
 					sB.append(getTimeInterval(propertiesReader) + " ");
@@ -422,8 +422,8 @@ public class GroupSetter{
 			if (string.equals("Security Critical")) {
 				sB.append(propertiesReader.getSecurityCritical() + " ");
 			}
-			if (string.equals("Safty Critical")) {
-				sB.append(propertiesReader.getSaftyCritical() + " ");
+			if (string.equals("Safety Critical")) {
+				sB.append(propertiesReader.getSafetyCritical() + " ");
 			}
 			if (string.equals("Time Specification")) {
 				sB.append(getTimeInterval(propertiesReader) + " ");
@@ -449,8 +449,8 @@ public class GroupSetter{
 			if (string.equals("Security Critical")) {
 				sB1.append(propertiesReader.getSecurityCritical() + " ");
 			}
-			if (string.equals("Safty Critical")) {
-				sB1.append(propertiesReader.getSaftyCritical() + " ");
+			if (string.equals("Safety Critical")) {
+				sB1.append(propertiesReader.getSafetyCritical() + " ");
 			}
 			if (string.equals("Time Specification")) {
 				sB.append(getTimeInterval(propertiesReader) + " ");
@@ -476,8 +476,8 @@ public class GroupSetter{
 			if (string.equals("Security Critical")) {
 				sB2.append(propertiesReader.getSecurityCritical() + " ");
 			}
-			if (string.equals("Safty Critical")) {
-				sB2.append(propertiesReader.getSaftyCritical() + " ");
+			if (string.equals("Safety Critical")) {
+				sB2.append(propertiesReader.getSafetyCritical() + " ");
 			}
 			if (string.equals("Time Specification")) {
 				sB.append(getTimeInterval(propertiesReader) + " ");
