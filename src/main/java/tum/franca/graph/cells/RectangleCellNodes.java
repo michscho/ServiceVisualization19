@@ -25,6 +25,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
+import tum.franca.graph.edges.Edge;
 import tum.franca.main.MainApp;
 
 /**
@@ -76,14 +77,19 @@ public class RectangleCellNodes {
 	}
 
 	private static Color nodeColor = new Color(0.2, 0.2, 0.2, 0.5);
+	
+	public static Line line;
 
 	class DragStartHandler implements EventHandler<MouseEvent> {
 
-		public Line line;
-
 		@Override
 		public void handle(MouseEvent event) {
-			if (line == null) {
+				for (ICell icell: MainApp.graph.getModel().getAddedCells()) {
+					if (icell instanceof RectangleCell) {
+						((RectangleCell) icell).cn.setVisible();
+					}
+				}
+
 				RectangleCellNodes.soureRectangleCell = rectangleCell;
 				Node sourceNode = (Node) event.getSource();
 				line = new Line();
@@ -92,12 +98,11 @@ public class RectangleCellNodes {
 					line.startXProperty().bind(((Circle) sourceNode).centerXProperty());
 					line.startYProperty().bind(((Circle) sourceNode).centerYProperty());
 				}
-
 				line.setEndX(line.getStartX());
 				line.setEndY(line.getStartY());
-				sourceNode.startFullDrag();
 				MainApp.graph.getCanvas().getChildren().add(line);
-			}
+				line.startFullDrag();
+				
 		}
 	}
 
@@ -254,7 +259,7 @@ public class RectangleCellNodes {
 				this.WEST, this.NORTH_WEST);
 	}
 
-	static DragStartHandler startHandler;
+	private DragStartHandler startHandler;
 	
 	public double angleOf(Point p1, Point p2) {
 		final double deltaY = (p1.y - p2.y);
@@ -264,52 +269,49 @@ public class RectangleCellNodes {
 	}
 	
 	
-	public void setRequiresProvides(Line line) {		
-			Circle circle = new Circle(2);
-			circle.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
-			circle.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
-			Arc arc = new Arc(0, 0, 5, 5, 90, 180);
-			
-			arc.setType(ArcType.OPEN);
-			arc.setStrokeWidth(2);
-			arc.setStroke(Color.BLACK);
-			arc.setStrokeType(StrokeType.INSIDE);
-			arc.setFill(null);
-			arc.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
-			arc.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
-			MainApp.graph.getCanvas().getChildren().add(circle);
-			MainApp.graph.getCanvas().getChildren().add(arc);
-			
-			Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
-			Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
-			arc.setStartAngle(angleOf(point1, point2) + 90);
-			line.startXProperty().addListener(new ChangeListener<Object>() {
-
-				@Override
-				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-					Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
-					Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
-					arc.setStartAngle(angleOf(point1, point2) + 90);
-				}
-			});
-			line.endXProperty().addListener(new ChangeListener<Object>() {
-
-				@Override
-				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-					Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
-					Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
-					arc.setStartAngle(angleOf(point1, point2) + 90);
-				}
-			});
-			}
+//	public void setRequiresProvides(Line line) {	
+//			Circle circle = new Circle(2);
+//			circle.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
+//			circle.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
+//			Arc arc = new Arc(0, 0, 5, 5, 90, 180);
+//			
+//			arc.setType(ArcType.OPEN);
+//			arc.setStrokeWidth(2);
+//			arc.setStroke(Color.BLACK);
+//			arc.setStrokeType(StrokeType.INSIDE);
+//			arc.setFill(null);
+//			arc.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
+//			arc.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
+//			MainApp.graph.getCanvas().getChildren().add(circle);
+//			MainApp.graph.getCanvas().getChildren().add(arc);
+//			
+//			Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
+//			Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
+//			arc.setStartAngle(angleOf(point1, point2) + 90);
+//			line.startXProperty().addListener(new ChangeListener<Object>() {
+//
+//				@Override
+//				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+//					Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
+//					Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
+//					arc.setStartAngle(angleOf(point1, point2) + 90);
+//				}
+//			});
+//			line.endXProperty().addListener(new ChangeListener<Object>() {
+//
+//				@Override
+//				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+//					Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
+//					Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
+//					arc.setStartAngle(angleOf(point1, point2) + 90);
+//				}
+//			});
+//			}
 
 	public static RectangleCell soureRectangleCell;
 	
 
 	public void makeResizable(Region region, DragNodeSupplier... nodeSuppliers) {
-		if (startHandler == null) {
-			startHandler = new DragStartHandler();
-		}
 		final Wrapper<Point2D> mouseLocation = new Wrapper<>();
 		final List<Node> dragNodes = Arrays.stream(nodeSuppliers).map(supplier -> supplier.apply(region, mouseLocation))
 				.collect(Collectors.toList());
@@ -320,23 +322,35 @@ public class RectangleCellNodes {
 					currentParent.getChildren().remove(c);
 				}
 				((Pane) newParent).getChildren().add(c);
-
+				startHandler = new DragStartHandler();
 				c.setOnDragDetected(startHandler);
+				c.setUserData(Boolean.TRUE);
 
 				
 				EventHandler<MouseDragEvent> dragReleaseHandler = evt -> {
+					for (ICell icell: MainApp.graph.getModel().getAddedCells()) {
+						if (icell instanceof RectangleCell) {
+							((RectangleCell) icell).cn.setInvisible();
+						}
+					}
 					if (evt.getGestureSource() == evt.getSource() || rectangleCell.name.equals(RectangleCellNodes.soureRectangleCell.name)) {
-						MainApp.graph.getCanvas().getChildren().remove(startHandler.line);
+						MainApp.graph.getCanvas().getChildren().remove(line);
 					} else {
 						Node sourceNode = (Node) evt.getSource();
 						if (sourceNode instanceof Circle) {
-							startHandler.line.endXProperty().bind(((Circle) sourceNode).centerXProperty());
-							startHandler.line.endYProperty().bind(((Circle) sourceNode).centerYProperty());
+							line.endXProperty().bind(((Circle) sourceNode).centerXProperty());
+							line.endYProperty().bind(((Circle) sourceNode).centerYProperty());
 							
 							System.out.println(rectangleCell.name);
 							System.out.println(RectangleCellNodes.soureRectangleCell.name);
 							
-							setRequiresProvides(startHandler.line);
+							Edge edge = new Edge(soureRectangleCell, rectangleCell);
+							MainApp.graph.getModel().addEdge(edge);
+							MainApp.graph.addEgde(edge);
+							
+							MainApp.graph.getCanvas().getChildren().remove(line);
+							
+							//setRequiresProvides(line);
 							
 							for (ICell ICell : MainApp.graph.getModel().getAddedCells()) {
 								if (ICell instanceof RectangleCell) {
@@ -346,33 +360,30 @@ public class RectangleCellNodes {
 						}
 					}
 					evt.consume();
-					startHandler.line = null;
+					line = null;
 				};
 				EventHandler<MouseEvent> dragEnteredHandler = evt -> {
-					if (startHandler.line != null) {
-						// snap line end to node center
+					if (line != null) {
 						
 						Node node = (Node) evt.getSource();
-
 						Bounds bounds = node.getBoundsInParent();
-						startHandler.line.setEndX((bounds.getMinX() + bounds.getMaxX()) / 2);
-						startHandler.line.setEndY((bounds.getMinY() + bounds.getMaxY()) / 2);
+						line.setEndX((bounds.getMinX() + bounds.getMaxX()) / 2);
+						line.setEndY((bounds.getMinY() + bounds.getMaxY()) / 2);
 
 					}
 				};
 
 				c.setOnMouseDragReleased(dragReleaseHandler);
 				c.setOnMouseDragEntered(dragEnteredHandler);
-				c.setUserData(Boolean.TRUE);
-
+				
 				EventHandler<MouseEvent> mouseDragged = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent t) {
-						if (startHandler.line != null) {
+						if (line != null) {
 							Node pickResult = t.getPickResult().getIntersectedNode();
 							if (pickResult == null || pickResult.getUserData() != Boolean.TRUE) {
-								startHandler.line.setEndX(t.getX());
-								startHandler.line.setEndY(t.getY());
+								line.setEndX(t.getX());
+								line.setEndY(t.getY());
 							}
 						}
 					}
@@ -381,9 +392,13 @@ public class RectangleCellNodes {
 				EventHandler<MouseEvent> mouseReleased = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent t) {
-
-						MainApp.graph.getCanvas().getChildren().remove(startHandler.line);
-						startHandler.line = null;
+						for (ICell icell: MainApp.graph.getModel().getAddedCells()) {
+							if (icell instanceof RectangleCell) {
+								((RectangleCell) icell).cn.setInvisible();
+							}
+						}
+						MainApp.graph.getCanvas().getChildren().remove(line);
+						line = null;
 					}
 				};
 

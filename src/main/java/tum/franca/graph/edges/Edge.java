@@ -16,9 +16,15 @@ import javafx.scene.shape.StrokeType;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class Edge extends AbstractEdge {
 
 	public EdgeGraphic edgeGraphic;
+	public boolean custom;
 
 	public Edge(ICell source, ICell target) {
 		super(source, target);
@@ -51,6 +57,7 @@ public class Edge extends AbstractEdge {
 
 			line.endXProperty().bind(targetX);
 			line.endYProperty().bind(targetY);
+			
 			group.getChildren().add(line);
 
 			getChildren().add(group);
@@ -59,11 +66,9 @@ public class Edge extends AbstractEdge {
 			circle.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
 			circle.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
 			Arc arc = new Arc(0, 0, 5, 5, 90, 180);
-			if (sourceX.get() > targetX.get()) {
-				arc.setStartAngle(90);
-			} else {
-				arc.setStartAngle(270);
-			}
+			Point point1 = new Point((int) sourceX.get(), (int) sourceY.get());
+			Point point2 = new Point((int) targetX.get(), (int) targetY.get());
+			arc.setStartAngle(angleOf(point1, point2) + 90);
 			line.startXProperty().addListener(new ChangeListener<Object>() {
 
 				@Override

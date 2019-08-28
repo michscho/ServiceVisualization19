@@ -30,7 +30,7 @@ public class PropertiesReader extends InterfaceReader {
 	public Properties.BINDING binding;
 	public Properties.FUNCTIONALSCOPE functinoalScope;
 	public Properties.RUNTIME runtime;
-	public Properties.SAFTYCRITICAL saftyCritical;
+	public Properties.SAFETYCRITICAL safetyCritical;
 	public Properties.SECURITYCRITICAL securityCritical;
 	public Properties.TIMESPECIFICATION timeSpecification;
 
@@ -39,7 +39,7 @@ public class PropertiesReader extends InterfaceReader {
 		binding = getBindingProperties();
 		functinoalScope = getFunctionalScopeProperties();
 		runtime = getRuntimeProperties();
-		saftyCritical = getSaftyCriticalProperties();
+		safetyCritical = getSafetyCriticalProperties();
 		securityCritical = getSecurityCriticalProperties();
 		timeSpecification = getTimeSpecifiactionProperties();
 	}
@@ -145,8 +145,8 @@ public class PropertiesReader extends InterfaceReader {
 
 			break;
 
-		// SAFTYCRITICAL
-		case "saftyCritical":
+		// SAFETYCRITICAL
+		case "safetyCritical":
 
 			switch (property) {
 			case "ASIL_A":
@@ -235,7 +235,7 @@ public class PropertiesReader extends InterfaceReader {
 		list.add(getFunctionalScope().getName());
 		list.add(getHardwareDependend().getName());
 		list.add(getRuntime().getName());
-		list.add(getSaftyCritical().getName());
+		list.add(getSafetyCritical().getName());
 		list.add(getSecurityCritical().getName());
 		list.add(getTimeSpecification().getName());
 		return list;
@@ -248,8 +248,8 @@ public class PropertiesReader extends InterfaceReader {
 		if (getBinding().getName() != "notDefined") {
 			propertiesMap.put("Binding", getBinding().getLiteral());
 		}
-		if (getSaftyCritical().getName() != "notDefined") {
-			propertiesMap.put("Safty Critical", getSaftyCritical().getName());
+		if (getSafetyCritical().getName() != "notDefined") {
+			propertiesMap.put("Safety Critical", getSafetyCritical().getName());
 		}
 		if (getSecurityCritical().getName() != "notDefined") {
 			propertiesMap.put("Security Critial", getSecurityCritical().getName());
@@ -298,14 +298,14 @@ public class PropertiesReader extends InterfaceReader {
 
 	/**
 	 * 
-	 * @return FSaftyCritical: ASIL_A, ASIL_B, ASIL_C, ASIL_D
+	 * @return FSafetyCritical: ASIL_A, ASIL_B, ASIL_C, ASIL_D
 	 */
-	public FSaftyCritical getSaftyCritical() {
+	public FSaftyCritical getSafetyCritical() {
 		return getFirstInterface().getSaftyCritical();
 	}
 
-	public Properties.SAFTYCRITICAL getSaftyCriticalProperties() {
-		return PropertiesWrapper.saftyCriticalHashMap.get(getFirstInterface().getSaftyCritical().getName());
+	public Properties.SAFETYCRITICAL getSafetyCriticalProperties() {
+		return PropertiesWrapper.safetyCriticalHashMap.get(getFirstInterface().getSaftyCritical().getName());
 	}
 
 	/**
