@@ -15,6 +15,11 @@ import tum.franca.graph.cells.ResizableRectangleCell;
  */
 public class Binding {
 	
+	/**
+	 * 
+	 * @param pane
+	 * @param fontStyle
+	 */
 	public static void bind(Pane pane, int fontStyle) {
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
@@ -53,6 +58,11 @@ public class Binding {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param pane
+	 * @param fontStyle
+	 */
 	public static void unbind(Pane pane, int fontStyle) {
 		pane.layoutXProperty().unbind();
 		pane.layoutYProperty().unbind();

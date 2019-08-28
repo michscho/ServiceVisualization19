@@ -14,6 +14,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -29,12 +32,16 @@
                            <accelerator>
                               <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" text="Save Fidl File(s)" />
+                        <MenuItem mnemonicParsing="false" onAction="#persistFidlClicked" text="Save Fidl File(s)" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import Visualisation (.vis)" />
                         <MenuItem mnemonicParsing="false" onAction="#save" text="Save Visualisation" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Export as Png" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveAsPdf" text="Export as Pdf" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#minClicked" text="Minimize" />
+                        <MenuItem mnemonicParsing="false" onAction="#quitClicked" text="Quit" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
@@ -66,7 +73,6 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <Button fx:id="functionButton" disable="true" layoutX="21.0" layoutY="705.0" mnemonicParsing="false" onAction="#persistFidlClicked" prefHeight="27.0" prefWidth="190.0" text="Save" />
             <ListView fx:id="listView" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" />
             <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" />
             <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Level Group:" wrappingWidth="118.71044921875" />
@@ -109,7 +115,72 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0" />
+      <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0">
+         <items>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="507.0" layoutX="-85.0" layoutY="-33.0" rotate="-14.0" strokeType="INSIDE" width="470.0">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#1f75ff78" />
+                              <Stop color="#1f75ff78" offset="0.0074487895716946" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Rectangle>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3382cc2b" height="446.0" layoutX="-98.0" layoutY="26.0" rotate="77.0" strokeType="INSIDE" width="333.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" height="737.0" layoutX="422.0" layoutY="-119.0" rotate="20.0" strokeType="INSIDE" width="470.0">
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#1f75ff78" />
+                              <Stop color="#21ff7236" offset="0.0074487895716946" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Rectangle>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="143.0" layoutX="370.0" layoutY="412.0" rotate="20.0" strokeType="INSIDE" width="402.0" />
+                  <Text layoutX="352.0" layoutY="123.0" rotate="2.5" strokeType="OUTSIDE" strokeWidth="0.0" text="to Service Visualisation" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="34.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="45.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome ">
+                     <font>
+                        <Font name="Arial Bold" size="65.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="61.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Step:">
+                     <font>
+                        <Font name="System Bold" size="30.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="59.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Step:">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="220.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specify your grouping on the left side through drag and drop of your interested properties. You can define top-level and sub-level groups." wrappingWidth="493.4609375">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="220.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Go to File and Import. Select then all your Fidl Files at once." wrappingWidth="509.4609375">
+                     <font>
+                        <Font name="Arial" size="22.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="713.0" layoutY="746.0" strokeType="OUTSIDE" strokeWidth="0.0" text="www.serviceVisulisation.de" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="143.0" layoutX="495.0" layoutY="93.0" rotate="20.0" strokeType="INSIDE" width="402.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="447.0" layoutY="415.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="528.0" layoutY="514.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="686.0" layoutY="196.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
+               </children>
+            </AnchorPane>
+         </items></SplitPane>
     <AnchorPane fx:id="zoom" minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0">
          <children>
             <TreeView fx:id="treeView" layoutX="-3.0" layoutY="30.0" prefHeight="203.0" prefWidth="291.0" />

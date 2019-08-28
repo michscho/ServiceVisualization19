@@ -14,7 +14,7 @@ public final class PropertiesWrapper {
 	public final static String HARDWAREDENDEND = "Hardware Dependend";
 	public final static String RUNTIME = "Runtime";
 	public final static String TIMESPECIFICATION = "Time Specification";
-	public final static String SAFTYCRITICAL = "Safty Critical";
+	public final static String SAFETYCRITICAL = "Safety Critical";
 	public final static String SECURITYCRITICAL = "Security Critical";
 ;
 	public final static HashMap<String, Properties.BINDING> bindingHashMap = new HashMap<String, Properties.BINDING>() {
@@ -62,14 +62,14 @@ public final class PropertiesWrapper {
 			put("s", Properties.TIMESPECIFICATION.S);
 		}
 	};
-	public final static HashMap<String, Properties.SAFTYCRITICAL> saftyCriticalHashMap = new HashMap<String, Properties.SAFTYCRITICAL>() {
+	public final static HashMap<String, Properties.SAFETYCRITICAL> safetyCriticalHashMap = new HashMap<String, Properties.SAFETYCRITICAL>() {
 		private static final long serialVersionUID = 1L;
 		{
-			put("notDefined", Properties.SAFTYCRITICAL.NOTDEFINED);
-			put("ASIL_A", Properties.SAFTYCRITICAL.ASIL_A);
-			put("ASIL_B", Properties.SAFTYCRITICAL.ASIL_B);
-			put("ASIL_C", Properties.SAFTYCRITICAL.ASIL_C);
-			put("ASIL_D", Properties.SAFTYCRITICAL.ASIL_D);
+			put("notDefined", Properties.SAFETYCRITICAL.NOTDEFINED);
+			put("ASIL_A", Properties.SAFETYCRITICAL.ASIL_A);
+			put("ASIL_B", Properties.SAFETYCRITICAL.ASIL_B);
+			put("ASIL_C", Properties.SAFETYCRITICAL.ASIL_C);
+			put("ASIL_D", Properties.SAFETYCRITICAL.ASIL_D);
 		}
 	};
 	public final static HashMap<String, Properties.SECURITYCRITICAL> securityCriticalHashMap = new HashMap<String, Properties.SECURITYCRITICAL>() {
@@ -151,11 +151,11 @@ public final class PropertiesWrapper {
 			}
 		};
 
-		public enum SAFTYCRITICAL {
+		public enum SAFETYCRITICAL {
 			NOTDEFINED("notDefined"), ASIL_A("ASIL_A"), ASIL_B("ASIL_B"), ASIL_C("ASIL_C"), ASIL_D("ASIL_D");
 			private String string;
 
-			private SAFTYCRITICAL(String string) {
+			private SAFETYCRITICAL(String string) {
 				this.string = string;
 			}
 

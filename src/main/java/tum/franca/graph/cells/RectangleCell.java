@@ -14,7 +14,9 @@ import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.ShadowBuilder;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -35,7 +37,6 @@ import tum.franca.view.treeView.SimpleTreeViewCreator;
 /**
  * 
  * @author michaelschott
- * @param <onRectangleLayoutXChange>
  *
  */
 public class RectangleCell extends AbstractCell {
@@ -46,9 +47,10 @@ public class RectangleCell extends AbstractCell {
 	public boolean used;
 	public StackPane pane;
 	public Rectangle view;
-	public transient FidlReader fidlReader;
+	public FidlReader fidlReader;
 	public Text text;
 	private TextField textField;
+	public RectangleCellNodes cn;
 
 	public RectangleCell(String name, HashMap<Integer, Integer> groupNumbers, FidlReader fidlReader) {
 		this.recCell = this;
@@ -60,6 +62,16 @@ public class RectangleCell extends AbstractCell {
 	// for Example: 0,1 / 1,2 / 2,3
 	public HashMap<Integer, Integer> getGrouping() {
 		return groupNumbers;
+	}
+	
+	private DropShadow getEffect() {
+		DropShadow e = new DropShadow();
+		e.setWidth(8);
+		e.setHeight(8);
+		e.setOffsetX(2);
+		e.setOffsetY(2);
+		e.setRadius(2);
+		return e;
 	}
 
 	@Override
@@ -73,14 +85,9 @@ public class RectangleCell extends AbstractCell {
 		pane.setPrefSize(100, 40);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
-
-		DropShadow e = new DropShadow();
-		e.setWidth(8);
-		e.setHeight(8);
-		e.setOffsetX(2);
-		e.setOffsetY(2);
-		e.setRadius(2);
-		view.setEffect(e);
+		
+		
+		view.setEffect(getEffect());
 
 		String input = "";
 		if (getName().length() >= 13) {
@@ -93,17 +100,37 @@ public class RectangleCell extends AbstractCell {
 		pane.getChildren().add(text);
 
 		textField = new TextField(name);
+		
+	
+
 
 		pane.addEventFilter(MouseEvent.MOUSE_CLICKED, onMouseClickedEventHandler);
+		
+		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 
 		// pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onPressedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
+		
+		cn = new RectangleCellNodes();
+		cn.makeResizable(pane, this);
+		cn.setInvisible();		
+		
+				
+		
 
 		return pane;
 	}
+	
+	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			cn.setVisible();
+		}
+	};
+
 
 	public String getName() {
 		return name;
@@ -146,6 +173,7 @@ public class RectangleCell extends AbstractCell {
 	}
 
 	EventHandler<MouseEvent> onMouseExitedEventHandler = t -> {
+		cn.setInvisible();
 		if (textField != null) {
 			pane.getChildren().remove(textField);
 		}
@@ -177,33 +205,6 @@ public class RectangleCell extends AbstractCell {
 	};
 
 	List<ICell> intersectionCellListBefore = new ArrayList<ICell>();
-
-//	EventHandler<MouseEvent> onPressedEventHandler = new EventHandler<MouseEvent>() {
-//		@Override
-//		public void handle(MouseEvent event) {
-//			if (MainAppController.staticFileChanges.isSelected() && event.isPrimaryButtonDown() && !event.isSecondaryButtonDown()) {
-//				List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
-//
-//				for (ICell iCell : cellList) {
-//					if (iCell instanceof ResizableRectangleCell) {
-//
-//						ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
-//						Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-//						Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
-//								pane.getWidth(), pane.getHeight());
-//						Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-//						Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
-//								cell.pane.getLayoutY(), cell.pane.getWidth(), cell.pane.getHeight());
-//
-//						if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
-//							intersectionCellListBefore.add(iCell);
-//							System.out.println(intersectionCellListBefore);
-//						}
-//					}
-//				}
-//			}
-//		}
-//	};
 
 	List<ICell> intersectionCellListAfter = new ArrayList<ICell>();
 

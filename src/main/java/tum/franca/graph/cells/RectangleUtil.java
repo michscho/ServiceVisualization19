@@ -224,16 +224,20 @@ public class RectangleUtil {
 	private static List<String> colorListWebString = Arrays.asList(new String[] { "#003300", "#666600", "#999900",
 			"#994d00", "#993300", "#990000", "#4d001a", "#330033", "1a0068", "#001a80", "#003333" });
 
+	public static int colorIndex = -1;
+
 	public static void recolorCanvas() {
-		int index = -1;
+		int index = colorIndex;
 		int counter = 0;
 		for (ICell cell1 : MainApp.graph.getModel().getAddedCells()) {
 			if (cell1 instanceof ResizableRectangleCell) {
 				if (((ResizableRectangleCell) cell1).style.ordinal() == getHighestGroup()) {
 					index++;
-					counter = index % 11;
+					counter = Math.abs(index) % 11;
 					((ResizableRectangleCell) cell1).view.setFill(Color.web(colorListWebString.get(counter), 0.05));
 					((ResizableRectangleCell) cell1).view.setStroke(Color.web(colorListWebString.get(counter), 1));
+					((ResizableRectangleCell) cell1).color = Color.web(colorListWebString.get(counter), 0.05);
+					((ResizableRectangleCell) cell1).colorStroke = Color.web(colorListWebString.get(counter), 1);
 					for (ICell cell2 : MainApp.graph.getModel().getAddedCells()) {
 						if (cell2 instanceof ResizableRectangleCell && !cell2.equals(cell1)) {
 							ResizableRectangleCell cellRez = (ResizableRectangleCell) cell1;
@@ -257,13 +261,22 @@ public class RectangleUtil {
 								if (((ResizableRectangleCell) cell2).style.ordinal() == getHighestGroup() - 1) {
 									((ResizableRectangleCell) cell2).view
 											.setFill(Color.web(colorListWebString.get(counter), 0.15));
+									((ResizableRectangleCell) cell2).color = Color.web(colorListWebString.get(counter),
+											0.15);
 									((ResizableRectangleCell) cell2).view
 											.setStroke(Color.web(colorListWebString.get(counter), 1));
+									((ResizableRectangleCell) cell2).colorStroke = Color
+											.web(colorListWebString.get(counter), 1);
 								} else if (((ResizableRectangleCell) cell2).style.ordinal() == getHighestGroup() - 2) {
 									((ResizableRectangleCell) cell2).view
 											.setFill(Color.web(colorListWebString.get(counter), 0.25));
+									((ResizableRectangleCell) cell2).color = Color.web(colorListWebString.get(counter),
+											0.25);
 									((ResizableRectangleCell) cell2).view
 											.setStroke(Color.web(colorListWebString.get(counter), 1));
+									((ResizableRectangleCell) cell2).colorStroke = Color
+											.web(colorListWebString.get(counter), 1);
+
 								}
 							}
 						}

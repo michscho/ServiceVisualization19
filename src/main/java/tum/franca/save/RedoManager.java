@@ -10,14 +10,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Tab;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
@@ -25,22 +20,18 @@ import tum.franca.graph.edges.Edge;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.Model;
-import tum.franca.graph.layout.GroupingLayout;
 import tum.franca.main.MainApp;
-import tum.franca.tabs.RenameableTab;
 import tum.franca.tabs.TabPaneSetter;
 
-/**
- * 
- * @author michaelschott
- *
- */
-public class DataModel implements Serializable {
+public class RedoManager implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	// Zoom
+	public Double zoomFactor;
 
 	// RectangleCell Data
 	public List<Integer> rectangleCellX = new ArrayList<Integer>();
@@ -61,50 +52,38 @@ public class DataModel implements Serializable {
 	public List<String> edgeSource = new ArrayList<String>();
 	public List<String> edgeTarget = new ArrayList<String>();
 
-	public void save() {
+	public void save(File file) {
+		zoomFactor = MainApp.graph.getScale();
 		initCell();
 		initEdges();
-		serialize();
+		saveState(file);
 	}
 
-	private void serialize() {
+	private void saveState(File file) {
 
 		try {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Visualisation Files", "*.vis"));
-			fileChooser.setTitle("Save file");
-			Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
-			String string = "default";
-			if (tab instanceof RenameableTab) {
-				RenameableTab renTab = (RenameableTab) tab;
-				string = ((RenameableTab) tab).name.get();
-			}
-			fileChooser.setInitialFileName("visualisation-"+ string  + ".vis");
-			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
-			FileOutputStream fileOut = new FileOutputStream(savedFile.getAbsolutePath());
+			FileOutputStream fileOut = new FileOutputStream(file);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
-			System.out.printf("Serialized data is saved in " + savedFile.getAbsolutePath());
+			System.out.println("Saved state!");
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
 
 	}
 
-	public void deserialize() {
-		DataModel e = null;
+	public void getState(File file) {
+		RedoManager e = null;
 		try {
-			// FileChooser
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Select File");
-			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Visualisation Files", "*.vis"));
-			File savedFile = fileChooser.showOpenDialog(MainApp.primaryStage);
-			FileInputStream fileIn = new FileInputStream(savedFile.getAbsolutePath());
+			FileInputStream fileIn = new FileInputStream(file);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			e = (DataModel) in.readObject();
-
+			e = (RedoManager) in.readObject();
+			
+			// Zoom
+			zoomFactor = e.zoomFactor;
+			
 			// Rectangle Data
 			rectangleCellX = e.rectangleCellX;
 			rectangleCellY = e.rectangleCellY;
@@ -184,7 +163,8 @@ public class DataModel implements Serializable {
 
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
-		for (ICell iCell : cellList) {			MainApp.graph.getModel().addCell(iCell);
+		for (ICell iCell : cellList) {
+			MainApp.graph.getModel().addCell(iCell);
 			MainApp.graph.getGraphic(iCell).relocate(iCell.getX(), iCell.getY());
 		}
 
@@ -193,20 +173,21 @@ public class DataModel implements Serializable {
 			for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 				for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
 					if (iCell instanceof RectangleCell && iCell2 instanceof RectangleCell) {
-						if (edgeSource.get(i).equals(((RectangleCell) iCell).getName()) && edgeTarget.get(i).equals(((RectangleCell) iCell2).getName())) {
-							 edgeList.add(new Edge(iCell, iCell2));
+						if (edgeSource.get(i).equals(((RectangleCell) iCell).getName())
+								&& edgeTarget.get(i).equals(((RectangleCell) iCell2).getName())) {
+							edgeList.add(new Edge(iCell, iCell2));
 						}
 					}
 				}
 			}
 
 		}
-		
+
 		for (Edge edge : edgeList) {
 			model.addEdge(edge);
 			MainApp.graph.addEgde(edge);
 		}
-		
+
 		for (ICell iCell : cellList) {
 			MainApp.graph.addCell(iCell);
 			MainApp.graph.getGraphic(iCell).relocate(iCell.getX(), iCell.getY());
@@ -216,6 +197,7 @@ public class DataModel implements Serializable {
 			tabpane = new TabPaneSetter();
 		}
 		tabpane.setCanvas();
+		MainApp.graph.getCanvas().setScale(zoomFactor);
 	}
 
 }
