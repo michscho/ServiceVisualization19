@@ -1,15 +1,10 @@
 package tum.franca.main;
 
-import javafx.scene.control.ListView;
-
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
+import javafx.scene.control.ListView;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.ResizableRectangleCell;
 

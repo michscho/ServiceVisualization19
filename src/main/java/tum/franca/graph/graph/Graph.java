@@ -14,6 +14,7 @@ import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.IGraphNode;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.layout.Layout;
+import tum.franca.main.MainApp;
 
 /**
  * 
@@ -143,6 +144,24 @@ public class Graph {
 				throw new RuntimeException("failed to add " + edge, e);
 			}
 		});
+	}
+
+	public void removeCell(ICell cell) {
+		try {
+			Region cellGraphic = getGraphic(cell);
+			getCanvas().getChildren().remove(cellGraphic);
+		} catch (final Exception e) {
+			throw new RuntimeException("failed to remove " + cell, e);
+		}
+	}
+	
+	public void removeEdge(IEdge edge) {
+		try {
+			Region cellGraphic = getGraphic(edge);
+			getCanvas().getChildren().remove(cellGraphic);
+		} catch (final Exception e) {
+			throw new RuntimeException("failed to remove " + edge, e);
+		}
 	}
 
 	private void addCells(List<ICell> cells) {

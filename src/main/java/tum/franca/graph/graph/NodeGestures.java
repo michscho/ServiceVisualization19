@@ -117,6 +117,7 @@ public class NodeGestures {
 		public void handle(MouseEvent event) {
 			pressedBefore = false;
 			RectangleUtil.inconsistantBoardState2();
+			RectangleUtil.removeEmptyGroups();
 		}
 	};
 

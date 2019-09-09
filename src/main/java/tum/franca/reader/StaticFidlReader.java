@@ -7,7 +7,7 @@ import tum.franca.graph.cells.RectangleCell;
 
 public class StaticFidlReader {
 	
-	private static List<FidlReader> fidlList;
+	public static List<FidlReader> fidlList;
 	
 	public static void newFidlList(){
 		fidlList = new ArrayList<>();

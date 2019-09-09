@@ -1,6 +1,12 @@
 package tum.franca.tabs;
 
-import java.io.IOException;
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.franca.core.dsl.FrancaPersistenceManager;
+import org.franca.core.franca.FProvides;
+import org.franca.core.franca.FRequires;
+import org.franca.core.franca.FrancaFactory;
+import org.franca.core.franca.Import;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -18,10 +24,11 @@ import javafx.scene.layout.HBox;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.graph.cells.ResizableRectangleCell;
-import tum.franca.graph.graph.Grid;
+import tum.franca.graph.edges.IEdge;
 import tum.franca.main.MainApp;
 import tum.franca.main.Metrics;
-import tum.franca.save.RedoManager;
+import tum.franca.reader.FidlReader;
+import tum.franca.reader.StaticFidlReader;
 import tum.franca.save.RedoManagerWrapper;
 import tum.franca.view.treeView.InnerTabPane;
 
@@ -32,7 +39,7 @@ import tum.franca.view.treeView.InnerTabPane;
  */
 public class TabPaneSetter {
 
-	private Button createTabButton() {
+	private Button createSaveButton() {
 		Button button = new Button();
 		Image gridIcon = new Image(TabPaneSetter.class.getResourceAsStream("/save.png"));
 		ImageView imageView = new ImageView(gridIcon);
@@ -43,7 +50,7 @@ public class TabPaneSetter {
 		return button;
 	}
 
-	private static Button createTabButton2() {
+	private static Button createUndoButton() {
 		Button button = new Button();
 		Image gridIcon = new Image(TabPaneSetter.class.getResourceAsStream("/undo.png"));
 		ImageView imageView = new ImageView(gridIcon);
@@ -54,7 +61,7 @@ public class TabPaneSetter {
 		return button;
 	}
 
-	private static Button createTabButton3() {
+	private static Button createRedoButton() {
 		Button button = new Button();
 		Image gridIcon = new Image(TabPaneSetter.class.getResourceAsStream("/redo.png"));
 		ImageView imageView = new ImageView(gridIcon);
@@ -97,7 +104,6 @@ public class TabPaneSetter {
 						for (int j = 0; j < stringArray2.length; j++) {
 							if (i == j) {
 								for (RectangleCell cell : ((ResizableRectangleCell) iCell2).getRectangleCells()) {
-									System.out.println(cell.name);
 									cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
 								}
 							}
@@ -105,6 +111,126 @@ public class TabPaneSetter {
 					}
 				}
 			}
+
+			// Adding Edges
+			System.out.println("**************************");
+			for (IEdge edges : MainApp.graph.getModel().getAddedEdges()) {
+				// Requires
+				ICell sourceCell = edges.getSource();
+				// Provides
+				ICell targetCell = edges.getTarget();
+				if (sourceCell instanceof RectangleCell) {
+
+					System.out.println("Rectanglename: " + ((RectangleCell) sourceCell).getName());
+
+					boolean match = false;
+
+					for (FidlReader fr : StaticFidlReader.getFidlList()) {
+						EList<FProvides> providesList = fr.getFirstProvides();
+						EList<FRequires> requiresList = fr.getFirstRequires();
+						for (FProvides provides : providesList) {
+							System.out.println("Provides " + provides.getProvides().getName());
+							if (((RectangleCell) targetCell).getName().equals(provides.getProvides().getName())) {
+								match = true;
+							}
+						}
+						for (FRequires requires : requiresList) {
+							System.out.println("Requires " + requires.getRequires().getName());
+							if (((RectangleCell) targetCell).getName().equals(requires.getRequires().getName())) {
+								match = true;
+							}
+						}
+
+					}
+					if (!match) {
+						// Create requires
+						FRequires requires = FrancaFactory.eINSTANCE.createFRequires();
+						requires.setRequires(((RectangleCell) targetCell).getFidlReader().getInterfaces().get(0));
+
+						// Create import
+						String[] uri = ((RectangleCell) targetCell).getFidlReader().getURI().toString().split("/");
+						String lastUriElement = ((RectangleCell) targetCell).getFidlReader().getURI().toString()
+								.split("/")[uri.length - 1];
+						boolean importUriMatch = false;
+						for (Import i : ((RectangleCell) sourceCell).getFidlReader().getImports()) {
+							if (i.getImportURI().equals(lastUriElement)) {
+								importUriMatch = true;
+							}
+						}
+						if (!importUriMatch) {
+							Import fImport = FrancaFactory.eINSTANCE.createImport();
+							fImport.setImportedNamespace(((RectangleCell) targetCell).getFidlReader().getName() + ".*");
+							fImport.setImportURI(lastUriElement);
+
+							// Adding
+							((RectangleCell) sourceCell).getFidlReader().getImports().add(fImport);
+						}
+						((RectangleCell) sourceCell).getFidlReader().getInterfaces().get(0).getRequired().add(requires);
+						
+						// Saving
+						FrancaPersistenceManager fPM = new FrancaPersistenceManager();
+						fPM.saveModel(((RectangleCell) sourceCell).getFidlReader().getFModel(),
+								((RectangleCell) sourceCell).getFidlReader().getURI().toString());
+					}
+				}
+
+			}
+
+			System.out.println("SAVING***********");
+
+//			// Removing Edges
+//			for (FidlReader fr : StaticFidlReader.getFidlList()) {
+//				EList<FProvides> providesList = fr.getFirstProvides();
+//				EList<FRequires> requiresList = fr.getFirstRequires();
+//
+//				EList<FProvides> providesToRemove = new BasicEList<>();
+//				EList<FRequires> requiresToRemove = new BasicEList<>();
+//
+//				// PROVIDES
+//				for (FProvides provides : providesList) {
+//					boolean exists = false;
+//					for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+//						RectangleCell sourceCell = (RectangleCell) edge.getSource();
+//						if (provides.getProvides().getName().equals(sourceCell.getName())) {
+//							exists = true;
+//						}
+//
+//					}
+//					if (!exists) {
+//						providesToRemove.add(provides);
+//						System.out.println(provides.getProvides().getName());
+//					}
+//
+//				}
+//				fr.getInterfaces().get(0).getProvided().removeAll(providesToRemove);
+//
+//				// REQUIRES
+//				for (FRequires requires : requiresList) {
+//					boolean exists = false;
+//					for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+//						RectangleCell sourceCell = (RectangleCell) edge.getTarget();
+//						if (requires.getRequires().getName().equals(sourceCell.getName())) {
+//							exists = true;
+//						}
+//
+//					}
+//					if (!exists) {
+//						requiresToRemove.add(requires);
+//					}
+//
+//				}
+//				
+//				fr.getFirstRequires().removeAll(requiresToRemove);
+//				fr.getFirstProvides().removeAll(providesToRemove);
+//				
+//				FrancaPersistenceManager frManager = new FrancaPersistenceManager();
+//
+//				
+//				System.out.println(fr.getURI().toString());
+//				frManager.saveModel(fr.getFModel(), fr.getURI().toString());				
+				
+//			}
+
 		}
 
 	};
@@ -126,13 +252,13 @@ public class TabPaneSetter {
 
 			// HBox of control buttons
 			HBox hbox = new HBox();
-			undo = createTabButton2();
-			redo = createTabButton3();
+			undo = createUndoButton();
+			redo = createRedoButton();
 			undo.setDisable(true);
 			redo.setDisable(true);
 			hbox.getChildren().add(undo);
 			hbox.getChildren().add(redo);
-			hbox.getChildren().add(createTabButton());
+			hbox.getChildren().add(createSaveButton());
 
 			BorderPane subBorderPane = new BorderPane();
 

@@ -5,7 +5,11 @@ import java.awt.Point;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
@@ -13,8 +17,13 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
+import tum.franca.graph.cells.ContxtMenuCells;
+import tum.franca.graph.cells.ContxtMenuEdge;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
+import tum.franca.main.MainApp;
+import tum.franca.main.MainAppController;
+import tum.franca.view.treeView.SimpleTreeViewCreator;
 
 /**
  * 
@@ -96,6 +105,17 @@ public class Edge extends AbstractEdge {
 			arc.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
 			group.getChildren().add(circle);
 			group.getChildren().add(arc);
+			EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent t) {
+					ContxtMenuEdge.setContextMenu(edge);
+					ContxtMenuEdge.getContextMenu().show(line,t.getScreenX(), t.getScreenY());
+
+				}
+			};
+			line.setOnMouseClicked(onMouseClickedEventHandler);
+			circle.setOnMouseClicked(onMouseClickedEventHandler);
+			arc.setOnMouseClicked(onMouseClickedEventHandler);
 		}
 
 		public Group getGroup() {

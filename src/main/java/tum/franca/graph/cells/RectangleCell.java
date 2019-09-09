@@ -26,7 +26,6 @@ import javafx.scene.text.Text;
 import tum.franca.graph.graph.Graph;
 import tum.franca.main.Binding;
 import tum.franca.main.ChangeWindow;
-import tum.franca.main.ContxtMenuCells;
 import tum.franca.main.MainApp;
 import tum.franca.main.MainAppController;
 import tum.franca.reader.FidlReader;
@@ -184,7 +183,7 @@ public class RectangleCell extends AbstractCell {
 		public void handle(MouseEvent t) {
 			SimpleTreeViewCreator treeView = new SimpleTreeViewCreator(name);
 			treeView.createTree();
-			if (MainAppController.staticFileChanges.isSelected() && !(t.getButton() == MouseButton.SECONDARY)) {
+			if (!(t.getButton() == MouseButton.SECONDARY)) {
 				pane.getChildren().add(textField);
 				textField.textProperty().addListener((observable, oldValue, newValue) -> {
 					String input = "";
@@ -197,16 +196,14 @@ public class RectangleCell extends AbstractCell {
 					getFidlReader().getPropertiesReader().setInterfaceName(textField.getText());
 				});
 			}
-			if (MainAppController.staticFileChanges.isSelected() && t.getButton() == MouseButton.SECONDARY) {
-				ContxtMenuCells.setContextMenu(pane, fidlReader);
+			if (t.getButton() == MouseButton.SECONDARY) {
+				ContxtMenuCells.setContextMenu(recCell);
 				ContxtMenuCells.getContextMenu().show(pane, t.getSceneX(), t.getSceneY());
 			}
 		}
 	};
 
-	List<ICell> intersectionCellListBefore = new ArrayList<ICell>();
-
-	List<ICell> intersectionCellListAfter = new ArrayList<ICell>();
+	
 
 	EventHandler<MouseEvent> onReleasedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -240,48 +237,7 @@ public class RectangleCell extends AbstractCell {
 
 				}
 			}
-//			if (MainAppController.staticFileChanges.isSelected()  && event.isPrimaryButtonDown() && !event.isSecondaryButtonDown()) {
-//				List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
-//				for (ICell iCell : cellList) {
-//					if (iCell instanceof ResizableRectangleCell) {
-//
-//						ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
-//						Point point = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
-//						Point point2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
-//								pane.getWidth(), pane.getHeight());
-//						Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
-//						Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
-//								cell.pane.getLayoutY(), cell.pane.getWidth(), cell.pane.getHeight());
-//
-//						if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
-//							intersectionCellListAfter.add(iCell);
-//						}
-//					}
-//				}
-//				boolean changed = false;
-//				for (ICell iCell : intersectionCellListAfter) {
-//					boolean sameInBoth = false;
-//					for (ICell iCell2 : intersectionCellListBefore) {
-//						if (iCell2.equals(iCell)) {
-//							sameInBoth = true;
-//						}
-//					}
-//					if (!sameInBoth | intersectionCellListAfter.size() != intersectionCellListBefore.size()) {
-//						changed = true;
-//					}
-//				}
-//				if (intersectionCellListAfter.size() != intersectionCellListBefore.size()) {
-//					changed = true;
-//				}
-//
-//				if (changed) {
-//					ChangeWindow changeWindow = new ChangeWindow();
-//					changeWindow.showChangeWindow(intersectionCellListBefore, intersectionCellListAfter);
-//				}
-//
-//				intersectionCellListAfter.clear();
-//				intersectionCellListBefore.clear();
-//			}
+
 		}
 	};
 

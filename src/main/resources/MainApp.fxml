@@ -113,6 +113,8 @@
                   <Image url="@Available.png" />
                </image>
             </ImageView>
+            <Button fx:id="newService" disable="true" layoutX="22.0" layoutY="705.0" mnemonicParsing="false" onAction="#clickedOnNewService" prefHeight="27.0" prefWidth="190.0" text="New Service" />
+            <Button fx:id="serviceGroup" disable="true" layoutX="22.0" layoutY="746.0" mnemonicParsing="false" onAction="#clickedOnNewServiceGroup" prefHeight="27.0" prefWidth="190.0" text="New Service Group" />
          </children>
       </AnchorPane>
       <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0">
