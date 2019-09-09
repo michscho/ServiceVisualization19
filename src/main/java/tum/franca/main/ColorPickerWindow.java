@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -28,7 +29,7 @@ public class ColorPickerWindow extends Application {
 		}
 	}
 
-	public static void initColorPicker(Rectangle view, Color color1, Color colorStroke, double x, double y) {
+	public static void initColorPicker(Rectangle view, Color color1, Color colorStroke, double x, double y, ResizableRectangleCell cell) {
 		final ColorPicker colorPicker = new ColorPicker();
 		colorPicker.setValue(color1);
 
@@ -42,6 +43,7 @@ public class ColorPickerWindow extends Application {
 
 		final Text text1 = new Text("Change Fill:");
 		final Text text2 = new Text("Change Stroke:  ");
+		final Text text3 = new Text("Group: ");
 
 		final ColorPicker colorPicker2 = new ColorPicker();
 		colorPicker2.setValue(colorStroke);
@@ -55,13 +57,22 @@ public class ColorPickerWindow extends Application {
 			}
 		});
 		
+		final Button removeGroup = new Button();
+		removeGroup.setText("Remove Group");
+		
+		removeGroup.setOnAction(e -> {
+			MainApp.graph.removeCell(cell);
+			MainApp.graph.getModel().removeCell(cell);
+			stage.hide();
+		});
+		
 
 		FlowPane root = new FlowPane();
 		root.setPadding(new Insets(10));
 		root.setHgap(10);
-		root.getChildren().addAll(text1, colorPicker, text2, colorPicker2);
+		root.getChildren().addAll(text1, colorPicker, text2, colorPicker2, text3, removeGroup);
 
-		Scene scene = new Scene(root, 170, 100);
+		Scene scene = new Scene(root, 170, 150);
 
 		stage.setTitle("Change Color");
 		stage.setResizable(false);

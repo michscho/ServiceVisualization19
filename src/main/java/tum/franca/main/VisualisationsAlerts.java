@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 
 /**
@@ -50,6 +49,15 @@ public class VisualisationsAlerts {
 		alert.setTitle("Error");
 		alert.setHeaderText("No valid integer: " + string);
 		alert.setContentText("Please provide a valid integer (ex.: 109).");
+
+		alert.showAndWait();
+	}
+	
+	public static void noValidServiceName(String string) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setHeaderText("No valid Service Name: " + string);
+		alert.setContentText("Please set a valid Name");
 
 		alert.showAndWait();
 	}

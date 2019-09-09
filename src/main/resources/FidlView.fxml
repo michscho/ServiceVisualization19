@@ -27,5 +27,6 @@
             <Image url="@file.png" />
          </image>
       </ImageView>
+      <Button layoutX="149.0" layoutY="542.0" mnemonicParsing="false" onAction="#onReloadClicked" prefHeight="27.0" prefWidth="88.0" text="Reload" />
    </children>
 </Pane>

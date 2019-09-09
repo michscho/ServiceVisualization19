@@ -77,6 +77,13 @@ public class Model{
 		}
 		cells.add(cell);
 	}
+	
+	public void removeCell(ICell cell) {
+		if(cell == null) {
+			throw new NullPointerException("Cannot remove a null cell");
+		}
+		cells.remove(cell);
+	}
 
 	public void addEdge(ICell sourceCell, ICell targetCell) {
 		final IEdge edge = new Edge(sourceCell, targetCell);

@@ -7,16 +7,26 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.franca.core.dsl.FrancaIDLHelpers;
 import org.franca.core.dsl.FrancaPersistenceManager;
+import org.franca.core.dsl.serializer.AbstractFrancaIDLSemanticSequencer;
 import org.franca.core.franca.FBinding;
 import org.franca.core.franca.FFunctionalScope;
 import org.franca.core.franca.FHardwareDependend;
 import org.franca.core.franca.FRuntime;
-import org.franca.core.franca.FSaftyCritical;
+import org.franca.core.franca.FSafetyCritical;
 import org.franca.core.franca.FSecurityCritical;
 import org.franca.core.franca.FTimeSpecification;
+import org.franca.core.franca.FrancaFactory;
+import org.franca.core.franca.impl.ImportImpl;
+import org.franca.core.utils.FrancaModelCreator;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.RectangleCell;
+import tum.franca.graph.edges.IEdge;
+import tum.franca.main.MainApp;
 import tum.franca.properties.PropertiesWrapper;
 import tum.franca.properties.PropertiesWrapper.Properties;
 
@@ -49,11 +59,16 @@ public class PropertiesReader extends InterfaceReader {
 		FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 		fPM.saveModel(fmodel, uri.toString());
 	}
+	
+	public void setEdges() {
+		FrancaFactory.eINSTANCE.createImport();
+		
+	}
 
 	public void setProperty(String group, String property) {
-		System.out.println("PROPERTY" + property + " " + group);
 		group = group.toLowerCase();
 		property = property.toLowerCase();
+		System.out.println("PROPERTY: " + group + " " + property);
 		FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 		switch (group) {
 
@@ -103,16 +118,16 @@ public class PropertiesReader extends InterfaceReader {
 				getFirstInterface().setFunctionalScope(FFunctionalScope.POWERTRAIN);
 				break;
 
-			case "driverAssistance":
-				getFirstInterface().setFunctionalScope(FFunctionalScope.DRIVER_ASSISTANCE);
+			case "body_And_Confort":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.BODY_AND_CONFORT);
 				break;
 
-			case "interior":
-				getFirstInterface().setFunctionalScope(FFunctionalScope.INTERIOR);
+			case "chassis_and_driver_Assistance":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.CHASSIS_AND_DRIVER_ASSISTANCE);
 				break;
 
-			case "telematics":
-				getFirstInterface().setFunctionalScope(FFunctionalScope.TELEMATICS);
+			case "human_machine_interface":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.HUMAN_MACHINE_INTERFACE);
 				break;
 
 			case "crossfunctional":
@@ -146,34 +161,37 @@ public class PropertiesReader extends InterfaceReader {
 			break;
 
 		// SAFETYCRITICAL
-		case "safetyCritical":
+		case "safetycritical":
 
 			switch (property) {
-			case "ASIL_A":
-				getFirstInterface().setSaftyCritical(FSaftyCritical.ASIL_A);
+			case "qm":
+				getFirstInterface().setSafetyCritical(FSafetyCritical.QM);
+				break;
+			case "asil_a":
+				getFirstInterface().setSafetyCritical(FSafetyCritical.ASIL_A);
 				break;
 
-			case "ASIL_B":
-				getFirstInterface().setSaftyCritical(FSaftyCritical.ASIL_B);
+			case "asil_b":
+				getFirstInterface().setSafetyCritical(FSafetyCritical.ASIL_B);
 				break;
 
-			case "ASIL_C":
-				getFirstInterface().setSaftyCritical(FSaftyCritical.ASIL_C);
+			case "asil_c":
+				getFirstInterface().setSafetyCritical(FSafetyCritical.ASIL_C);
 				break;
 
-			case "ASIL_D":
-				getFirstInterface().setSaftyCritical(FSaftyCritical.ASIL_D);
+			case "asil_d":
+				getFirstInterface().setSafetyCritical(FSafetyCritical.ASIL_D);
 				break;
 
 			default:
-				getFirstInterface().setSaftyCritical(FSaftyCritical.NOT_DEFINED);
+				getFirstInterface().setSafetyCritical(FSafetyCritical.NOT_DEFINED);
 				break;
 			}
 
 			break;
 
 		// SECURTIYCRITICAL
-		case "securityCritical":
+		case "securitycritical":
 
 			switch (property) {
 			case "servicelevelsecurity":
@@ -196,7 +214,7 @@ public class PropertiesReader extends InterfaceReader {
 			break;
 
 		// TIME SPECIFICATION
-		case "timeSpecification":
+		case "timespecification":
 
 			switch (property) {
 			case "ms":
@@ -300,12 +318,12 @@ public class PropertiesReader extends InterfaceReader {
 	 * 
 	 * @return FSafetyCritical: ASIL_A, ASIL_B, ASIL_C, ASIL_D
 	 */
-	public FSaftyCritical getSafetyCritical() {
-		return getFirstInterface().getSaftyCritical();
+	public FSafetyCritical getSafetyCritical() {
+		return getFirstInterface().getSafetyCritical();
 	}
 
 	public Properties.SAFETYCRITICAL getSafetyCriticalProperties() {
-		return PropertiesWrapper.safetyCriticalHashMap.get(getFirstInterface().getSaftyCritical().getName());
+		return PropertiesWrapper.safetyCriticalHashMap.get(getFirstInterface().getSafetyCritical().getName());
 	}
 
 	/**

@@ -122,7 +122,7 @@ public class FidlReader extends FidlModel  {
 	}
 	
 	public void printProvides(FProvides fProvides) {
-		System.out.println("FProvides: " + fProvides.getProvidedImport());
+		System.out.println("FProvides: " );
 	}
 	
 	public void printAttributes(FAttribute fAttribute) {

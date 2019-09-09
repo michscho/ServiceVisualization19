@@ -5,16 +5,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
+import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tum.franca.graph.cells.RectangleCellNodes.DragStartHandler;
+import tum.franca.graph.edges.Edge;
+import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.main.Binding;
 import tum.franca.main.ColorPickerWindow;
@@ -29,6 +45,7 @@ import tum.franca.view.treeView.GroupTreeViewCreator;
  */
 public class ResizableRectangleCell extends AbstractCell {
 
+	public ResizableRectangleCell cell;
 	public Rectangle view;
 	private String name;
 	public int width;
@@ -41,6 +58,7 @@ public class ResizableRectangleCell extends AbstractCell {
 	public int y;
 	public String group;
 	public CellGestures cellGestures;
+	private ImageView imageView;
 
 	public enum GroupType {
 		SUBSUBLEVEL, SUBLEVEL, TOPLEVEL
@@ -48,14 +66,15 @@ public class ResizableRectangleCell extends AbstractCell {
 
 	/**
 	 * 
-	 * @param width
-	 * @param heigth
-	 * @param name
-	 * @param style
-	 * @param group
+	 * @param width  - width in int
+	 * @param heigth - height in int
+	 * @param name   - Name of the Group: static, crossfunctional
+	 * @param style  - Top Level Group, Sub-Level Group...
+	 * @param group  - Binding, Functional Scope...
 	 */
 	public ResizableRectangleCell(int width, int heigth, String name, ResizableRectangleCell.GroupType style,
 			String group) {
+		this.cell = this;
 		this.name = name;
 		this.width = width;
 		this.heigth = heigth;
@@ -70,6 +89,8 @@ public class ResizableRectangleCell extends AbstractCell {
 		this.group = group;
 	}
 
+	public static Pane sourcePane;
+	
 	@Override
 	public Region getGraphic(Graph graph) {
 
@@ -84,6 +105,16 @@ public class ResizableRectangleCell extends AbstractCell {
 		cellGestures = new CellGestures();
 		cellGestures.makeResizable(pane, this);
 		cellGestures.setInvisible();
+
+		Image flashImage = new Image(MenuBarTop.class.getResourceAsStream("/flash.png"));
+		imageView = new ImageView(flashImage);
+		imageView.setFitHeight(15);
+		imageView.setFitWidth(15);
+		imageView.layoutXProperty().bind(view.widthProperty().subtract(18));
+		imageView.layoutYProperty().bind(view.layoutYProperty().add(3));
+		imageView.setVisible(false);
+		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedPropertyFunction);
+		pane.getChildren().add(imageView);
 
 		Text text = new Text(getName());
 		if (style == GroupType.SUBSUBLEVEL) {
@@ -104,18 +135,72 @@ public class ResizableRectangleCell extends AbstractCell {
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
 
 		return pane;
+
 	}
 
-	/**
-	 * 
-	 * @return List<ResizableRectangleCell>
-	 */
+	EventHandler<MouseEvent> onMouseClickedPropertyFunction = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			ContextMenu contextMenu = new ContextMenu();
+
+			MenuItem item1 = new MenuItem("Visibility");
+			Image openIcon = new Image(getClass().getResourceAsStream("/visibilty.png"));
+			ImageView openView = new ImageView(openIcon);
+			MenuItem item2 = new MenuItem("Deployment");
+			Image openIcon2 = new Image(getClass().getResourceAsStream("/deploy.png"));
+			ImageView openView2 = new ImageView(openIcon2);
+
+			openView.setFitWidth(15);
+			openView.setFitHeight(15);
+			openView2.setFitWidth(15);
+			openView2.setFitHeight(15);
+			item1.setGraphic(openView);
+			item2.setGraphic(openView2);
+			item1.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					System.out.println("Action");
+				}
+			});
+			contextMenu.getItems().addAll(item1, item2);
+			contextMenu.show(pane, event.getScreenX(), event.getScreenY());
+			event.consume();
+
+		}
+	};
+
 	public List<RectangleCell> getRectangleCells() {
 		List<RectangleCell> outputList = new ArrayList<RectangleCell>();
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
 
 				RectangleCell cell = (RectangleCell) iCell;
+				Point thisResRectanglePoint1 = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
+				Point thisResRectanglePoint2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
+						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getWidth(),
+						pane.getHeight() == 0 ? pane.getPrefHeight() : pane.getHeight());
+				Point innerRectanglePoint3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+				Point innerRectanglePoint4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
+						cell.pane.getLayoutY(),
+						cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
+						cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+
+				if (RectangleUtil.doOverlap(innerRectanglePoint3, innerRectanglePoint4, thisResRectanglePoint1,
+						thisResRectanglePoint2)) {
+					outputList.add(cell);
+				}
+			}
+		}
+		return outputList;
+	}
+
+	public List<ResizableRectangleCell> containsResizableRectanlgeCells() {
+		List<ResizableRectangleCell> outputList = new ArrayList<ResizableRectangleCell>();
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell && !iCell.equals(this)) {
+
+				ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
 				Point thisResRectanglePoint1 = new Point((int) pane.getLayoutX(), (int) pane.getLayoutY());
 				Point thisResRectanglePoint2 = RectangleUtil.getPointOfRechtangle(pane.getLayoutX(), pane.getLayoutY(),
 						pane.getWidth() == 0 ? pane.getPrefWidth() : pane.getWidth(),
@@ -159,6 +244,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		@Override
 		public void handle(MouseEvent event) {
 			cellGestures.setVisible();
+			imageView.setVisible(true);
 		}
 	};
 
@@ -166,6 +252,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		@Override
 		public void handle(MouseEvent t) {
 			cellGestures.setInvisible();
+			imageView.setVisible(false);
 		}
 	};
 
@@ -197,7 +284,7 @@ public class ResizableRectangleCell extends AbstractCell {
 				colorPickerWindow.start(new Stage());
 				color = (Color) view.getFill();
 				colorStroke = (Color) view.getStroke();
-				ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY());
+				ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY(), cell);
 			}
 		}
 	};
@@ -217,7 +304,9 @@ public class ResizableRectangleCell extends AbstractCell {
 						pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
 						Binding.unbind(pane, style.ordinal());
 					}
-				} else { // pane.getLayoutX() < 0
+				} else { // pane.getLayoutX()
+							// <
+							// 0
 					if (pane.getLayoutX() % 50 > -15 && pane.getLayoutX() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
@@ -238,7 +327,9 @@ public class ResizableRectangleCell extends AbstractCell {
 						pane.setLayoutY(pane.getLayoutY() + 50 - (pane.getLayoutY() % 50));
 						Binding.unbind(pane, style.ordinal());
 					}
-				} else { // pane.getLayoutY() < 0
+				} else { // pane.getLayoutY()
+							// <
+							// 0
 					if (pane.getLayoutY() % 50 > -15 && pane.getLayoutY() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);

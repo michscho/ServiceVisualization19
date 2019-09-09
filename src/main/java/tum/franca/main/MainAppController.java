@@ -1,15 +1,12 @@
 package tum.franca.main;
 
 import java.awt.Desktop;
-import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +17,6 @@ import org.eclipse.emf.common.util.URI;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Header;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
@@ -29,7 +25,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -41,11 +36,12 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Transform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import tum.franca.creator.ServiceCreation;
+import tum.franca.creator.ServiceGroupCreation;
 import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
@@ -57,7 +53,6 @@ import tum.franca.save.DataModel;
 import tum.franca.tabs.RenameableTab;
 import tum.franca.tabs.TabPaneSetter;
 import tum.franca.view.listView.ListViewWrapper;
-import tum.franca.view.treeView.InnerTabPane;
 import tum.franca.view.treeView.TreeViewCreator;
 
 /**
@@ -88,6 +83,7 @@ public class MainAppController {
 	@FXML
 	private ListView<String> listView4;
 
+	public static ListViewWrapper staticListWrapper;
 	private ListViewWrapper listViewWrapper;
 
 	// TreeView
@@ -100,6 +96,10 @@ public class MainAppController {
 	private Button groupingButton;
 	@FXML
 	private Button functionButton;
+	@FXML
+	private Button newService;
+	@FXML
+	private Button serviceGroup;
 
 	// TODO Delete
 	@FXML
@@ -145,6 +145,7 @@ public class MainAppController {
 	@FXML
 	private Menu menuHelp;
 
+	
 	public MainAppController() {
 	}
 
@@ -157,6 +158,7 @@ public class MainAppController {
 	public void initialize() throws Exception {
 		listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
+		staticListWrapper = listViewWrapper;
 		StaticSplitter.setStaticSplitPane(splitPane);
 		fileChanges.setSelected(true);
 		staticTreeView = treeView;
@@ -210,6 +212,17 @@ public class MainAppController {
 			}
 		}
 	}
+	
+	@FXML
+	public void clickedOnNewService(){
+		ServiceCreation.initServiceCreation();
+	}
+	
+	@FXML
+	public void clickedOnNewServiceGroup(){
+		ServiceGroupCreation.initServiceGroupCreation();
+		
+	}
 
 	@FXML
 	public void save() {
@@ -246,12 +259,15 @@ public class MainAppController {
 			}
 			tabPaneSetter.setCanvas();
 			RectangleUtil.recolorCanvas();
+			
 			MainApp.graph.getCanvas().setScale(1.0);
 			Metrics.setZoom(1.0);
 			Metrics.setAll();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
 			groupingButton.setDisable(false);
+			newService.setDisable(false);
+			serviceGroup.setDisable(false);
 			StaticSplitter.setStaticSplitPane(splitPane);
 			} catch (NullPointerException e) {
 				VisualisationsAlerts.wrongGrouping();

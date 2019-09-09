@@ -1,8 +1,9 @@
 package tum.franca.main;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import org.franca.core.franca.FArgument;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -10,12 +11,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tum.franca.graph.graph.Graph;
 import tum.franca.properties.PropertiesUtil;
-import org.franca.core.franca.FArgument;
 
 
 /**
@@ -33,6 +32,7 @@ public class MainApp extends Application {
 	public static Graph[] graphList = new Graph[10];
 	public static Graph graph;
 	public static SplitPane root;
+	public static Scene scene;
 
 	/**
 	 * Start the application.
@@ -55,7 +55,9 @@ public class MainApp extends Application {
 		
 		PropertiesUtil.getAllPropertiesAsEnums();
 
-		final Scene scene = new Scene(root, 1920, 1080);
+		scene = new Scene(root, 1920, 1080);
+		scene.getStylesheets().add("/application.css");
+
 
 		primaryStage.getIcons()
 				.add(new javafx.scene.image.Image("https://img.icons8.com/clouds/100/000000/administrative-tools.png"));

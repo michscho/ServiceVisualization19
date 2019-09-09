@@ -12,6 +12,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.eclipse.emf.common.util.URI;
+import org.franca.core.dsl.FrancaIDLHelpers;
+import org.franca.core.dsl.FrancaPersistenceManager;
+import org.franca.core.franca.FModel;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -19,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleCell;
 import tum.franca.main.MainApp;
@@ -31,9 +35,12 @@ import tum.franca.main.MainApp;
 public class FidlViewController {
 
 	@FXML
+	private Text syntax;
+	@FXML
 	private TextArea textArea;
 	@FXML
 	private ListView<String> listView;
+	
 	
 	@FXML
 	public void open() throws IOException {
@@ -53,9 +60,12 @@ public class FidlViewController {
 		Desktop.getDesktop().open(new File(uriFileString.replace(stringArray[stringArray.length-1], "")));
 
 	}
-
+	
+	
 	@FXML
-	public void initialize() throws Exception {
+	public void onReloadClicked() {
+		System.out.println("HERER");
+		listView.getItems().clear();
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
 				listView.getItems().add(((RectangleCell) iCell).name);
@@ -67,7 +77,39 @@ public class FidlViewController {
 			@Override
 			public void handle(MouseEvent event) {
 				textArea.setText("");
-				textArea.setEditable(false);
+				textArea.setEditable(true);
+				URI uri = MainApp.graph.getModel()
+						.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
+				try (BufferedReader reader = new BufferedReader(new FileReader(new File(uri.toFileString())))) {
+
+					String line;
+					while ((line = reader.readLine()) != null) {
+						textArea.appendText(line + "\n");
+					}
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	@FXML
+	public void initialize() throws Exception {
+		listView.getItems().clear();
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof RectangleCell) {
+			
+				listView.getItems().add(((RectangleCell) iCell).name);
+			}
+		}
+
+		listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				textArea.setText("");
+				textArea.setEditable(true);
 				URI uri = MainApp.graph.getModel()
 						.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 				try (BufferedReader reader = new BufferedReader(new FileReader(new File(uri.toFileString())))) {

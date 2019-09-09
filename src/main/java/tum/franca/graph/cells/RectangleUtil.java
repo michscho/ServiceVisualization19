@@ -55,6 +55,46 @@ public class RectangleUtil {
 	}
 
 	/**
+	 * Removes empty groups.
+	 */
+	public static void removeEmptyGroups() {
+		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell instanceof ResizableRectangleCell) {
+				System.out.println(((ResizableRectangleCell) iCell).getName());
+				boolean consistsRectangle = false;
+				for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
+					if (iCell2 instanceof RectangleCell) {
+						ResizableRectangleCell cell = (ResizableRectangleCell) iCell;
+						RectangleCell cell2 = (RectangleCell) iCell2;
+						Point point = new Point((int) cell2.pane.getLayoutX(), (int) cell2.pane.getLayoutY());
+						Point point2 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(),
+								cell2.pane.getLayoutY(),
+								cell2.pane.getWidth() == 0 ? cell2.pane.getPrefWidth() : cell2.pane.getWidth(),
+								cell2.pane.getHeight() == 0 ? cell2.pane.getPrefHeight() : cell2.pane.getHeight());
+						Point point3 = new Point((int) cell.pane.getLayoutX(), (int) cell.pane.getLayoutY());
+						Point point4 = RectangleUtil.getPointOfRechtangle(cell.pane.getLayoutX(),
+								cell.pane.getLayoutY(),
+								cell.pane.getWidth() == 0 ? cell.pane.getPrefWidth() : cell.pane.getWidth(),
+								cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
+
+						if (RectangleUtil.doOverlap(point3, point4, point, point2)) {
+							consistsRectangle = true; 
+							break;
+						}
+
+					}
+				}
+				if (!consistsRectangle) {
+					MainApp.graph.removeCell(iCell);
+					MainApp.graph.getModel().removeCell(iCell);
+					((ResizableRectangleCell) iCell).pane = null;
+					((ResizableRectangleCell) iCell).view = null;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Returns the highest group of Graph. A graph can have 1-3 groups (Group,
 	 * subgroups, subsubgroup). Depending on the available ResizableRectangleCell
 	 * you can determine the numbers of different groups.
@@ -136,7 +176,6 @@ public class RectangleUtil {
 	 */
 	public static void inconsistantBoardState2() {
 		inconsistantList = new ArrayList<ResizableRectangleCell>();
-		boolean inconsitant = false;
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
 				if (!iCell.equals(iCell2)) {

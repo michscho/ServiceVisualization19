@@ -29,10 +29,10 @@ public final class PropertiesWrapper {
 		private static final long serialVersionUID = 1L;
 		{
 			put("notDefined", Properties.FUNCTIONALSCOPE.NOTDEFINED);
-			put("powertrain", Properties.FUNCTIONALSCOPE.POWERTRAIN);
-			put("driverAssistance", Properties.FUNCTIONALSCOPE.DRIVERASSISTANCE);
-			put("interior", Properties.FUNCTIONALSCOPE.INTERIOR);
-			put("telematics", Properties.FUNCTIONALSCOPE.TELEMATICS);
+			put("powertrain", Properties.FUNCTIONALSCOPE.CROSSFUNCTIONAL);
+			put("driverAssistance", Properties.FUNCTIONALSCOPE.BODYANDCONFORT);
+			put("interior", Properties.FUNCTIONALSCOPE.HUMANMACHINEINTERFACE);
+			put("telematics", Properties.FUNCTIONALSCOPE.CHASSISANDDRIVERASSISTANCE);
 			put("crossfunctional", Properties.FUNCTIONALSCOPE.CROSSFUNCTIONAL);
 		}
 	};
@@ -66,6 +66,7 @@ public final class PropertiesWrapper {
 		private static final long serialVersionUID = 1L;
 		{
 			put("notDefined", Properties.SAFETYCRITICAL.NOTDEFINED);
+			put("QM", Properties.SAFETYCRITICAL.QM);
 			put("ASIL_A", Properties.SAFETYCRITICAL.ASIL_A);
 			put("ASIL_B", Properties.SAFETYCRITICAL.ASIL_B);
 			put("ASIL_C", Properties.SAFETYCRITICAL.ASIL_C);
@@ -99,8 +100,8 @@ public final class PropertiesWrapper {
 		};
 
 		public enum FUNCTIONALSCOPE {
-			NOTDEFINED("notDefined"), POWERTRAIN("powertrain"), DRIVERASSISTANCE("driverAssistance"),
-			INTERIOR("interior"), TELEMATICS("telematics"), CROSSFUNCTIONAL("crossfunctional");
+			NOTDEFINED("notDefined"), POWERTRAIN("powertrain"), BODYANDCONFORT("body_And_Confort"),
+			CHASSISANDDRIVERASSISTANCE("chassisAndDriverAssistance"), HUMANMACHINEINTERFACE("humanMachineInterface"), CROSSFUNCTIONAL("crossfunctional");
 			private String string;
 
 			private FUNCTIONALSCOPE(String string) {
@@ -152,7 +153,7 @@ public final class PropertiesWrapper {
 		};
 
 		public enum SAFETYCRITICAL {
-			NOTDEFINED("notDefined"), ASIL_A("ASIL_A"), ASIL_B("ASIL_B"), ASIL_C("ASIL_C"), ASIL_D("ASIL_D");
+			NOTDEFINED("notDefined"), QM("QM"), ASIL_A("ASIL_A"), ASIL_B("ASIL_B"), ASIL_C("ASIL_C"), ASIL_D("ASIL_D");
 			private String string;
 
 			private SAFETYCRITICAL(String string) {

@@ -111,25 +111,15 @@
 			<systemPath>${pom.basedir}/repo/org.eclipse.emf.ecore-2.12.0.v20160420-0247.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>org.franca.core</groupId>
-			<artifactId>org.franca.core</artifactId>
-			<version>0.13.1-SNAPSHOT</version>
+			<groupId>com.panemu</groupId>
+			<artifactId>tiwulfx</artifactId>
+			<version>3.0</version>
 		</dependency>
+
 		<!-- dependency> <groupId>org.franca.core</groupId> <artifactId>org.franca.core</artifactId> 
 			<version>0.13.1-SNAPSHOT</version> <scope>compile</scope> <systemPath>${pom.basedir}/repo/org.franca.core-0.13.1-SNAPSHOT.jar</systemPath> 
 			</dependency -->
-		<dependency>
-			<groupId>org.franca.core.dsl</groupId>
-			<artifactId>org.franca.core.dsl</artifactId>
-			<version>0.13.1-SNAPSHOT</version>
-			<!--scope>system</scope> <systemPath>${pom.basedir}/repo/org.franca.core.dsl-0.13.1-SNAPSHOT.jar</systemPath -->
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.emf/org.eclipse.emf.edit -->
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.edit</artifactId>
-			<version>2.15.0</version>
-		</dependency>
+
 
 	</dependencies>
 

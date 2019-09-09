@@ -7,4 +7,5 @@ public interface IGraphNode {
 
 	public Region getGraphic(Graph graph);
 	
+	
 }
