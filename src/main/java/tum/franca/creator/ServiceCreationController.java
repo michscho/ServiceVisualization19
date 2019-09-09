@@ -106,6 +106,7 @@ public class ServiceCreationController {
 	}
 	
 	private void createFidlFile(File file) {
+		try {
 		URI uri = URI.createFileURI(file.getAbsolutePath());
 		FidlReader fr = new FidlReader(uri);
 		StaticFidlReader.getFidlList().add(fr);
@@ -117,6 +118,9 @@ public class ServiceCreationController {
 		fr.getPropertiesReader().setProperty("securityCritical", security.getValue());
 		fr.getPropertiesReader().setProperty("timeSpecification", timeUnit.getValue());
 		addService(fr);
+		} catch (Exception e) {
+			VisualisationsAlerts.stackTraceAlert(e);
+		}
 	}
 	
 	private void addService(FidlReader fr) {
@@ -133,8 +137,8 @@ public class ServiceCreationController {
 			time.setText("");
 			return false;
 		}
-		if (serviceName.getText().equals("")) {
-			VisualisationsAlerts.noValidServiceName("");
+		if (serviceName.getText().equals("") | Character.isDigit(serviceName.getText().charAt(0))) {
+			VisualisationsAlerts.noValidServiceName(serviceName.getText());
 			return false;
 		} else {
 		return true;

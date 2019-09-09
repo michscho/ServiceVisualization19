@@ -417,7 +417,6 @@ public class RectangleCellNodes {
 								line.setEndX(t.getX());
 								line.setEndY(t.getY());
 							}
-							//t.consume();
 						}
 					}
 				};
@@ -432,7 +431,6 @@ public class RectangleCellNodes {
 						}
 						MainApp.graph.getCanvas().getChildren().remove(line);
 						line = null;
-						//t.consume();
 					}
 				};
 				MainApp.graph.getCanvas().addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);

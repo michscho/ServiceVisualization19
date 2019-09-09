@@ -165,7 +165,6 @@ public class ResizableRectangleCell extends AbstractCell {
 			});
 			contextMenu.getItems().addAll(item1, item2);
 			contextMenu.show(pane, event.getScreenX(), event.getScreenY());
-			event.consume();
 
 		}
 	};

@@ -43,7 +43,7 @@ public class ContxtMenuEdge {
 		EList<FContent> contentList = new BasicEList<>();
 
 		for (FProvides provides : ((RectangleCell) cell1).getFidlReader().getFirstProvides()) {
-			if (provides.getProvides().getName().equals(cell2.getName())) {
+			if (provides.getProvides().equals(cell2.getName())) {
 				for (FContent content : provides.getQos().getContent()) {
 					if (provides.getQos() != null) {
 						contentList.add(content);
@@ -52,7 +52,7 @@ public class ContxtMenuEdge {
 			}
 		}
 		for (FRequires requires : ((RectangleCell) cell1).getFidlReader().getFirstRequires()) {
-			if (requires.getRequires().getName().equals(cell2.getName())) {
+			if (requires.getRequires().equals(cell2.getName())) {
 				if (requires.getQos() != null) {
 					for (FContent content : requires.getQos().getContent()) {
 						contentList.add(content);
@@ -61,7 +61,7 @@ public class ContxtMenuEdge {
 			}
 		}
 		for (FProvides provides : ((RectangleCell) cell2).getFidlReader().getFirstProvides()) {
-			if (provides.getProvides().getName().equals(cell1.getName())) {
+			if (provides.getProvides().equals(cell1.getName())) {
 				for (FContent content : provides.getQos().getContent()) {
 					if (provides.getQos() != null) {
 						contentList.add(content);
@@ -70,7 +70,7 @@ public class ContxtMenuEdge {
 			}
 		}
 		for (FRequires requires : ((RectangleCell) cell2).getFidlReader().getFirstRequires()) {
-			if (requires.getRequires().getName().equals(cell1.getName())) {
+			if (requires.getRequires().equals(cell1.getName())) {
 				for (FContent content : requires.getQos().getContent()) {
 					if (requires.getQos() != null) {
 						contentList.add(content);

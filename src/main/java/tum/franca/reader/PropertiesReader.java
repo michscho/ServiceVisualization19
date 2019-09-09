@@ -118,15 +118,15 @@ public class PropertiesReader extends InterfaceReader {
 				getFirstInterface().setFunctionalScope(FFunctionalScope.POWERTRAIN);
 				break;
 
-			case "body_And_Confort":
+			case "bodyandconfort":
 				getFirstInterface().setFunctionalScope(FFunctionalScope.BODY_AND_CONFORT);
 				break;
 
-			case "chassis_and_driver_Assistance":
+			case "chassisanddriverassistance":
 				getFirstInterface().setFunctionalScope(FFunctionalScope.CHASSIS_AND_DRIVER_ASSISTANCE);
 				break;
 
-			case "human_machine_interface":
+			case "humanmachineinterface":
 				getFirstInterface().setFunctionalScope(FFunctionalScope.HUMAN_MACHINE_INTERFACE);
 				break;
 
