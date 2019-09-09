@@ -89,147 +89,172 @@ public class TabPaneSetter {
 		}
 
 	};
+	
+	private void saveCharacteristcs() {
+		System.out.println("*********Saving Characteristics*********");
+		for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
+			if (iCell2 instanceof ResizableRectangleCell) {
+				String string1 = ((ResizableRectangleCell) iCell2).group;
+				String string2 = ((ResizableRectangleCell) iCell2).getName();
+				String[] stringArray1 = string1.split(" ");
+				String[] stringArray2 = string2.split(" ");
+				for (int i = 0; i < stringArray1.length; i++) {
+					for (int j = 0; j < stringArray2.length; j++) {
+						if (i == j) {
+							for (RectangleCell cell : ((ResizableRectangleCell) iCell2).getRectangleCells()) {
+								cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	private void saveAddedEdges() {
+		// Adding Edges
+					System.out.println("**************************");
+					for (IEdge edges : MainApp.graph.getModel().getAddedEdges()) {
+						
+						
+						ICell sourceCell = edges.getSource();
+						ICell targetCell = edges.getTarget();
+						
+						System.out.println("SourceCell Edge considered: " +  ((RectangleCell) sourceCell).getName());
+						System.out.println("TargetCell Edge considered: " +  ((RectangleCell) targetCell).getName());
+
+						
+						if (sourceCell instanceof RectangleCell) {
+
+							System.out.println("Rectanglename same as source Cell: " + ((RectangleCell) sourceCell).getName());
+
+							boolean match = false;
+							for (FidlReader fr : StaticFidlReader.getFidlList()) {
+								EList<FProvides> providesList = fr.getFirstProvides();
+								EList<FRequires> requiresList = fr.getFirstRequires();
+								for (FProvides provides : providesList) {
+									System.out.println("Provides " + provides.getProvides());
+									if (((RectangleCell) targetCell).getName().equals(provides.getProvides()) && ((RectangleCell) sourceCell).getName().equals(fr.getFirstInterfaceName())) {
+										System.out.println("Match true");
+										match = true;
+									}
+								}
+								for (FRequires requires : requiresList) {
+									System.out.println("Requires " + requires.getRequires());
+									if (((RectangleCell) targetCell).getName().equals(requires.getRequires()) && ((RectangleCell) sourceCell).getName().equals(fr.getFirstInterfaceName())) {
+										System.out.println("Match true");
+										match = true;
+									}
+								}
+
+							}
+							if (!match) {
+								System.out.println("**********");
+								System.out.println(((RectangleCell) sourceCell).getName());
+								System.out.println(((RectangleCell) targetCell).getName());
+								// Create requires
+								FRequires requires = FrancaFactory.eINSTANCE.createFRequires();
+								requires.setRequires(((RectangleCell) targetCell).getFidlReader().getFirstInterfaceName());
+								
+		//
+//								// Create import
+//								String[] uri = ((RectangleCell) targetCell).getFidlReader().getURI().toString().split("/");
+//								String lastUriElement = ((RectangleCell) targetCell).getFidlReader().getURI().toString()
+//										.split("/")[uri.length - 1];
+//								boolean importUriMatch = false;
+//								for (Import i : ((RectangleCell) sourceCell).getFidlReader().getImports()) {
+//									if (i.getImportURI().equals(lastUriElement)) {
+//										importUriMatch = true;
+//									}
+//								}
+//								if (!importUriMatch) {
+//									Import fImport = FrancaFactory.eINSTANCE.createImport();
+//									fImport.setImportedNamespace(((RectangleCell) targetCell).getFidlReader().getName() + ".*");
+//									fImport.setImportURI(lastUriElement);
+		//
+//									// Adding
+//									((RectangleCell) sourceCell).getFidlReader().getImports().add(fImport);
+//								
+//								}
+								
+								((RectangleCell) sourceCell).getFidlReader().getFirstRequires().add(requires);
+								
+								// Saving
+								FrancaPersistenceManager fPM = new FrancaPersistenceManager();
+								fPM.saveModel(((RectangleCell) sourceCell).getFidlReader().getFModel(),
+										((RectangleCell) sourceCell).getFidlReader().getURI().toString());
+							}
+						}
+
+					}
+	}
+	
+	private void saveRemovedEdges() {
+		// Removing Edges
+		for (FidlReader fr : StaticFidlReader.getFidlList()) {
+			EList<FProvides> providesList = fr.getFirstProvides();
+			EList<FRequires> requiresList = fr.getFirstRequires();
+
+			EList<FProvides> providesToRemove = new BasicEList<>();
+			EList<FRequires> requiresToRemove = new BasicEList<>();
+
+			// PROVIDES
+			for (FProvides provides : providesList) {
+				boolean exists = false;
+				for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+					RectangleCell sourceCell = (RectangleCell) edge.getSource();
+					RectangleCell targetCell = (RectangleCell) edge.getTarget();
+					if (provides.getProvides().equals(targetCell.getName()) && fr.getFirstInterfaceName().equals(sourceCell.getName())) {
+						exists = true;
+					}
+
+				}
+				if (!exists) {
+					providesToRemove.add(provides);
+					System.out.println(provides.getProvides());
+				}
+
+			}
+			fr.getInterfaces().get(0).getProvided().removeAll(providesToRemove);
+
+			// REQUIRES
+			for (FRequires requires : requiresList) {
+				boolean exists = false;
+				for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+					RectangleCell sourceCell = (RectangleCell) edge.getSource();
+					RectangleCell targetCell = (RectangleCell) edge.getTarget();
+					if (requires.getRequires().equals(targetCell.getName()) && fr.getFirstInterfaceName().equals(sourceCell.getName())) {
+						exists = true;
+					}
+
+				}
+				if (!exists) {
+					requiresToRemove.add(requires);
+					System.out.println(requires.getRequires());
+				}
+
+			}
+			
+			fr.getFirstRequires().removeAll(requiresToRemove);
+			fr.getFirstProvides().removeAll(providesToRemove);
+			
+			FrancaPersistenceManager frManager = new FrancaPersistenceManager();
+
+			
+			System.out.println(fr.getURI().toString());
+			frManager.saveModel(fr.getFModel(), fr.getURI().toString());				
+			
+		}
+	}
 
 	EventHandler<ActionEvent> onSaveClicked = new EventHandler<ActionEvent>() {
 
 		@Override
 		public void handle(ActionEvent event) {
-			for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
-				if (iCell2 instanceof ResizableRectangleCell) {
-					String string1 = ((ResizableRectangleCell) iCell2).group;
-					String string2 = ((ResizableRectangleCell) iCell2).getName();
-					String[] stringArray1 = string1.split(" ");
-					String[] stringArray2 = string2.split(" ");
-					for (int i = 0; i < stringArray1.length; i++) {
-						for (int j = 0; j < stringArray2.length; j++) {
-							if (i == j) {
-								for (RectangleCell cell : ((ResizableRectangleCell) iCell2).getRectangleCells()) {
-									cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			// Adding Edges
-			System.out.println("**************************");
-			for (IEdge edges : MainApp.graph.getModel().getAddedEdges()) {
-				// Requires
-				ICell sourceCell = edges.getSource();
-				// Provides
-				ICell targetCell = edges.getTarget();
-				if (sourceCell instanceof RectangleCell) {
-
-					System.out.println("Rectanglename: " + ((RectangleCell) sourceCell).getName());
-
-					boolean match = false;
-
-					for (FidlReader fr : StaticFidlReader.getFidlList()) {
-						EList<FProvides> providesList = fr.getFirstProvides();
-						EList<FRequires> requiresList = fr.getFirstRequires();
-						for (FProvides provides : providesList) {
-							System.out.println("Provides " + provides.getProvides().getName());
-							if (((RectangleCell) targetCell).getName().equals(provides.getProvides().getName())) {
-								match = true;
-							}
-						}
-						for (FRequires requires : requiresList) {
-							System.out.println("Requires " + requires.getRequires().getName());
-							if (((RectangleCell) targetCell).getName().equals(requires.getRequires().getName())) {
-								match = true;
-							}
-						}
-
-					}
-					if (!match) {
-						// Create requires
-						FRequires requires = FrancaFactory.eINSTANCE.createFRequires();
-						requires.setRequires(((RectangleCell) targetCell).getFidlReader().getInterfaces().get(0));
-
-						// Create import
-						String[] uri = ((RectangleCell) targetCell).getFidlReader().getURI().toString().split("/");
-						String lastUriElement = ((RectangleCell) targetCell).getFidlReader().getURI().toString()
-								.split("/")[uri.length - 1];
-						boolean importUriMatch = false;
-						for (Import i : ((RectangleCell) sourceCell).getFidlReader().getImports()) {
-							if (i.getImportURI().equals(lastUriElement)) {
-								importUriMatch = true;
-							}
-						}
-						if (!importUriMatch) {
-							Import fImport = FrancaFactory.eINSTANCE.createImport();
-							fImport.setImportedNamespace(((RectangleCell) targetCell).getFidlReader().getName() + ".*");
-							fImport.setImportURI(lastUriElement);
-
-							// Adding
-							((RectangleCell) sourceCell).getFidlReader().getImports().add(fImport);
-						}
-						((RectangleCell) sourceCell).getFidlReader().getInterfaces().get(0).getRequired().add(requires);
-						
-						// Saving
-						FrancaPersistenceManager fPM = new FrancaPersistenceManager();
-						fPM.saveModel(((RectangleCell) sourceCell).getFidlReader().getFModel(),
-								((RectangleCell) sourceCell).getFidlReader().getURI().toString());
-					}
-				}
-
-			}
-
-			System.out.println("SAVING***********");
-
-//			// Removing Edges
-//			for (FidlReader fr : StaticFidlReader.getFidlList()) {
-//				EList<FProvides> providesList = fr.getFirstProvides();
-//				EList<FRequires> requiresList = fr.getFirstRequires();
-//
-//				EList<FProvides> providesToRemove = new BasicEList<>();
-//				EList<FRequires> requiresToRemove = new BasicEList<>();
-//
-//				// PROVIDES
-//				for (FProvides provides : providesList) {
-//					boolean exists = false;
-//					for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
-//						RectangleCell sourceCell = (RectangleCell) edge.getSource();
-//						if (provides.getProvides().getName().equals(sourceCell.getName())) {
-//							exists = true;
-//						}
-//
-//					}
-//					if (!exists) {
-//						providesToRemove.add(provides);
-//						System.out.println(provides.getProvides().getName());
-//					}
-//
-//				}
-//				fr.getInterfaces().get(0).getProvided().removeAll(providesToRemove);
-//
-//				// REQUIRES
-//				for (FRequires requires : requiresList) {
-//					boolean exists = false;
-//					for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
-//						RectangleCell sourceCell = (RectangleCell) edge.getTarget();
-//						if (requires.getRequires().getName().equals(sourceCell.getName())) {
-//							exists = true;
-//						}
-//
-//					}
-//					if (!exists) {
-//						requiresToRemove.add(requires);
-//					}
-//
-//				}
-//				
-//				fr.getFirstRequires().removeAll(requiresToRemove);
-//				fr.getFirstProvides().removeAll(providesToRemove);
-//				
-//				FrancaPersistenceManager frManager = new FrancaPersistenceManager();
-//
-//				
-//				System.out.println(fr.getURI().toString());
-//				frManager.saveModel(fr.getFModel(), fr.getURI().toString());				
-				
-//			}
+			saveCharacteristcs();
+			saveAddedEdges();
+			saveRemovedEdges();
 
 		}
 

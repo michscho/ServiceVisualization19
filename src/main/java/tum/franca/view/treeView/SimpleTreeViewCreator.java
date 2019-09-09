@@ -29,13 +29,14 @@ public class SimpleTreeViewCreator extends AbstractTreeView {
 	public SimpleTreeViewCreator(String rootName) {
 		this.rootItem = new TreeItem<String>(rootName);
 		rootItem.setExpanded(true);
+		System.out.println(rootName);
 		this.rectCell = MainApp.graph.getModel().getRectangleCell(rootName); 
 		this.fidlReader = StaticFidlReader.getFidl(rectCell);
 		this.propReader = fidlReader.getPropertiesReader();
 	}
 	
 	/**
-	 * Creates a simple tree with only the current Cell and his properties.
+	 * Creates a simple tree with only the current cell and his characteristics.
 	 */
 	public void createTree() {
 		HashMap<String, String> hashMap = propReader.getAllStringPropertiesWithoutNotDefinedOnes();

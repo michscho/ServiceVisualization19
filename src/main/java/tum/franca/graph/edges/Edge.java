@@ -23,6 +23,7 @@ import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
 import tum.franca.main.MainApp;
 import tum.franca.main.MainAppController;
+import tum.franca.main.VisualisationsAlerts;
 import tum.franca.view.treeView.SimpleTreeViewCreator;
 
 /**
@@ -53,6 +54,7 @@ public class Edge extends AbstractEdge {
 		private final Line line;
 
 		public EdgeGraphic(Graph graph, Edge edge) {
+			addEventHandler(MouseEvent.MOUSE_CLICKED, e -> System.out.println("Clicked"));
 			group = new Group();
 			line = new Line();
 
@@ -68,6 +70,23 @@ public class Edge extends AbstractEdge {
 			line.endYProperty().bind(targetY);
 			
 			group.getChildren().add(line);
+			
+			//MainApp.primaryStage.addEventFilter(MouseEvent.ANY, e -> System.out.println( e));
+			
+			
+			
+			EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent t) {
+					VisualisationsAlerts.noFilesSelected();
+					ContxtMenuEdge.setContextMenu(edge);
+					ContxtMenuEdge.getContextMenu().show(line,t.getScreenX(), t.getScreenY());
+				}
+			};
+
+			group.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedEventHandler);
+			line.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedEventHandler);
+			
 
 			getChildren().add(group);
 
@@ -105,17 +124,8 @@ public class Edge extends AbstractEdge {
 			arc.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
 			group.getChildren().add(circle);
 			group.getChildren().add(arc);
-			EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent t) {
-					ContxtMenuEdge.setContextMenu(edge);
-					ContxtMenuEdge.getContextMenu().show(line,t.getScreenX(), t.getScreenY());
-
-				}
-			};
-			line.setOnMouseClicked(onMouseClickedEventHandler);
-			circle.setOnMouseClicked(onMouseClickedEventHandler);
-			arc.setOnMouseClicked(onMouseClickedEventHandler);
+			
+			
 		}
 
 		public Group getGroup() {

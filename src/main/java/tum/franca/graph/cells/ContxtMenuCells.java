@@ -4,6 +4,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import tum.franca.graph.edges.IEdge;
 import tum.franca.main.MainApp;
+import tum.franca.reader.StaticFidlReader;
  
 /**
  * 
@@ -38,6 +39,7 @@ public class ContxtMenuCells {
 			}
 			MainApp.graph.removeCell(cell);
 			MainApp.graph.getModel().getAddedCells().remove(cell);
+			StaticFidlReader.getFidlList().remove(StaticFidlReader.getFidl(cell));
 			contextMenu.hide();
 			
 		});

@@ -42,6 +42,7 @@ public class Graph {
 		useNodeGestures = new SimpleBooleanProperty(true);
 		useNodeGestures.addListener((obs, oldVal, newVal) -> {
 			if (newVal) {
+				System.out.println("HERE");
 				model.getAddedCells().forEach(cell -> nodeGestures.makeDraggable(getGraphic(cell), cell));
 			} else {
 				model.getAddedCells().forEach(cell -> nodeGestures.makeUndraggable(getGraphic(cell)));
@@ -51,26 +52,27 @@ public class Graph {
 		pannableCanvas = new PannableCanvas();
 		viewportGestures = new ViewportGestures(pannableCanvas);
 		useViewportGestures = new SimpleBooleanProperty(true);
-		useViewportGestures.addListener((obs, oldVal, newVal) -> {
-			final Parent parent = pannableCanvas.parentProperty().get();
-			if (parent == null) {
-				return;
-			}
-			if (newVal) {
-				parent.addEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
-				parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
-				parent.addEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
-			} else {
-				parent.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
-				parent.removeEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
-				parent.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
-			}
-		});
+//		useViewportGestures.addListener((obs, oldVal, newVal) -> {
+//			System.out.println("HERIERER");
+//			final Parent parent = pannableCanvas.parentProperty().get();
+//			if (parent == null) {
+//				return;
+//			}
+//			if (newVal) {
+//				parent.addEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
+//				parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
+//				parent.addEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
+//			} else {
+//				parent.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
+//				parent.removeEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
+//				parent.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
+//			}
+//		});
 		pannableCanvas.parentProperty().addListener((obs, oldVal, newVal) -> {
 			if (oldVal != null) {
-				oldVal.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
-				oldVal.removeEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
-				oldVal.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
+//				oldVal.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
+//				oldVal.removeEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
+//				oldVal.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
 			}
 			if (newVal != null) {
 				newVal.addEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());

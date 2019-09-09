@@ -43,8 +43,8 @@ public class ModelSetter {
 			try {
 				EList<FProvides> providesList = fidlReader.getFirstProvides();
 				for (FProvides fProvides : providesList) {
-					System.out.println(fProvides.getProvides().getName());
-					String providesString = fProvides.getProvides().getName();
+					System.out.println(fProvides.getProvides());
+					String providesString = fProvides.getProvides();
 					for (ICell iCell : cellList) {
 						if (iCell instanceof RectangleCell) {
 							if (((RectangleCell) iCell).getName().equals(providesString)) {
@@ -71,7 +71,7 @@ public class ModelSetter {
 			try {
 				EList<FRequires> requiresList = fidlReader.getFirstRequires();
 				for (FRequires fRequires : requiresList) {
-					String requiredString = fRequires.getRequires().getName();
+					String requiredString = fRequires.getRequires();
 					for (ICell iCell : cellList) {
 						if (iCell instanceof RectangleCell) {
 							if (((RectangleCell) iCell).getName().equals(requiredString)) {

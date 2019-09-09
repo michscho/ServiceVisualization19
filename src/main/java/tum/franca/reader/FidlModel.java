@@ -13,9 +13,7 @@ public abstract class FidlModel {
 	
 	public FidlModel(URI uri) {
 		this.uri = uri;
-		//this.fmodel = FrancaIDLHelpers.instance().loadModel(uri, uri);
-		FrancaPersistenceManager fp = new FrancaPersistenceManager();
-		this.fmodel = fp.loadModel(uri.toString());
+		this.fmodel = FrancaIDLHelpers.instance().loadModel(uri, uri);
 		
 		
 	}
