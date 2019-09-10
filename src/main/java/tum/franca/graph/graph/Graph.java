@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.Parent;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Region;
@@ -68,6 +68,7 @@ public class Graph {
 //				parent.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
 //			}
 //		});
+		
 		pannableCanvas.parentProperty().addListener((obs, oldVal, newVal) -> {
 			if (oldVal != null) {
 //				oldVal.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
@@ -130,18 +131,17 @@ public class Graph {
 
 	public void addEgde(IEdge edge) {
 		try {
-			Region edgeGraphic = getGraphic(edge);
-			getCanvas().getChildren().add(edgeGraphic);
+			getCanvas().getChildren().add((Group) edge.getGraphic(MainApp.graph));
 		} catch (final Exception e) {
 			throw new RuntimeException("failed to add " + edge, e);
 		}
 	}
 
 	private void addEdges(List<IEdge> edges) {
+		System.out.println(edges);
 		edges.forEach(edge -> {
 			try {
-				Region edgeGraphic = getGraphic(edge);
-				getCanvas().getChildren().add(edgeGraphic);
+				getCanvas().getChildren().add((Group) edge.getGraphic(MainApp.graph));
 			} catch (final Exception e) {
 				throw new RuntimeException("failed to add " + edge, e);
 			}
@@ -156,11 +156,10 @@ public class Graph {
 			throw new RuntimeException("failed to remove " + cell, e);
 		}
 	}
-	
+
 	public void removeEdge(IEdge edge) {
 		try {
-			Region cellGraphic = getGraphic(edge);
-			getCanvas().getChildren().remove(cellGraphic);
+			getCanvas().getChildren().remove((Group) edge.getGraphic(MainApp.graph));
 		} catch (final Exception e) {
 			throw new RuntimeException("failed to remove " + edge, e);
 		}
@@ -183,7 +182,7 @@ public class Graph {
 	}
 
 	public Region createGraphic(IGraphNode node) {
-		return node.getGraphic(this);
+		return (Region) node.getGraphic(this);
 	}
 
 	public double getScale() {

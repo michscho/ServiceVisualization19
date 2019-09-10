@@ -1,11 +1,12 @@
 package tum.franca.graph.cells;
 
 import javafx.scene.layout.Region;
+import javafx.scene.shape.Line;
 import tum.franca.graph.graph.Graph;
 
 public interface IGraphNode {
 
-	public Region getGraphic(Graph graph);
+	public Object getGraphic(Graph graph);
 	
 	
 }
