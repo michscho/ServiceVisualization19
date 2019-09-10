@@ -3,6 +3,9 @@ package tum.franca.graph.graph;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import tum.franca.main.Metrics;
@@ -46,8 +49,24 @@ public class ViewportGestures {
 
 		@Override
 		public void handle(MouseEvent event) {
+			
 
-			if(!event.isSecondaryButtonDown()) {
+			if (!event.isPrimaryButtonDown()) {					
+					if (menu == null) {
+						menu = new ContextMenu();
+					} else {
+						menu.hide();
+						menu = new ContextMenu();
+					}
+					menu.setAutoHide(true);
+					MenuItem item = new MenuItem("Add Services");
+					MenuItem item2 = new MenuItem("Add Service Group");
+					menu.getItems().addAll(item,item2);
+					menu.show(canvas, event.getSceneX(), event.getScreenY());
+					menu.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+						menu.hide();
+						e.consume();
+					});
 				return;
 			}
 
@@ -56,6 +75,8 @@ public class ViewportGestures {
 
 			sceneDragContext.translateAnchorX = canvas.getTranslateX();
 			sceneDragContext.translateAnchorY = canvas.getTranslateY();
+			
+			event.consume();
 
 		}
 
@@ -64,8 +85,12 @@ public class ViewportGestures {
 	private final EventHandler<MouseEvent> onMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
+			
+			if (menu != null) {
+				menu.hide();
+			}
 
-			if(!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
+			if (!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
 				return;
 			}
 
@@ -76,6 +101,8 @@ public class ViewportGestures {
 		}
 	};
 
+	ContextMenu menu = null;
+
 	/**
 	 * Mouse wheel handler: zoom to pivot point
 	 */
@@ -83,10 +110,13 @@ public class ViewportGestures {
 
 		@Override
 		public void handle(ScrollEvent event) {
+			if (menu != null) {
+				menu.hide();
+			}
 			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
 			final double oldScale = scale;
 
-			if(event.getDeltaY() < 0) {
+			if (event.getDeltaY() < 0) {
 				scale /= getZoomSpeed();
 			} else {
 				scale *= getZoomSpeed();
@@ -96,8 +126,10 @@ public class ViewportGestures {
 			final double f = (scale / oldScale) - 1;
 
 			// maxX = right overhang, maxY = lower overhang
-			final double maxX = canvas.getBoundsInParent().getMaxX() - canvas.localToParent(canvas.getPrefWidth(), canvas.getPrefHeight()).getX();
-			final double maxY = canvas.getBoundsInParent().getMaxY() - canvas.localToParent(canvas.getPrefWidth(), canvas.getPrefHeight()).getY();
+			final double maxX = canvas.getBoundsInParent().getMaxX()
+					- canvas.localToParent(canvas.getPrefWidth(), canvas.getPrefHeight()).getX();
+			final double maxY = canvas.getBoundsInParent().getMaxY()
+					- canvas.localToParent(canvas.getPrefWidth(), canvas.getPrefHeight()).getY();
 
 			// minX = left overhang, minY = upper overhang
 			final double minX = canvas.localToParent(0, 0).getX() - canvas.getBoundsInParent().getMinX();
@@ -107,13 +139,16 @@ public class ViewportGestures {
 			final double subX = maxX + minX;
 			final double subY = maxY + minY;
 
-			// subtracting the overall overhang from the width and only the left and upper overhang from the upper left point
-			final double dx = (event.getSceneX() - ((canvas.getBoundsInParent().getWidth() - subX) / 2 + (canvas.getBoundsInParent().getMinX() + minX)));
-			final double dy = (event.getSceneY() - ((canvas.getBoundsInParent().getHeight() - subY) / 2 + (canvas.getBoundsInParent().getMinY() + minY)));
+			// subtracting the overall overhang from the width and only the left and upper
+			// overhang from the upper left point
+			final double dx = (event.getSceneX() - ((canvas.getBoundsInParent().getWidth() - subX) / 2
+					+ (canvas.getBoundsInParent().getMinX() + minX)));
+			final double dy = (event.getSceneY() - ((canvas.getBoundsInParent().getHeight() - subY) / 2
+					+ (canvas.getBoundsInParent().getMinY() + minY)));
 
 			canvas.setScale(scale);
 			Metrics.setZoom(scale);
-			
+
 			// note: pivot value must be untransformed, i. e. without scaling
 			canvas.setPivot(f * dx, f * dy);
 
@@ -124,11 +159,11 @@ public class ViewportGestures {
 	};
 
 	public static double clamp(double value, double min, double max) {
-		if(Double.compare(value, min) < 0) {
+		if (Double.compare(value, min) < 0) {
 			return min;
 		}
 
-		if(Double.compare(value, max) > 0) {
+		if (Double.compare(value, max) > 0) {
 			return max;
 		}
 
@@ -170,4 +205,5 @@ public class ViewportGestures {
 	public void setZoomSpeed(double zoomSpeed) {
 		zoomSpeedProperty.set(zoomSpeed);
 	}
+
 }

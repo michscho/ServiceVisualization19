@@ -7,30 +7,25 @@ import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import tum.franca.graph.cells.RectangleCellNodes.DragStartHandler;
-import tum.franca.graph.edges.Edge;
-import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.main.Binding;
 import tum.franca.main.ColorPickerWindow;
@@ -90,10 +85,9 @@ public class ResizableRectangleCell extends AbstractCell {
 	}
 
 	public static Pane sourcePane;
-	
+
 	@Override
 	public Region getGraphic(Graph graph) {
-
 		view.setStroke(colorStroke);
 		view.setFill(color);
 		view.setStyle("-fx-stroke-dash-array: 15 15 15 15;");
@@ -133,39 +127,69 @@ public class ResizableRectangleCell extends AbstractCell {
 		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
+		
+		
+
+		pane.setOnDragDetected(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
+
+				if (mode != Mode.NORMAL) {
+					Dragboard db = pane.startDragAndDrop(TransferMode.ANY);
+					ClipboardContent content = new ClipboardContent();
+					Image openIcon = null;
+					if (mode == Mode.VISIBILITY) {
+						openIcon = new Image(getClass().getResourceAsStream("/visibilty.png"), 16, 16, true, true);
+					} else {
+						openIcon = new Image(getClass().getResourceAsStream("/deploy.png"), 16, 16, true, true);
+					}
+					content.putImage(openIcon);
+					db.setContent(content);
+
+					event.consume();
+				}
+			}
+		});
+
+		pane.setOnDragOver(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+
+				if (event.getGestureSource() != pane && event.getDragboard().hasImage()) {
+					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+				}
+
+			}
+
+		});
+		
+		pane.setOnDragDropped(new EventHandler<DragEvent>() {
+		    public void handle(DragEvent event) {
+		        Dragboard db = event.getDragboard();
+		        boolean success = false;
+		        if (db.hasImage()) {
+		           success = true;
+		        }
+		        event.setDropCompleted(success);
+		        
+		        event.consume();
+		     }
+		});
+
+		pane.setOnMouseClicked(e -> e.consume());
 
 		return pane;
 
 	}
 
+	public static enum Mode {
+		NORMAL, VISIBILITY, DEPLOYMENT
+	}
+
+	public static Mode mode = Mode.NORMAL;
+
 	EventHandler<MouseEvent> onMouseClickedPropertyFunction = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			ContextMenu contextMenu = new ContextMenu();
-
-			MenuItem item1 = new MenuItem("Visibility");
-			Image openIcon = new Image(getClass().getResourceAsStream("/visibilty.png"));
-			ImageView openView = new ImageView(openIcon);
-			MenuItem item2 = new MenuItem("Deployment");
-			Image openIcon2 = new Image(getClass().getResourceAsStream("/deploy.png"));
-			ImageView openView2 = new ImageView(openIcon2);
-
-			openView.setFitWidth(15);
-			openView.setFitHeight(15);
-			openView2.setFitWidth(15);
-			openView2.setFitHeight(15);
-			item1.setGraphic(openView);
-			item2.setGraphic(openView2);
-			item1.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					System.out.println("Action");
-				}
-			});
-			contextMenu.getItems().addAll(item1, item2);
-			contextMenu.show(pane, event.getScreenX(), event.getScreenY());
-
+			ResContxtMenu.getContextMenu(pane, event);
 		}
 	};
 
@@ -258,6 +282,7 @@ public class ResizableRectangleCell extends AbstractCell {
 	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
+			//event.consume();
 			Binding.bind(pane, style.ordinal());
 			List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
 			List<ICell> intersectionCellList = new ArrayList<ICell>();
@@ -284,6 +309,7 @@ public class ResizableRectangleCell extends AbstractCell {
 				color = (Color) view.getFill();
 				colorStroke = (Color) view.getStroke();
 				ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY(), cell);
+				event.consume();
 			}
 		}
 	};

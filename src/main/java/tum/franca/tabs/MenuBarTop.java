@@ -161,7 +161,7 @@ public class MenuBarTop {
 			ObservableList<IEdge> edges = MainApp.graph.getModel().getAddedEdges();
 			for (IEdge iEdge : edges) {
 				if (iEdge instanceof Edge) {
-					((Edge) iEdge).edgeGraphic.getGroup().setVisible(true);
+					((Edge) iEdge).getGroup().setVisible(true);
 				}
 			}
 		}
@@ -176,7 +176,7 @@ public class MenuBarTop {
 		public void handle(ActionEvent event) {
 			for (IEdge iEdge : MainApp.graph.getModel().getAddedEdges()) {
 				if (iEdge instanceof Edge) {
-					((Edge) iEdge).edgeGraphic.getGroup().setVisible(true);
+					((Edge) iEdge).getGroup().setVisible(true);
 				}
 			}
 			for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
@@ -187,7 +187,7 @@ public class MenuBarTop {
 						for (ResizableRectangleCell groupCell2 : ((RectangleCell) targetCell).getGroupRectangle()) {
 							if (groupCell2.style.ordinal() == RectangleUtil.getHighestGroup()) {
 								if (!groupCell1.equals(groupCell2)) {
-									((Edge) edge).edgeGraphic.getGroup().setVisible(false);
+									((Edge) edge).getGroup().setVisible(false);
 								}
 							}
 						}
@@ -205,7 +205,7 @@ public class MenuBarTop {
 		public void handle(ActionEvent event) {
 			for (IEdge iEdge : MainApp.graph.getModel().getAddedEdges()) {
 				if (iEdge instanceof Edge) {
-					((Edge) iEdge).edgeGraphic.getGroup().setVisible(false);
+					((Edge) iEdge).getGroup().setVisible(false);
 				}
 			}
 			for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
@@ -216,7 +216,7 @@ public class MenuBarTop {
 						for (ResizableRectangleCell groupCell2 : ((RectangleCell) targetCell).getGroupRectangle()) {
 							if (groupCell2.style.ordinal() == RectangleUtil.getHighestGroup()) {
 								if (!groupCell1.equals(groupCell2)) {
-									((Edge) edge).edgeGraphic.getGroup().setVisible(true);
+									((Edge) edge).getGroup().setVisible(true);
 								}
 							}
 						}
@@ -236,7 +236,7 @@ public class MenuBarTop {
 			ObservableList<IEdge> edges = MainApp.graph.getModel().getAddedEdges();
 			for (IEdge iEdge : edges) {
 				if (iEdge instanceof Edge) {
-					((Edge) iEdge).edgeGraphic.getGroup().setVisible(false);
+					((Edge) iEdge).getGroup().setVisible(false);
 				}
 			}
 		}

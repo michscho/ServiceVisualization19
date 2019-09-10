@@ -24,17 +24,23 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Transform;
@@ -259,7 +265,6 @@ public class MainAppController {
 			}
 			tabPaneSetter.setCanvas();
 			RectangleUtil.recolorCanvas();
-			
 			MainApp.graph.getCanvas().setScale(1.0);
 			Metrics.setZoom(1.0);
 			Metrics.setAll();
@@ -274,7 +279,7 @@ public class MainAppController {
 			}
 		}
 	}
-
+	
 	@FXML
 	public void quitClicked() {
 		if (VisualisationsAlerts.saveDialog()) {

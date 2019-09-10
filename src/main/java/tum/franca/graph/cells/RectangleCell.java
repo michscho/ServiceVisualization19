@@ -96,7 +96,7 @@ public class RectangleCell extends AbstractCell {
 		
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 
-		// pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onPressedEventHandler);
+		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> e.consume());
 
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
@@ -189,7 +189,9 @@ public class RectangleCell extends AbstractCell {
 				ContxtMenuCells.setContextMenu(recCell);
 				ContxtMenuCells.getContextMenu().show(pane, t.getSceneX(), t.getSceneY());
 			}
+			t.consume();
 		}
+		
 	};
 
 	
