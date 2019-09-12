@@ -88,15 +88,10 @@ public class RectangleCell extends AbstractCell {
 		pane.getChildren().add(text);
 
 		textField = new TextField(name);
-		
-	
 
-
-		pane.addEventFilter(MouseEvent.MOUSE_CLICKED, onMouseClickedEventHandler);
+		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
 		
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
-
-		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> e.consume());
 
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
@@ -167,7 +162,7 @@ public class RectangleCell extends AbstractCell {
 		}
 	};
 
-	EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
+	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
 			SimpleTreeViewCreator treeView = new SimpleTreeViewCreator(name);
@@ -184,12 +179,13 @@ public class RectangleCell extends AbstractCell {
 					text.setText(input);
 					getFidlReader().getPropertiesReader().setInterfaceName(textField.getText());
 				});
+				//t.consume();
 			}
 			if (t.getButton() == MouseButton.SECONDARY) {
 				ContxtMenuCells.setContextMenu(recCell);
 				ContxtMenuCells.getContextMenu().show(pane, t.getSceneX(), t.getSceneY());
+				t.consume();
 			}
-			t.consume();
 		}
 		
 	};

@@ -24,23 +24,17 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Transform;
@@ -58,8 +52,8 @@ import tum.franca.reader.StaticFidlReader;
 import tum.franca.save.DataModel;
 import tum.franca.tabs.RenameableTab;
 import tum.franca.tabs.TabPaneSetter;
-import tum.franca.view.listView.ListViewWrapper;
 import tum.franca.view.treeView.TreeViewCreator;
+import tum.franca.views.ListViewWrapper;
 
 /**
  * 
@@ -255,7 +249,12 @@ public class MainAppController {
 			StaticFidlReader.newFidlList();
 			for (File file : list) {
 				URI uri = URI.createFileURI(file.getAbsolutePath());
-				StaticFidlReader.getFidlList().add(new FidlReader(uri));
+				try {
+				FidlReader fr = new FidlReader(uri);
+				StaticFidlReader.getFidlList().add(fr);
+				} catch (Exception e) {
+					System.err.println(e.getStackTrace());
+				}
 			}
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			try {
@@ -275,6 +274,7 @@ public class MainAppController {
 			serviceGroup.setDisable(false);
 			StaticSplitter.setStaticSplitPane(splitPane);
 			} catch (NullPointerException e) {
+				e.printStackTrace();
 				VisualisationsAlerts.wrongGrouping();
 			}
 		}

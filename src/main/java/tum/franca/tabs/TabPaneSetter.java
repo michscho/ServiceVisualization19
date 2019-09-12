@@ -6,7 +6,6 @@ import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 import org.franca.core.franca.FrancaFactory;
-import org.franca.core.franca.Import;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,7 +28,7 @@ import tum.franca.main.MainApp;
 import tum.franca.main.Metrics;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.StaticFidlReader;
-import tum.franca.save.RedoManagerWrapper;
+import tum.franca.save.RedoManager;
 import tum.franca.view.treeView.InnerTabPane;
 
 /**
@@ -76,7 +75,7 @@ public class TabPaneSetter {
 
 		@Override
 		public void handle(ActionEvent event) {
-			RedoManagerWrapper.undo();
+			RedoManager.undo();
 		}
 
 	};
@@ -85,7 +84,7 @@ public class TabPaneSetter {
 
 		@Override
 		public void handle(ActionEvent event) {
-			RedoManagerWrapper.redo();
+			RedoManager.redo();
 		}
 
 	};

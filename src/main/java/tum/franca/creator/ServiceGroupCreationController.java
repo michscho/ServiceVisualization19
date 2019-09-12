@@ -99,7 +99,6 @@ public class ServiceGroupCreationController {
 
 	@FXML
 	public void createServiceClicked() {
-		System.out.println("");
 		StringBuilder sb = new StringBuilder("");
 		StringBuilder groupS = new StringBuilder("");
 		for (String s : filteredList) {
@@ -160,8 +159,6 @@ public class ServiceGroupCreationController {
 	private void relocate(ResizableRectangleCell cellGroup, int y) {
 		MainApp.graph.getGraphic(cellGroup).relocate(200, y);
 		cellGroup.pane.toBack();
-		System.out.println(cellGroup.containsResizableRectanlgeCells());
-		System.out.println(cellGroup.getRectangleCells());
 		if (cellGroup.containsResizableRectanlgeCells().size() > 0 || cellGroup.getRectangleCells().size() > 0) {
 			if (overloadCounter++ < 1000) {
 			relocate(cellGroup, y + 100);

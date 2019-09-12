@@ -5,12 +5,21 @@ import org.eclipse.emf.common.util.EList;
 import org.franca.core.franca.FContent;
 import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
+import org.franca.core.franca.QOS;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.FlowPane;
 import tum.franca.graph.edges.Edge;
 import tum.franca.main.MainApp;
+import tum.franca.main.QosCreation;
+import tum.franca.reader.FidlReader;
+import tum.franca.reader.StaticFidlReader;
 
 /**
  * 
@@ -26,7 +35,7 @@ public class ContxtMenuEdge {
 		return contextMenu;
 	}
 
-	public static void setContextMenu(Edge edge) {
+	public static void setContextMenu(Edge edge, Group group) {
 
 		if (contextMenu != null && contextMenu.isShowing()) {
 			contextMenu.hide();
@@ -35,10 +44,32 @@ public class ContxtMenuEdge {
 		contextMenu = new ContextMenu();
 		MenuItem remove = new MenuItem("Remove Edge");
 		Menu qosAttributes = new Menu("See QOS Attributes");
-		MenuItem qosAttributeChange = new MenuItem("Change Attributes");
+		Menu qosAttributeChangeQuick = new Menu("QuickChange QOS");
+		MenuItem qosAttributeChange = new MenuItem("Change QOS");
 
 		RectangleCell cell1 = (RectangleCell) edge.getSource();
 		RectangleCell cell2 = (RectangleCell) edge.getTarget();
+		
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				QosCreation qosC = new QosCreation();
+				qosC.createQosCreation();
+			}
+		};
+		
+		qosAttributeChange.setOnAction(handler);
+		
+		
+		for (FidlReader fr : StaticFidlReader.getFidlList()) {
+			for (QOS qos : fr.getFModel().getQos()) {
+				MenuItem item = new MenuItem(qos.getName());
+				qosAttributeChangeQuick.getItems().add(item);
+			}
+		}
+		
+		
 
 		EList<FContent> contentList = new BasicEList<>();
 
@@ -85,9 +116,9 @@ public class ContxtMenuEdge {
 			qosAttributes.getItems().add(menu);
 		}
 
-		contextMenu.getItems().addAll(remove, qosAttributes, qosAttributeChange);
+		contextMenu.getItems().addAll(remove, qosAttributes, qosAttributeChangeQuick, qosAttributeChange);
 		remove.setOnAction(e -> {
-			MainApp.graph.removeEdge(edge);
+			MainApp.graph.getCanvas().getChildren().remove(group);
 			MainApp.graph.getModel().getAddedEdges().remove(edge);
 			contextMenu.hide();
 		});

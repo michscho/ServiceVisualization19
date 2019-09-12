@@ -1,4 +1,4 @@
-package tum.franca.view.listView;
+package tum.franca.views.listview;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +12,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import tum.franca.properties.PropertiesUtil;
+import tum.franca.views.ListViewWrapper;
 
 /**
  * 
@@ -84,7 +85,7 @@ public class ListViewCreator {
 
 			setOnDragOver(event -> {
 				if (event.getGestureSource() != this && event.getDragboard().hasString()) {
-					event.acceptTransferModes(TransferMode.MOVE);
+					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 				}
 				event.consume();
 			});

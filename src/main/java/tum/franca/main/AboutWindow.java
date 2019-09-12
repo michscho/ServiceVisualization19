@@ -15,7 +15,7 @@ public class AboutWindow {
 			root = FXMLLoader.load(getClass().getResource("/About.fxml"));
 			Stage stage = new Stage();
 			stage.setTitle("About VisualFX Franca");
-			stage.setScene(new Scene(root, 450, 450));
+			stage.setScene(new Scene(root, 620, 450));
 			stage.setAlwaysOnTop(true);
 			stage.setResizable(false);
 			stage.show();
