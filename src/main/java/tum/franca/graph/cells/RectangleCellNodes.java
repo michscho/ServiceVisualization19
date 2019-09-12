@@ -371,11 +371,11 @@ public class RectangleCellNodes {
 							MainApp.graph.getModel().addEdge(edge);
 							MainApp.graph.addEgde(edge);
 							
-							for (IEdge iEdge : MainApp.graph.getModel().getAddedEdges()) {
-								if (iEdge instanceof Edge) {
-									((Edge) iEdge).getGraphic(MainApp.graph).toBack();
-								}
-							}
+//							for (IEdge iEdge : MainApp.graph.getModel().getAddedEdges()) {
+//								if (iEdge instanceof Edge) {
+//									//((Edge) iEdge).getGraphic(MainApp.graph).toBack();
+//								}
+//							}
 							
 							
 							// setRequiresProvides(line);

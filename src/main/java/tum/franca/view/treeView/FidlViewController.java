@@ -64,7 +64,6 @@ public class FidlViewController {
 	
 	@FXML
 	public void onReloadClicked() {
-		System.out.println("HERER");
 		listView.getItems().clear();
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
@@ -77,7 +76,7 @@ public class FidlViewController {
 			@Override
 			public void handle(MouseEvent event) {
 				textArea.setText("");
-				textArea.setEditable(true);
+				textArea.setEditable(false);
 				URI uri = MainApp.graph.getModel()
 						.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 				try (BufferedReader reader = new BufferedReader(new FileReader(new File(uri.toFileString())))) {
@@ -109,7 +108,7 @@ public class FidlViewController {
 			@Override
 			public void handle(MouseEvent event) {
 				textArea.setText("");
-				textArea.setEditable(true);
+				textArea.setEditable(false);
 				URI uri = MainApp.graph.getModel()
 						.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 				try (BufferedReader reader = new BufferedReader(new FileReader(new File(uri.toFileString())))) {

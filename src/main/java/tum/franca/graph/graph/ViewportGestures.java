@@ -50,6 +50,9 @@ public class ViewportGestures {
 		@Override
 		public void handle(MouseEvent event) {
 			
+			if (menu != null) {
+				menu.hide();
+			} 
 
 			if (!event.isPrimaryButtonDown()) {					
 					if (menu == null) {

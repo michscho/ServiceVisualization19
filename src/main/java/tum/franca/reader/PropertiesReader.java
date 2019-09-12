@@ -140,6 +140,36 @@ public class PropertiesReader extends InterfaceReader {
 			}
 
 			break;
+			
+		case "functional":
+
+			switch (property) {
+			case "powertrain":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.POWERTRAIN);
+				break;
+
+			case "body_and_confort":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.BODY_AND_CONFORT);
+				break;
+
+			case "chassisanddriverassistance":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.CHASSIS_AND_DRIVER_ASSISTANCE);
+				break;
+
+			case "humanmachineinterface":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.HUMAN_MACHINE_INTERFACE);
+				break;
+
+			case "crossfunctional":
+				getFirstInterface().setFunctionalScope(FFunctionalScope.CROSSFUNCTIONAL);
+				break;
+
+			default:
+				getFirstInterface().setFunctionalScope(FFunctionalScope.NOT_DEFINED);
+				break;
+			}
+
+			break;
 
 		// RUNTIME
 		case "runtime":

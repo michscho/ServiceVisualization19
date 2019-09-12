@@ -48,8 +48,8 @@ public class ModelSetter {
 					for (ICell iCell : cellList) {
 						if (iCell instanceof RectangleCell) {
 							if (((RectangleCell) iCell).getName().equals(providesString)) {
-								final Edge edge = new Edge(model.getRectangleCell(fidlReader.getFirstInterfaceName()),
-										iCell);
+								final Edge edge = new Edge(iCell,model.getRectangleCell(fidlReader.getFirstInterfaceName())
+										);
 								model.addEdge(edge);
 							}
 						}

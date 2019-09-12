@@ -12,8 +12,8 @@ import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.RectangleUtil;
 import tum.franca.graph.cells.ResizableRectangleCell;
 import tum.franca.main.MainApp;
+import tum.franca.save.RedoManagerState;
 import tum.franca.save.RedoManager;
-import tum.franca.save.RedoManagerWrapper;
 
 public class NodeGestures {
 
@@ -45,7 +45,7 @@ public class NodeGestures {
 		@Override
 		public void handle(MouseEvent event) {
 			try {
-				RedoManagerWrapper.saveState();
+				RedoManager.saveState();
 				RectangleUtil.inconsistantBoardState2();
 			} catch (IOException e) {
 				e.printStackTrace();

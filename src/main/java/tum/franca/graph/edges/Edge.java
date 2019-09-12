@@ -18,6 +18,7 @@ import javafx.scene.shape.StrokeType;
 import tum.franca.graph.cells.ContxtMenuEdge;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
+import tum.franca.main.MainApp;
 
 /**
  * 
@@ -57,8 +58,8 @@ public class Edge extends AbstractEdge {
 		EventHandler<MouseEvent> onMouseClickedEventHandler = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent t) {
-				ContxtMenuEdge.setContextMenu(edge);
-				ContxtMenuEdge.getContextMenu().show(line, t.getScreenX(), t.getScreenY());
+				ContxtMenuEdge.setContextMenu(edge, group);
+				ContxtMenuEdge.getContextMenu().show(MainApp.primaryStage, t.getScreenX(), t.getScreenY());
 				t.consume();
 			}
 		};

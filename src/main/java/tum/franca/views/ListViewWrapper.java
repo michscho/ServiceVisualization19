@@ -1,9 +1,10 @@
-package tum.franca.view.listView;
+package tum.franca.views;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import tum.franca.views.listview.ListViewCreator;
 
 /**
  * 

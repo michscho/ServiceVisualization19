@@ -15,7 +15,7 @@ import tum.franca.graph.layout.GroupingLayout;
 import tum.franca.main.MainApp;
 import tum.franca.reader.FidlReader;
 import tum.franca.reader.PropertiesReader;
-import tum.franca.view.listView.ListViewWrapper;
+import tum.franca.views.ListViewWrapper;
 
 /**
  * 
