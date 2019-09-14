@@ -66,6 +66,18 @@ public class ContxtMenuEdge {
 			for (QOS qos : fr.getFModel().getQos()) {
 				MenuItem item = new MenuItem(qos.getName());
 				qosAttributeChangeQuick.getItems().add(item);
+				EventHandler<ActionEvent> onItemClicked = new EventHandler<ActionEvent>() {
+					
+					@Override
+					public void handle(ActionEvent event) {
+						((RectangleCell) edge.getSource()).getFidlReader().getFirstProvides();
+						((RectangleCell) edge.getSource()).getFidlReader().getFirstProvides();
+						((RectangleCell) edge.getTarget()).getFidlReader().getFirstProvides();
+						((RectangleCell) edge.getTarget()).getFidlReader().getFirstProvides();
+						
+					}
+				};
+				item.setOnAction(onItemClicked);
 			}
 		}
 		
