@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.franca.core.dsl.FrancaPersistenceManager;
+import org.franca.core.franca.FProvides;
+import org.franca.core.franca.FRequires;
+import org.franca.core.franca.FrancaFactory;
 import org.franca.core.franca.QOS;
 
 import javafx.event.ActionEvent;
@@ -116,10 +119,14 @@ public class QosWindowController {
 				String s = textField.getText();
 				System.out.println("textfield removed " + s);
 				for (FidlReader fr : StaticFidlReader.getFidlList()) {
+					
 					for (int i = 0; i < fr.getFirstProvides().size(); i++) {
 						if (fr.getFirstProvides().get(i).getQos() != null) {
 							if (fr.getFirstProvides().get(i).getQos().getName().equals(s)) {
+								FProvides provides = FrancaFactory.eINSTANCE.createFProvides();
+								provides.setProvides(fr.getFirstProvides().get(i).getProvides());
 								fr.getFirstProvides().remove(i);
+								fr.getFirstProvides().add(provides);
 								System.out.println("Removed " + fr.getFirstInterfaceName());
 							}
 						}
@@ -127,27 +134,35 @@ public class QosWindowController {
 					for (int i = 0; i < fr.getFirstRequires().size(); i++) {
 						if (fr.getFirstRequires().get(i).getQos() != null) {
 							System.out.println(fr.getFirstRequires().get(i).getQos().getName());
+							System.out.println(fr.getFirstInterfaceName());
 							if (fr.getFirstRequires().get(i).getQos().getName().equals(s)) {
+								FRequires requires = FrancaFactory.eINSTANCE.createFRequires();
+								requires.setRequires(fr.getFirstRequires().get(i).getRequires());
 								fr.getFirstRequires().remove(i);
+								fr.getFirstRequires().add(requires);
 								System.out.println("Removed " + fr.getFirstInterfaceName());
+								FrancaPersistenceManager fPM = new FrancaPersistenceManager();
+								fPM.saveModel(fr.getFModel(), fr.getURI().toString());
 							}
 						}
 					}
 					
-					FrancaPersistenceManager fPM = new FrancaPersistenceManager();
-
+					
 					QOS qosToRemove = null;
 					for (QOS qos : fr.getFModel().getQos()) {
 						if (qos.getName().equals(s)) {
-							System.out.println("REMOVING");
 							qosToRemove = qos;
 						}
 					}
 
 					if (qosToRemove != null) {
 						fr.getFModel().getQos().remove(qosToRemove);
+						FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 						fPM.saveModel(fr.getFModel(), fr.getURI().toString());
 					}
+					
+					FrancaPersistenceManager fPM = new FrancaPersistenceManager();
+					fPM.saveModel(fr.getFModel(), fr.getURI().toString());
 					
 					
 					

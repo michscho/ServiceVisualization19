@@ -13,6 +13,11 @@ import tum.franca.graph.edges.Edge;
 import tum.franca.graph.graph.Model;
 import tum.franca.reader.FidlReader;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class ModelSetter {
 	
 	/**
