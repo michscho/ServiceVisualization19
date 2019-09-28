@@ -14,7 +14,6 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
-import tum.franca.graph.cells.ContxtMenuEdge;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.graph.Graph;
 import tum.franca.main.MainApp;
@@ -30,6 +29,7 @@ public class Edge extends AbstractEdge {
 	private Group group;
 	private Line line;
 	private Edge edge;
+	public String qos;
 
 	public Edge(ICell source, ICell target) {
 		super(source, target);

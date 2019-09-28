@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -40,20 +41,24 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Transform;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import tum.franca.creator.ServiceCreation;
-import tum.franca.creator.ServiceGroupCreation;
+import tum.franca.data.DataModel;
 import tum.franca.factory.GroupSetter;
+import tum.franca.factory.creator.ServiceCreation;
+import tum.franca.factory.creator.ServiceGroupCreation;
 import tum.franca.graph.cells.ICell;
-import tum.franca.graph.cells.RectangleCell;
-import tum.franca.graph.cells.RectangleUtil;
-import tum.franca.graph.cells.ResizableRectangleCell;
-import tum.franca.reader.FidlReader;
-import tum.franca.reader.StaticFidlReader;
-import tum.franca.save.DataModel;
-import tum.franca.tabs.RenameableTab;
-import tum.franca.tabs.TabPaneSetter;
+import tum.franca.graph.cells.service.RectangleCell;
+import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
+import tum.franca.main.window.AboutWindow;
+import tum.franca.util.ColorUtil;
+import tum.franca.util.alerts.VisualisationsAlerts;
+import tum.franca.util.reader.FidlReader;
+import tum.franca.util.reader.StaticFidlReader;
+import tum.franca.view.list.ListViewWrapper;
+import tum.franca.view.metric.MetricDependency;
+import tum.franca.view.metric.Metrics;
+import tum.franca.view.tab.RenameableTab;
+import tum.franca.view.tab.TabPaneSetter;
 import tum.franca.view.treeView.TreeViewCreator;
-import tum.franca.views.ListViewWrapper;
 
 /**
  * 
@@ -137,6 +142,13 @@ public class MainAppController {
 	@FXML
 	private Text leastCommon;
 	public static Text staticLeastCommonText;
+	@FXML
+	private Text avgService;
+	public static Text staticAvgService;
+	
+	@FXML
+	private Text avgCoupling;
+	public static Text staticAvgCoupling;
 
 	@FXML
 	private Menu menuFile;
@@ -173,16 +185,18 @@ public class MainAppController {
 		staticCohesionText = cohesionText;
 		staticMostCommonText = mostCommon;
 		staticLeastCommonText = leastCommon;
+		staticAvgCoupling = avgCoupling;
+		staticAvgService = avgService;
 	}
 
 	@FXML
 	public void applyGrouping() {
 		if (StaticFidlReader.getFidlList() != null) {
-			GroupSetter gS = new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
+			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			GroupSetter.createCanvas();
 			tabPaneSetter.setCanvas();
 			Metrics.setAll();
-			RectangleUtil.recolorCanvas();
+			ColorUtil.recolorCanvas();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
 			StaticSplitter.setStaticSplitPane(splitPane);
@@ -202,7 +216,7 @@ public class MainAppController {
 				for (int i = 0; i < stringArray1.length; i++) {
 					for (int j = 0; j < stringArray2.length; j++) {
 						if (i == j) {
-							for (RectangleCell cell : ((ResizableRectangleCell) iCell2).getRectangleCells()) {
+							for (RectangleCell cell : ((ResizableRectangleCell) iCell2).containsRectangleCell()) {
 								System.out.println(cell.name);
 								cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
 							}
@@ -260,10 +274,10 @@ public class MainAppController {
 			try {
 			GroupSetter.createCanvas();
 			if (tabPaneSetter == null) {
-				this.tabPaneSetter = new TabPaneSetter();
+				MainAppController.tabPaneSetter = new TabPaneSetter();
 			}
 			tabPaneSetter.setCanvas();
-			RectangleUtil.recolorCanvas();
+			ColorUtil.recolorCanvas();
 			MainApp.graph.getCanvas().setScale(1.0);
 			Metrics.setZoom(1.0);
 			Metrics.setAll();
@@ -272,7 +286,7 @@ public class MainAppController {
 			groupingButton.setDisable(false);
 			newService.setDisable(false);
 			serviceGroup.setDisable(false);
-			StaticSplitter.setStaticSplitPane(splitPane);
+			StaticSplitter.setStaticSplitPane(splitPane);			
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 				VisualisationsAlerts.wrongGrouping();
@@ -324,7 +338,6 @@ public class MainAppController {
 		String string = "default";
 		Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
 		if (tab instanceof RenameableTab) {
-			RenameableTab renTab = (RenameableTab) tab;
 			string = ((RenameableTab) tab).name.get();
 		}
 		fileChooser.setInitialFileName(string + "-snapshot.pdf");
@@ -376,7 +389,6 @@ public class MainAppController {
 		String string = "default";
 		Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
 		if (tab instanceof RenameableTab) {
-			RenameableTab renTab = (RenameableTab) tab;
 			string = ((RenameableTab) tab).name.get();
 		}
 		fileChooser.setInitialFileName(string + "-snapshot.png");

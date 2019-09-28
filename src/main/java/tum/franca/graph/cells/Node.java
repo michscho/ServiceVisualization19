@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Node<T> {
 
-
 	private List<Node<T>> children = new ArrayList<>();
 
 	private Node<T> parent = null;

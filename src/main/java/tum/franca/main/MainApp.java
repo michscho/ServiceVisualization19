@@ -16,6 +16,7 @@ import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import tum.franca.graph.graph.Graph;
+import tum.franca.util.alerts.VisualisationsAlerts;
 
 
 /**

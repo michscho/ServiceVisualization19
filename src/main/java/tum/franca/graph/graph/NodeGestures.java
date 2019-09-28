@@ -8,13 +8,17 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import tum.franca.data.RedoManager;
 import tum.franca.graph.cells.ICell;
-import tum.franca.graph.cells.RectangleUtil;
-import tum.franca.graph.cells.ResizableRectangleCell;
+import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
 import tum.franca.main.MainApp;
-import tum.franca.save.RedoManagerState;
-import tum.franca.save.RedoManager;
+import tum.franca.util.RectangleUtil;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class NodeGestures {
 
 	final DragContext dragContext = new DragContext();
@@ -76,7 +80,6 @@ public class NodeGestures {
 				double offsetX = event.getScreenX() + dragContext.x;
 				double offsetY = event.getScreenY() + dragContext.y;
 
-				// adjust the offset in case we are zoomed
 				final double scale = graph.getScale();
 
 				offsetX /= scale;
@@ -117,7 +120,6 @@ public class NodeGestures {
 		public void handle(MouseEvent event) {
 			pressedBefore = false;
 			RectangleUtil.inconsistantBoardState2();
-			RectangleUtil.removeEmptyGroups();
 		}
 	};
 

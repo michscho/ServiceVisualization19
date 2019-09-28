@@ -42,7 +42,6 @@ public class Graph {
 		useNodeGestures = new SimpleBooleanProperty(true);
 		useNodeGestures.addListener((obs, oldVal, newVal) -> {
 			if (newVal) {
-				System.out.println("HERE");
 				model.getAddedCells().forEach(cell -> nodeGestures.makeDraggable(getGraphic(cell), cell));
 			} else {
 				model.getAddedCells().forEach(cell -> nodeGestures.makeUndraggable(getGraphic(cell)));

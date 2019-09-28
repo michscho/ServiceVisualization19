@@ -1,14 +1,19 @@
 package tum.franca.graph.graph;
 
+import java.awt.MouseInfo;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import tum.franca.main.Metrics;
+import tum.franca.factory.creator.ServiceCreation;
+import tum.franca.factory.creator.ServiceGroupCreation;
+import tum.franca.graph.cells.service.RectangleCell;
+import tum.franca.view.metric.Metrics;
 
 /**
  * https://github.com/generalic/GraphVisualisation/blob/master/src/hr/fer/zemris/graph/test/GraphPane.java
@@ -49,27 +54,49 @@ public class ViewportGestures {
 
 		@Override
 		public void handle(MouseEvent event) {
-			
+
 			if (menu != null) {
 				menu.hide();
-			} 
+			}
 
-			if (!event.isPrimaryButtonDown()) {					
-					if (menu == null) {
-						menu = new ContextMenu();
-					} else {
+			if (!event.isPrimaryButtonDown()) {
+				if (menu == null) {
+					menu = new ContextMenu();
+				} else {
+					menu.hide();
+					menu = new ContextMenu();
+				}
+				menu.setAutoHide(true);
+				MenuItem item = new MenuItem("Add Services");
+				EventHandler<ActionEvent> onAddServiceClicked = new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						System.out.println(MouseInfo.getPointerInfo().getLocation().x);
+						System.out.println(MouseInfo.getPointerInfo().getLocation().y);
+						ServiceCreation.initServiceCreationWithLocation(MouseInfo.getPointerInfo().getLocation().x,
+								MouseInfo.getPointerInfo().getLocation().y);
 						menu.hide();
-						menu = new ContextMenu();
 					}
-					menu.setAutoHide(true);
-					MenuItem item = new MenuItem("Add Services");
-					MenuItem item2 = new MenuItem("Add Service Group");
-					menu.getItems().addAll(item,item2);
-					menu.show(canvas, event.getSceneX(), event.getScreenY());
-					menu.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+				};
+				EventHandler<ActionEvent> onAddServiceGroupClicked = new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						ServiceGroupCreation.initServiceGroupCreationWithLocation(
+								MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
 						menu.hide();
-						e.consume();
-					});
+					}
+				};
+				item.setOnAction(onAddServiceClicked);
+				MenuItem item2 = new MenuItem("Add Service Group");
+				item2.setOnAction(onAddServiceGroupClicked);
+				menu.getItems().addAll(item, item2);
+				menu.show(canvas, event.getSceneX(), event.getScreenY());
+				menu.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+					menu.hide();
+					e.consume();
+				});
 				return;
 			}
 
@@ -78,7 +105,7 @@ public class ViewportGestures {
 
 			sceneDragContext.translateAnchorX = canvas.getTranslateX();
 			sceneDragContext.translateAnchorY = canvas.getTranslateY();
-			
+
 			event.consume();
 
 		}
@@ -88,7 +115,7 @@ public class ViewportGestures {
 	private final EventHandler<MouseEvent> onMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			
+
 			if (menu != null) {
 				menu.hide();
 			}

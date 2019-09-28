@@ -4,23 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BoxLayout;
-
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import tum.franca.graph.cells.ICell;
-import tum.franca.graph.cells.RectangleCell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.main.MainApp;
-import tum.franca.reader.FidlReader;
-import tum.franca.reader.PropertiesReader;
-import tum.franca.reader.StaticFidlReader;
+import tum.franca.util.reader.FidlReader;
+import tum.franca.util.reader.PropertiesReader;
+import tum.franca.util.reader.StaticFidlReader;
 
 /**
  * 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tum.franca.util.propertyfunction.PropertyFunctionWindowController">
+   <children>
+      <Text layoutX="21.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Property Function" wrappingWidth="147.2060546875">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Button fx:id="addAttribute" layoutX="474.0" layoutY="10.0" mnemonicParsing="false" onAction="#onAddAttributeClicked" text="Add Property Function" />
+      <ScrollPane fx:id="scrollPane" layoutY="49.0" prefHeight="484.0" prefWidth="652.0">
+         <content>
+            <AnchorPane>
+               <children>
+                  <Accordion fx:id="accordion" prefHeight="357.0" prefWidth="650.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</Pane>

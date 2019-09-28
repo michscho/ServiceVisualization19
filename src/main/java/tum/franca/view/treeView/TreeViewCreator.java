@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.scene.control.TreeItem;
-import tum.franca.reader.FidlReader;
-import tum.franca.reader.PropertiesReader;
+import tum.franca.util.reader.*;
 
 /**
  * 

@@ -219,7 +219,7 @@
             <Text layoutX="36.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coupling:" wrappingWidth="152.71044921875" />
             <Text layoutX="36.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
             <Separator layoutX="-10.0" layoutY="664.0" prefHeight="3.0" prefWidth="297.0" />
-            <Text layoutX="36.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom:" />
+            <Text layoutX="36.0" layoutY="773.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom:" />
             <Text fx:id="servicesText" layoutX="210.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="groupsText" layoutX="210.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="subGroupsText" layoutX="210.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
@@ -227,7 +227,7 @@
             <Text fx:id="relationsText" layoutX="210.0" layoutY="584.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="couplingText" layoutX="210.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="cohesionText" layoutX="210.0" layoutY="644.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="zoomText" layoutX="210.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="zoomText" layoutX="210.0" layoutY="773.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
             <Text fx:id="mostCommon" layoutX="139.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
             <Text fx:id="leastCommon" layoutX="139.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
             <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="4.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true">
@@ -256,6 +256,10 @@
                </image>
             </ImageView>
             <Separator layoutX="-5.0" layoutY="665.0" prefHeight="15.0" prefWidth="291.0" />
+            <Text layoutX="36.0" layoutY="693.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Service / Group:" wrappingWidth="176.13330078125" />
+            <Text layoutX="36.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Coupling / Group:" wrappingWidth="176.13330078125" />
+            <Text fx:id="avgService" layoutX="210.0" layoutY="693.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <Text fx:id="avgCoupling" layoutX="210.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
          </children></AnchorPane>
   </items>
 </SplitPane>
