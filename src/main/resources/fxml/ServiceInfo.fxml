@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="177.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tum.franca.graph.cells.service.ServiceMetricPopOverController">
+   <children>
+      <Text layoutX="14.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Provides-Level:" />
+      <Text fx:id="requires" layoutX="128.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="34.1884765625" />
+      <Text layoutX="13.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requires-Level:" />
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Provides:" />
+      <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Requires:" />
+      <Text fx:id="provides" layoutX="128.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="34.1884765625" />
+      <Text fx:id="numberRequires" layoutX="128.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="34.1884765625" />
+      <Text fx:id="numberProvides" layoutX="128.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="34.1884765625" />
+   </children>
+</Pane>

@@ -7,15 +7,14 @@ import java.util.Map;
 
 import javafx.collections.ObservableList;
 import tum.franca.graph.cells.ICell;
-import tum.franca.graph.cells.RectangleCell;
-import tum.franca.graph.cells.ResizableRectangleCell;
+import tum.franca.graph.cells.service.RectangleCell;
+import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
 import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.Model;
 import tum.franca.graph.layout.GroupingLayout;
 import tum.franca.main.MainApp;
-import tum.franca.reader.FidlReader;
-import tum.franca.reader.PropertiesReader;
-import tum.franca.views.ListViewWrapper;
+import tum.franca.util.reader.*;
+import tum.franca.view.list.ListViewWrapper;
 
 /**
  * 

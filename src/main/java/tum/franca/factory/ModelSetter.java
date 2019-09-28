@@ -8,10 +8,10 @@ import org.franca.core.franca.FProvides;
 import org.franca.core.franca.FRequires;
 
 import tum.franca.graph.cells.ICell;
-import tum.franca.graph.cells.RectangleCell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.edges.Edge;
 import tum.franca.graph.graph.Model;
-import tum.franca.reader.FidlReader;
+import tum.franca.util.reader.FidlReader;
 
 /**
  * 
@@ -48,7 +48,6 @@ public class ModelSetter {
 			try {
 				EList<FProvides> providesList = fidlReader.getFirstProvides();
 				for (FProvides fProvides : providesList) {
-					System.out.println(fProvides.getProvides());
 					String providesString = fProvides.getProvides();
 					for (ICell iCell : cellList) {
 						if (iCell instanceof RectangleCell) {

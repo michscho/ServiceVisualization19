@@ -3,20 +3,11 @@ package tum.franca.view.treeView;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.eclipse.emf.common.util.URI;
-import org.franca.core.dsl.FrancaIDLHelpers;
-import org.franca.core.dsl.FrancaPersistenceManager;
-import org.franca.core.franca.FModel;
 
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -24,7 +15,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import tum.franca.graph.cells.ICell;
-import tum.franca.graph.cells.RectangleCell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.main.MainApp;
 
 /**

@@ -5,6 +5,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.SplitPane.Divider;
 
+/**
+ * 
+ * @author michaelschott
+ *
+ */
 public class StaticSplitter {
 
 	/**

@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import tum.franca.graph.cells.RectangleCell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.main.MainApp;
-import tum.franca.reader.FidlReader;
-import tum.franca.reader.PropertiesReader;
-import tum.franca.reader.StaticFidlReader;
+import tum.franca.util.reader.FidlReader;
+import tum.franca.util.reader.PropertiesReader;
+import tum.franca.util.reader.StaticFidlReader;
 
 /**
  * 
