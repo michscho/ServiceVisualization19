@@ -44,12 +44,20 @@ public class Metrics {
 		MainAppController.staticZoomText.setText(String.valueOf(zoom).substring(0, 4) + "%");
 	}
 
+	/**
+	 * Average coupling per Group is set. Calculated: Every outgoing/incoming
+	 * relation per lowest level group.
+	 */
 	public static void setAvgCouplingPerGroup() {
-		MainAppController.staticAvgCoupling.setText("" + getAvgCouplingPerGroup());
+		MainAppController.staticAvgCoupling.setText(String.format("%.02f", getAvgCouplingPerGroup()));
 	}
 
+	/**
+	 * Average Services per Group. All Services divided by low level group. #
+	 * services / # low level group
+	 */
 	public static void setAvgServicesPerGroup() {
-		MainAppController.staticAvgService.setText("" + getAvgServicePerGroup());
+		MainAppController.staticAvgService.setText(String.format("%.02f", getAvgServicePerGroup()));
 	}
 
 	public static float getAvgCouplingPerGroup() {
@@ -66,7 +74,8 @@ public class Metrics {
 							if (((ResizableRectangleCell) cell).containsRectangleCell().contains(source)
 									&& !((ResizableRectangleCell) cell).containsRectangleCell().contains(target)
 									|| !((ResizableRectangleCell) cell).containsRectangleCell().contains(source)
-											&& ((ResizableRectangleCell) cell).containsRectangleCell().contains(target)) {
+											&& ((ResizableRectangleCell) cell).containsRectangleCell()
+													.contains(target)) {
 								counter++;
 							}
 						}
@@ -127,6 +136,11 @@ public class Metrics {
 		MainAppController.staticSubSubGroupsText.setText(String.valueOf(subSubGroupCounter));
 	}
 
+	/**
+	 * Returns the number of relations by counting the number of edges.
+	 * 
+	 * @return int - number of relations
+	 */
 	public static int getRelations() {
 		ObservableList<IEdge> cells = MainApp.graph.getModel().getAddedEdges();
 		int relation = 0;
@@ -144,6 +158,10 @@ public class Metrics {
 		MainAppController.staticRelationsText.setText(String.valueOf(getRelations()));
 	}
 
+	/**
+	 * Returns the coupling by counting the number of relations between top level group to top level group.
+	 * @return int - # coupling
+	 */
 	public static int getCoupling() {
 		int couplingCounter = 0;
 		for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
@@ -172,12 +190,16 @@ public class Metrics {
 
 	}
 
+	/**
+	 * Returns the cohesion by counter all relations and subtract the # of coupling through {@link #getCoupling()}.
+	 * @return int - # cohesion
+	 */
 	public static int getCohesion() {
 		return getRelations() - getCoupling();
 	}
 
 	/**
-	 * Set the cohesion.
+	 * Set the cohesion. 
 	 */
 	public static void setCohesion() {
 		MainAppController.staticCohesionText.setText(String.valueOf(getCohesion()));

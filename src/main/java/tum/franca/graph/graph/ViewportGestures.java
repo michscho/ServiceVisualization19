@@ -12,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
-import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.view.metric.Metrics;
 
 /**

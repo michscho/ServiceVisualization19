@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -54,7 +53,6 @@ import tum.franca.util.alerts.VisualisationsAlerts;
 import tum.franca.util.reader.FidlReader;
 import tum.franca.util.reader.StaticFidlReader;
 import tum.franca.view.list.ListViewWrapper;
-import tum.franca.view.metric.MetricDependency;
 import tum.franca.view.metric.Metrics;
 import tum.franca.view.tab.RenameableTab;
 import tum.franca.view.tab.TabPaneSetter;

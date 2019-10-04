@@ -10,9 +10,7 @@ import org.controlsfx.control.PopOver;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -22,7 +20,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
