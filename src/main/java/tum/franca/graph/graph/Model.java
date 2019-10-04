@@ -46,8 +46,6 @@ public class Model{
 	}
 
 	public void endUpdate() {
-		// every cell must have a parent, if it doesn't, then the graphParent is
-		// the parent
 		attachOrphansToGraphParent(getAddedCells());
 		
 	}

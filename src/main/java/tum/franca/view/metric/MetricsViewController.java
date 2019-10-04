@@ -38,6 +38,10 @@ public class MetricsViewController {
 	private Text avgcoupling;
 	@FXML
 	private Text avgcohesion;
+	@FXML 
+	private Text avgServices;
+	@FXML
+	private Text avgCoupling;
 	
 	@FXML
 	private BarChart<Integer,Integer> barchart;
@@ -50,8 +54,10 @@ public class MetricsViewController {
 		relations.setText(String.valueOf(Metrics.getRelations()));
 		coupling.setText(String.valueOf(Metrics.getCoupling()));
 		cohesion.setText(String.valueOf(Metrics.getCohesion()));
-		avgcoupling.setText(String.valueOf(Metrics.getAverageCouplingOfService()));
-		avgcohesion.setText(String.valueOf(Metrics.getAverageCohesionOfService()));
+		avgcoupling.setText(String.format("%.02f", Metrics.getAverageCouplingOfService()));
+		avgcohesion.setText(String.format("%.02f", Metrics.getAverageCohesionOfService()));
+		avgCoupling.setText(String.format("%.02f", Metrics.getAvgCouplingPerGroup()));
+		avgServices.setText(String.format("%.02f", Metrics.getAvgServicePerGroup()));
 	}
 	
 	/**

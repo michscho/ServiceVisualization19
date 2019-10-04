@@ -14,7 +14,7 @@ import tum.franca.main.MainApp;
  *
  */
 public class Grid {
-
+	
 	/**
 	 * Adding grid to canvas.
 	 */

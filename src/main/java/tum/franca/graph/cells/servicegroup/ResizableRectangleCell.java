@@ -32,6 +32,7 @@ import tum.franca.view.treeView.GroupTreeViewCreator;
 /**
  * 
  * @author michaelschott
+ * ResziableRectangleCell represents a service group.
  *
  */
 public class ResizableRectangleCell extends AbstractCell {
@@ -151,7 +152,6 @@ public class ResizableRectangleCell extends AbstractCell {
 		cocoText.setVisible(false);
 		imageView.setVisible(false);
 		cellGestures.setInvisible();
-
 		
 		// Add to pane
 		pane.getChildren().add(numberServicesText);
@@ -303,10 +303,10 @@ public class ResizableRectangleCell extends AbstractCell {
 			cocoText.setVisible(true);
 			if ((float) getCoupling() / getCohesion() >= 1){
 				cocoText.setFill(Color.RED);
-				cocoText.setText("Coupling Chohesion Factor: " + ((float) getCoupling()) / getCohesion() + "\nUnlikly high, consider change!");
+				cocoText.setText("Coupling Chohesion Factor: " + (String.format("%.02f",(float) getCoupling() / getCohesion()) + "\nUnlikly high, consider change!"));
 			} else {
 				cocoText.setFill(Color.GREEN);
-				cocoText.setText("Coupling Chohesion Factor: " + ((float) getCoupling()) / getCohesion() + "\nSeems ok!");
+				cocoText.setText("Coupling Chohesion Factor: " + (String.format("%.02f",(float) getCoupling() / getCohesion()) + "\nSeems ok!"));
 			}
 		}
 	};
