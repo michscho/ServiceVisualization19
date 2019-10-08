@@ -28,7 +28,7 @@ import tum.franca.graph.edges.IEdge;
 import tum.franca.main.MainApp;
 import tum.franca.util.reader.FidlReader;
 import tum.franca.util.reader.StaticFidlReader;
-import tum.franca.view.metric.Metrics;
+import tum.franca.view.metric.GeneralMetrics;
 
 /**
  * 
@@ -303,7 +303,7 @@ public class TabPaneSetter {
 			tabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
 				if (MainApp.graphList[newTab.getTabPane().getSelectionModel().getSelectedIndex()] != null) {
 					MainApp.graph = MainApp.graphList[newTab.getTabPane().getSelectionModel().getSelectedIndex()];
-					Metrics.setAll();
+					GeneralMetrics.setAll();
 				}
 			});
 
@@ -325,7 +325,7 @@ public class TabPaneSetter {
 			TabPane innerTabPane = InnerTabPane.getInnerTabPane();
 			InnerTabPane.setContentMain(MainApp.graph.getCanvas());
 			tabPane.getSelectionModel().getSelectedItem().setContent(innerTabPane);
-			Metrics.setAll();
+			GeneralMetrics.setAll();
 
 			MainApp.graphList[tabPane.getSelectionModel().getSelectedIndex()] = MainApp.graph;
 			ObservableList<Tab> tabList = tabPane.getTabs();

@@ -5,10 +5,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -46,14 +47,6 @@
                 </Menu>
                 <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
                      <items>
-                        <RadioMenuItem fx:id="fileChanges" mnemonicParsing="false" text="Allow File changes">
-                           <accelerator>
-                              <KeyCodeCombination alt="DOWN" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></RadioMenuItem>
-                        <SeparatorMenuItem mnemonicParsing="false">
-                           <accelerator>
-                              <KeyCodeCombination alt="DOWN" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></SeparatorMenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#timeSpecification" text="Time Specification">
                            <accelerator>
                               <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -65,7 +58,6 @@
                            <accelerator>
                               <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" text="How To" />
                   </items>
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
@@ -113,8 +105,6 @@
                   <Image url="@Available.png" />
                </image>
             </ImageView>
-            <Button fx:id="newService" disable="true" layoutX="22.0" layoutY="705.0" mnemonicParsing="false" onAction="#clickedOnNewService" prefHeight="27.0" prefWidth="190.0" text="New Service" />
-            <Button fx:id="serviceGroup" disable="true" layoutX="22.0" layoutY="746.0" mnemonicParsing="false" onAction="#clickedOnNewServiceGroup" prefHeight="27.0" prefWidth="190.0" text="New Service Group" />
          </children>
       </AnchorPane>
       <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0">
@@ -175,7 +165,7 @@
                         <Font name="Arial" size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="713.0" layoutY="746.0" strokeType="OUTSIDE" strokeWidth="0.0" text="www.serviceVisulisation.de" />
+                  <Text layoutX="713.0" layoutY="746.0" strokeType="OUTSIDE" strokeWidth="0.0" text="todo: Adresse zu GitHub" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="143.0" layoutX="495.0" layoutY="93.0" rotate="20.0" strokeType="INSIDE" width="402.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="447.0" layoutY="415.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="528.0" layoutY="514.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
@@ -186,80 +176,221 @@
     <AnchorPane fx:id="zoom" minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0">
          <children>
             <TreeView fx:id="treeView" layoutX="-3.0" layoutY="30.0" prefHeight="203.0" prefWidth="291.0" />
-            <Text layoutX="27.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services and Properties:" />
-            <Text layoutX="30.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metrics:" wrappingWidth="143.60400390625">
+            <Text layoutX="68.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services and Properties:" textAlignment="CENTER" />
+            <Text layoutX="23.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metrics / Information:" textAlignment="CENTER" wrappingWidth="277.0">
                <font>
-                  <Font size="16.0" />
+                  <Font size="20.0" />
                </font>
             </Text>
-            <Text layoutX="36.0" layoutY="312.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Services:" wrappingWidth="152.71044921875" />
-            <Text layoutX="36.0" layoutY="342.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Groups:" wrappingWidth="152.71044921875" />
-            <Text layoutX="36.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subgroups:" wrappingWidth="152.71044921875" />
-            <Text layoutX="36.0" layoutY="402.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subsubgroups:" wrappingWidth="152.71044921875" />
-            <Text layoutX="30.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General:" wrappingWidth="143.60400390625">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            <Text layoutX="30.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties:" wrappingWidth="143.60400390625">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            <Text layoutX="36.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Most common:" wrappingWidth="152.71044921875" />
-            <Text layoutX="36.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least common:" wrappingWidth="152.71044921875" />
-            <Text layoutX="30.0" layoutY="553.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Relations:" wrappingWidth="143.60400390625">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
-            <Separator layoutX="-3.0" layoutY="420.0" prefHeight="3.0" prefWidth="284.0" />
-            <Separator layoutX="-10.0" layoutY="524.0" prefHeight="3.0" prefWidth="297.0" />
-            <Text layoutX="36.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Relations:" wrappingWidth="152.71044921875" />
-            <Text layoutX="36.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coupling:" wrappingWidth="152.71044921875" />
-            <Text layoutX="36.0" layoutY="645.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
-            <Separator layoutX="-10.0" layoutY="664.0" prefHeight="3.0" prefWidth="297.0" />
-            <Text layoutX="36.0" layoutY="773.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zoom:" />
-            <Text fx:id="servicesText" layoutX="210.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="groupsText" layoutX="210.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="subGroupsText" layoutX="210.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="subSubGroupsText" layoutX="210.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="relationsText" layoutX="210.0" layoutY="584.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="couplingText" layoutX="210.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="cohesionText" layoutX="210.0" layoutY="644.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="zoomText" layoutX="210.0" layoutY="773.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="mostCommon" layoutX="139.0" layoutY="470.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
-            <Text fx:id="leastCommon" layoutX="139.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
-            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="4.0" layoutY="241.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="29.0" fitWidth="29.0" layoutX="15.0" layoutY="235.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@metrics.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="4.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@general.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="11.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@properties.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="11.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@connection.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="42.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@servicesandproperties.png" />
                </image>
             </ImageView>
-            <Separator layoutX="-5.0" layoutY="665.0" prefHeight="15.0" prefWidth="291.0" />
-            <Text layoutX="36.0" layoutY="693.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Service / Group:" wrappingWidth="176.13330078125" />
-            <Text layoutX="36.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Coupling / Group:" wrappingWidth="176.13330078125" />
-            <Text fx:id="avgService" layoutX="210.0" layoutY="693.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
-            <Text fx:id="avgCoupling" layoutX="210.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+            <TabPane layoutX="2.0" layoutY="274.0" prefHeight="566.0" prefWidth="275.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="270.0">
+              <tabs>
+                <Tab text="General">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Text layoutX="40.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="13.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@general.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Services:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Groups:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subgroups:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subsubgroups:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="servicesText" layoutX="227.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="groupsText" layoutX="227.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="subGroupsText" layoutX="227.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="subSubGroupsText" layoutX="227.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Separator layoutX="12.0" layoutY="171.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="42.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@properties.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="22.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Most common:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="22.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least common:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="leastCommon" layoutX="153.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
+                              <Text fx:id="mostCommon" layoutX="153.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
+                              <Separator layoutX="12.0" layoutY="286.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="14.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Relations:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coupling:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="relationsText" layoutX="231.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="couplingText" layoutX="231.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="cohesionText" layoutX="231.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text layoutX="42.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Relations:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@connection.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="42.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Special:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Separator layoutX="12.0" layoutY="437.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="19.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Service / Group:" wrappingWidth="176.13330078125" />
+                              <Text layoutX="19.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Avg. Coupling / Group:" wrappingWidth="176.13330078125" />
+                              <Text fx:id="avgService" layoutX="230.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="avgCoupling" layoutX="230.0" layoutY="522.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@star.png" />
+                                 </image>
+                              </ImageView>
+                              <Separator layoutX="10.0" layoutY="551.0" prefHeight="3.0" prefWidth="260.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Group">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Text layoutX="40.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="13.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@general.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Services:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# This group name:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subgroups:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Subsubgroups:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="servicesTextGroup" layoutX="227.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="subGroupsTextGroup" layoutX="227.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="subSubGroupsTextGroup" layoutX="227.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Separator layoutX="12.0" layoutY="171.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="42.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@properties.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="22.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Most common:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="22.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Least common:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="leastCommonGroup" layoutX="153.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
+                              <Text fx:id="mostCommonGroup" layoutX="153.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
+                              <Separator layoutX="12.0" layoutY="286.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="14.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Relations:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coupling:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="relationsTextGroup" layoutX="231.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="couplingTextGroup" layoutX="231.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="cohesionTextGroup" layoutX="231.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text layoutX="42.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Relations:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@connection.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="42.0" layoutY="462.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Special:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <Separator layoutX="12.0" layoutY="437.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="19.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Property Functions" wrappingWidth="176.13330078125" />
+                              <Text fx:id="propertyFunctionGroup" layoutX="231.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="449.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@star.png" />
+                                 </image>
+                              </ImageView>
+                              <Separator layoutX="12.0" layoutY="594.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text fx:id="groupName" layoutX="153.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="CENTER" wrappingWidth="118.71044921875" />
+                              <Text layoutX="19.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coup. Cohesion Factor:" wrappingWidth="176.13330078125" />
+                              <Text fx:id="infoText" layoutX="33.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Group selected..." wrappingWidth="160.2060546875" />
+                              <Text fx:id="coupCoheFactor" layoutX="231.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="29.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                </Tab>
+                  <Tab text="Service">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Text layoutX="40.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="29.0" fitWidth="30.0" layoutX="13.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@general.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Services Name:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# In Group:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# In Subgroup:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# In Subsubgroup:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="servicesTextService" layoutX="198.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" />
+                              <Separator layoutX="12.0" layoutY="171.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Separator layoutX="12.0" layoutY="286.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text layoutX="14.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Relations:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Coupling:" wrappingWidth="152.71044921875" />
+                              <Text layoutX="14.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# Cohesion:" wrappingWidth="152.71044921875" />
+                              <Text fx:id="relationsTextService" layoutX="231.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="couplingTextService" layoutX="231.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text fx:id="cohesionTextService" layoutX="231.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
+                              <Text layoutX="42.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Relations:" wrappingWidth="143.60400390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="20.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@connection.png" />
+                                 </image>
+                              </ImageView>
+                              <Separator layoutX="12.0" layoutY="437.0" prefHeight="3.0" prefWidth="260.0" />
+                              <Text fx:id="servicesTextServiceGroup" layoutX="198.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" />
+                              <Text fx:id="servicesTextServiceSubGroup" layoutX="198.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" />
+                              <Text fx:id="servicesTextServiceSubSubGroup" layoutX="198.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+            <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>

@@ -1,20 +1,15 @@
 package tum.franca.graph.cells.service;
 
 import java.awt.Point;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.controlsfx.control.PopOver;
-
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -28,7 +23,7 @@ import tum.franca.main.MainApp;
 import tum.franca.util.RectangleUtil;
 import tum.franca.util.reader.FidlReader;
 import tum.franca.util.reader.StaticFidlReader;
-import tum.franca.view.tab.InnerTabPane;
+import tum.franca.view.metric.ServiceMetrics;
 import tum.franca.view.tab.MenuBarTop;
 import tum.franca.view.treeView.SimpleTreeViewCreator;
 
@@ -106,20 +101,6 @@ public class RectangleCell extends AbstractCell {
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
 		
-		pane.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> {
-			if (popOver == null) {
-			} else {
-				popOver.hide();
-			}
-		});
-		
-		pane.addEventFilter(MouseEvent.MOUSE_MOVED, e -> {
-			if (popOver == null) {
-			} else {
-				popOver.hide();
-			}
-		});
-		
 		cn = new RectangleCellNodes();
 		cn.makeResizable(pane, this);
 		cn.setInvisible();	
@@ -183,28 +164,15 @@ public class RectangleCell extends AbstractCell {
 	};
 	
 	public static RectangleCell staticCell;
-	public static PopOver popOver;
 
 	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
+			ServiceMetrics.setAll(recCell);
 			SimpleTreeViewCreator treeView = new SimpleTreeViewCreator(name);
 			treeView.createTree();
 			if (!(t.getButton() == MouseButton.SECONDARY)) {
-				Pane infoPane;
-				try {
-					if (popOver == null) {
-					} else {
-						popOver.hide();
-						popOver = null;
-					}
-					staticCell = recCell;
-					infoPane = FXMLLoader.load(InnerTabPane.class.getResource("/fxml/ServiceInfo.fxml"));
-					popOver = new PopOver(infoPane);
-					popOver.show(pane);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
 				pane.getChildren().add(textField);
 				textField.textProperty().addListener((observable, oldValue, newValue) -> {
 					String input = "";
@@ -216,7 +184,6 @@ public class RectangleCell extends AbstractCell {
 					text.setText(input);
 					getFidlReader().getPropertiesReader().setInterfaceName(textField.getText());
 				});
-				//t.consume();
 			}
 			if (t.getButton() == MouseButton.SECONDARY) {
 				ContxtMenuCells.setContextMenu(recCell);
@@ -232,10 +199,6 @@ public class RectangleCell extends AbstractCell {
 	EventHandler<MouseEvent> onReleasedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			if (popOver == null) {
-			} else {
-				popOver.hide();
-			}
 			if (MenuBarTop.alignOnGrid) {
 				if (pane.getLayoutX() >= 0) {
 					if (pane.getLayoutX() % 50 < 15 && pane.getLayoutX() % 50 != 0) {
