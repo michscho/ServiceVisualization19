@@ -45,21 +45,12 @@ public class MainApp extends Application {
 	@Override
 	public void start(Stage primaryStage) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		System.out.println("************** Visualisation ***************");
-		System.out.println(FArgument.class);
-//		try {
-//			URL iconURL = MainApp.class.getResource("/visualisation.png");
-//			Image image = new ImageIcon(iconURL).getImage();
-//			com.apple.eawt.Application.getApplication().setDockIconImage(image);
-//		} catch (Exception e) {
-//			// Won't work on Windows or Linux.
-//		}
-		
+		System.out.println(FArgument.class); // To test if library works		
 
 		MainApp.primaryStage = primaryStage;
 		MainApp.root = FXMLLoader.load(getClass().getResource("/MainApp.fxml"));
 		
 		scene = new Scene(root, 1920, 1080);
-		scene.getStylesheets().add("/application.css");
 
 		primaryStage.getIcons()
 				.add(new javafx.scene.image.Image("https://img.icons8.com/clouds/100/000000/administrative-tools.png"));

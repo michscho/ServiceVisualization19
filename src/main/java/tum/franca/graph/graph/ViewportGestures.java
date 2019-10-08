@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
-import tum.franca.view.metric.Metrics;
+import tum.franca.view.metric.GeneralMetrics;
 
 /**
  * https://github.com/generalic/GraphVisualisation/blob/master/src/hr/fer/zemris/graph/test/GraphPane.java
@@ -176,7 +176,6 @@ public class ViewportGestures {
 					+ (canvas.getBoundsInParent().getMinY() + minY)));
 
 			canvas.setScale(scale);
-			Metrics.setZoom(scale);
 
 			// note: pivot value must be untransformed, i. e. without scaling
 			canvas.setPivot(f * dx, f * dy);

@@ -62,7 +62,7 @@ public class ServiceGroupCreation extends Application {
 		Pane root;
 	
 		try {
-			root = FXMLLoader.load(ServiceCreation.class.getResource("/ServiceGroup.fxml"));
+			root = FXMLLoader.load(ServiceCreation.class.getResource("/fxml/ServiceGroup.fxml"));
 			Scene scene = new Scene(root);
 			stage.setTitle("Create Group");
 			stage.setResizable(false);

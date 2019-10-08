@@ -19,13 +19,13 @@ import javafx.stage.Stage;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
-import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.main.MainApp;
 import tum.franca.main.window.ColorPickerWindow;
 import tum.franca.util.Binding;
 import tum.franca.util.RectangleUtil;
 import tum.franca.util.propertyfunction.PropertyEntity;
+import tum.franca.view.metric.GroupMetrics;
 import tum.franca.view.tab.MenuBarTop;
 import tum.franca.view.treeView.GroupTreeViewCreator;
 
@@ -56,13 +56,6 @@ public class ResizableRectangleCell extends AbstractCell {
 	public int y;
 	public int width;
 	public int heigth;
-	
-	// Group information text
-	private Text numberServicesText;
-	private Text couplingText;
-	private Text cohesionText;
-	private Text cocoText;
-	
 
 	public enum GroupType {
 		SUBSUBLEVEL, SUBLEVEL, TOPLEVEL
@@ -125,48 +118,21 @@ public class ResizableRectangleCell extends AbstractCell {
 			text.setStyle("-fx-font: 20 arial;");
 		}
 		
-		// Configure information text
-		numberServicesText = new Text("# Services");
-		numberServicesText.layoutXProperty().bind(view.widthProperty().add(10));
-		numberServicesText.layoutYProperty().bind(view.layoutYProperty().add(10).add(8));
-		couplingText = new Text("# Coupling");
-		couplingText.layoutXProperty().bind(view.widthProperty().add(10));
-		couplingText.layoutYProperty().bind(view.layoutYProperty().add(10).add(28));
-		cohesionText = new Text("# Cohesion");
-		cohesionText.layoutXProperty().bind(view.widthProperty().add(10));
-		cohesionText.layoutYProperty().bind(view.layoutYProperty().add(10).add(48));
-		cocoText = new Text("Coupling Choesion Faktor");
-		cocoText.layoutXProperty().bind(view.widthProperty().add(10));
-		cocoText.layoutYProperty().bind(view.layoutYProperty().add(10).add(68));
-		
-		// Set information text of mouse transparent
-		numberServicesText.setMouseTransparent(true);
-		couplingText.setMouseTransparent(true);
-		cohesionText.setMouseTransparent(true);
-		cocoText.setMouseTransparent(true);
-		
 		// Set invisible
-		numberServicesText.setVisible(false);
-		couplingText.setVisible(false);
-		cohesionText.setVisible(false);
-		cocoText.setVisible(false);
 		imageView.setVisible(false);
 		cellGestures.setInvisible();
 		
 		// Add to pane
-		pane.getChildren().add(numberServicesText);
-		pane.getChildren().add(couplingText);
-		pane.getChildren().add(cohesionText);
-		pane.getChildren().add(cocoText);
 		pane.getChildren().add(imageView);
 		pane.getChildren().add(text);
 
 		// Add Eventfilter
 		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedPropertyFunction);
-		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
 		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
+		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> imageView.setVisible(true));
+		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 		pane.setOnMouseClicked(e -> e.consume());
 
 		return pane;
@@ -261,78 +227,32 @@ public class ResizableRectangleCell extends AbstractCell {
 	}
 	
 	//***** GETTER AND SETTER END ******
-	
-	private int getCohesion() {
-		int counter = 0;
-		for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
-			RectangleCell source = (RectangleCell) edge.getSource();
-			RectangleCell target = (RectangleCell) edge.getTarget();
-			if (containsRectangleCell().contains(source) && containsRectangleCell().contains(target)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-	
-	private int getCoupling() {
-		int counter = 0;
-		for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
-			RectangleCell source = (RectangleCell) edge.getSource();
-			RectangleCell target = (RectangleCell) edge.getTarget();
-			if (containsRectangleCell().contains(source) && !containsRectangleCell().contains(target) || !containsRectangleCell().contains(source) && containsRectangleCell().contains(target)) {
-				counter++;
-			}
-		}
-		return counter;
-	}
-	
+
 	
 	//***** EVENTHANDLER START ******
-
+	
 	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			numberServicesText.setText("# Services " + containsRectangleCell().size());
-			numberServicesText.setVisible(true);
-			cohesionText.setText("# Cohesion " + getCohesion());
-			cohesionText.setVisible(true);
-			couplingText.setText("# Coupling " + getCoupling());
-			couplingText.setVisible(true);
 			cellGestures.setVisible();
 			imageView.setVisible(true);
-			cocoText.setVisible(true);
-			if ((float) getCoupling() / getCohesion() >= 1){
-				cocoText.setFill(Color.RED);
-				cocoText.setText("Coupling Chohesion Factor: " + (String.format("%.02f",(float) getCoupling() / getCohesion()) + "\nUnlikly high, consider change!"));
-			} else {
-				cocoText.setFill(Color.GREEN);
-				cocoText.setText("Coupling Chohesion Factor: " + (String.format("%.02f",(float) getCoupling() / getCohesion()) + "\nSeems ok!"));
-			}
 		}
 	};
-	
+
 
 
 	EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent t) {
-			numberServicesText.setVisible(false);
-			cohesionText.setVisible(false);
-			couplingText.setVisible(false);
 			cellGestures.setInvisible();
 			imageView.setVisible(false);
-			cocoText.setVisible(false);
 		}
 	};
 
 	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			if (RectangleCell.popOver == null) {
-			} else {
-				RectangleCell.popOver.hide();
-			}
-			//event.consume();
+			GroupMetrics.setAll(cell);
 			Binding.bind(pane, style.ordinal());
 			List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
 			List<ICell> intersectionCellList = new ArrayList<ICell>();

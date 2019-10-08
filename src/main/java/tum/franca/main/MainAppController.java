@@ -53,7 +53,7 @@ import tum.franca.util.alerts.VisualisationsAlerts;
 import tum.franca.util.reader.FidlReader;
 import tum.franca.util.reader.StaticFidlReader;
 import tum.franca.view.list.ListViewWrapper;
-import tum.franca.view.metric.Metrics;
+import tum.franca.view.metric.GeneralMetrics;
 import tum.franca.view.tab.RenameableTab;
 import tum.franca.view.tab.TabPaneSetter;
 import tum.franca.view.treeView.TreeViewCreator;
@@ -99,17 +99,13 @@ public class MainAppController {
 	private Button groupingButton;
 	@FXML
 	private Button functionButton;
-	@FXML
-	private Button newService;
-	@FXML
-	private Button serviceGroup;
 
 	// TODO Delete
 	@FXML
 	private RadioMenuItem fileChanges;
 	public static RadioMenuItem staticFileChanges;
 
-	// Metrics
+	// Metrics, General
 	@FXML
 	private Text zoomText;
 	public static Text staticZoomText;
@@ -143,11 +139,82 @@ public class MainAppController {
 	@FXML
 	private Text avgService;
 	public static Text staticAvgService;
-	
 	@FXML
 	private Text avgCoupling;
 	public static Text staticAvgCoupling;
 
+	// Metrics, Group
+	// General
+	@FXML
+	private Text servicesTextGroup;
+	public static Text staticServicesTextGroup;
+	@FXML
+	private Text groupName;
+	public static Text staticGroupName;
+	@FXML
+	private Text subGroupsTextGroup;
+	public static Text staticSubGroupsTextGroup;
+	@FXML
+	private Text subSubGroupsTextGroup;
+	public static Text staticSubSubGroupsTextGroup;
+
+	// Properties
+	@FXML
+	private Text mostCommonGroup;
+	public static Text staticMostCommonGroup;
+	@FXML
+	private Text leastCommonGroup;
+	public static Text staticLeastCommonGroup;
+
+	// Relation
+	@FXML
+	private Text relationsTextGroup;
+	public static Text staticRelationsTextGroup;
+	@FXML
+	private Text couplingTextGroup;
+	public static Text staticCouplingTextGroup;
+	@FXML
+	private Text cohesionTextGroup;
+	public static Text staticCohesionTextGroup;
+
+	// Special
+	@FXML
+	private Text propertyFunctionGroup;
+	public static Text staticPropertyFunctionGroup;
+	@FXML
+	private Text coupCoheFactor;
+	public static Text staticCoupCoheFactor;
+	@FXML
+	private Text infoText;
+	public static Text staticInfoText;
+	
+	// Metrics, Service
+	// General
+	@FXML
+	private Text servicesTextService;
+	public static Text staticServicesTextService;
+	@FXML
+	private Text servicesTextServiceGroup;
+	public static Text staticServicesTextServiceGroup;
+	@FXML
+	private Text servicesTextServiceSubGroup;
+	public static Text staticServicesTextServiceSubGroup;
+	@FXML
+	private Text servicesTextServiceSubSubGroup;
+	public static Text staticServicesTextServiceSubSubGroup;
+	
+	// Relations
+	@FXML
+	private Text relationsTextService;
+	public static Text staticRelationsTextService;
+	@FXML
+	private Text couplingTextService;
+	public static Text staticCouplingTextService;
+	@FXML
+	private Text cohesionTextService;
+	public static Text staticCohesionTextService;
+
+	// Menu
 	@FXML
 	private Menu menuFile;
 	@FXML
@@ -155,7 +222,6 @@ public class MainAppController {
 	@FXML
 	private Menu menuHelp;
 
-	
 	public MainAppController() {
 	}
 
@@ -170,21 +236,67 @@ public class MainAppController {
 		listViewWrapper.createListViews();
 		staticListWrapper = listViewWrapper;
 		StaticSplitter.setStaticSplitPane(splitPane);
-		fileChanges.setSelected(true);
 		staticTreeView = treeView;
-		staticZoomText = zoomText;
+		
+		//**************
+
+		// GENERAL METRICS
+		// General
 		staticServicesText = servicesText;
 		staticGroupsText = groupsText;
 		staticSubGroupsText = subGroupsText;
 		staticSubSubGroupsText = subSubGroupsText;
+		
+		// Relation
 		staticRelationsText = relationsText;
-		staticFileChanges = fileChanges;
 		staticCouplingText = couplingText;
 		staticCohesionText = cohesionText;
+		
+		// Properties
 		staticMostCommonText = mostCommon;
 		staticLeastCommonText = leastCommon;
+		
+		// Special
 		staticAvgCoupling = avgCoupling;
 		staticAvgService = avgService;
+		
+		//**************
+
+		// GROUP METRICS
+		// General
+		staticServicesTextGroup = servicesTextGroup;
+		staticGroupName = groupName;
+		staticSubGroupsTextGroup = subGroupsTextGroup;
+		staticSubSubGroupsTextGroup = subSubGroupsTextGroup;
+
+		// Properties
+		staticMostCommonGroup = mostCommonGroup;
+		staticLeastCommonGroup = leastCommonGroup;
+
+		// Relation
+		staticRelationsTextGroup = relationsTextGroup;
+		staticCouplingTextGroup = couplingTextGroup;
+		staticCohesionTextGroup = cohesionTextGroup;
+
+		// Special
+		staticPropertyFunctionGroup = propertyFunctionGroup;
+		staticCoupCoheFactor = coupCoheFactor;
+		staticInfoText = infoText;
+		
+		//**************
+		
+		// SERVICE METRICS
+		// General
+		staticServicesTextService = servicesTextService;
+		staticServicesTextServiceGroup = servicesTextGroup;
+		staticServicesTextServiceSubGroup = servicesTextServiceSubGroup;
+		staticServicesTextServiceSubSubGroup = servicesTextServiceSubSubGroup;
+	
+		// Relation
+		staticRelationsTextService = relationsTextService;
+		staticCouplingTextService = couplingTextService;
+		staticCohesionTextService = cohesionTextService;
+
 	}
 
 	@FXML
@@ -193,7 +305,7 @@ public class MainAppController {
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			GroupSetter.createCanvas();
 			tabPaneSetter.setCanvas();
-			Metrics.setAll();
+			GeneralMetrics.setAll();
 			ColorUtil.recolorCanvas();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
@@ -224,17 +336,6 @@ public class MainAppController {
 			}
 		}
 	}
-	
-	@FXML
-	public void clickedOnNewService(){
-		ServiceCreation.initServiceCreation();
-	}
-	
-	@FXML
-	public void clickedOnNewServiceGroup(){
-		ServiceGroupCreation.initServiceGroupCreation();
-		
-	}
 
 	@FXML
 	public void save() {
@@ -262,36 +363,33 @@ public class MainAppController {
 			for (File file : list) {
 				URI uri = URI.createFileURI(file.getAbsolutePath());
 				try {
-				FidlReader fr = new FidlReader(uri);
-				StaticFidlReader.getFidlList().add(fr);
+					FidlReader fr = new FidlReader(uri);
+					StaticFidlReader.getFidlList().add(fr);
 				} catch (Exception e) {
 					System.err.println(e.getStackTrace());
 				}
 			}
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			try {
-			GroupSetter.createCanvas();
-			if (tabPaneSetter == null) {
-				MainAppController.tabPaneSetter = new TabPaneSetter();
-			}
-			tabPaneSetter.setCanvas();
-			ColorUtil.recolorCanvas();
-			MainApp.graph.getCanvas().setScale(1.0);
-			Metrics.setZoom(1.0);
-			Metrics.setAll();
-			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-			treeView.createTree();
-			groupingButton.setDisable(false);
-			newService.setDisable(false);
-			serviceGroup.setDisable(false);
-			StaticSplitter.setStaticSplitPane(splitPane);			
+				GroupSetter.createCanvas();
+				if (tabPaneSetter == null) {
+					MainAppController.tabPaneSetter = new TabPaneSetter();
+				}
+				tabPaneSetter.setCanvas();
+				ColorUtil.recolorCanvas();
+				MainApp.graph.getCanvas().setScale(1.0);
+				GeneralMetrics.setAll();
+				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+				treeView.createTree();
+				groupingButton.setDisable(false);
+				StaticSplitter.setStaticSplitPane(splitPane);
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 				VisualisationsAlerts.wrongGrouping();
 			}
 		}
 	}
-	
+
 	@FXML
 	public void quitClicked() {
 		if (VisualisationsAlerts.saveDialog()) {
@@ -349,19 +447,19 @@ public class MainAppController {
 
 		Document document = new Document();
 		document.setPageSize(PageSize.A4.rotate());
-		 
-		float scaler = (float) (((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin()) / image.getWidth()) * 100);
 
-	
+		float scaler = (float) (((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin())
+				/ image.getWidth()) * 100);
+
 		PdfWriter.getInstance(document, new FileOutputStream(savedFile));
 		document.open();
-		
+
 		document.newPage();
 		Paragraph p = new Paragraph();
-        p.add(string + "-snapshot");
-        p.setAlignment(Element.ALIGN_CENTER);
+		p.add(string + "-snapshot");
+		p.setAlignment(Element.ALIGN_CENTER);
 
-        document.add(p);
+		document.add(p);
 		Image image2 = Image.getInstance(graph);
 		image2.scalePercent(scaler);
 		// image2.scaleAbsolute(PageSize.A4);
@@ -370,11 +468,11 @@ public class MainAppController {
 
 		Desktop.getDesktop().open(savedFile);
 	}
-	
+
 	@FXML
 	public void minClicked() {
 		MainApp.primaryStage.setIconified(true);
-	}      
+	}
 
 	@FXML
 	public void saveAsPng() throws IOException {

@@ -18,10 +18,10 @@ import tum.franca.util.RectangleUtil;
  *         In this class the main metrics are calculated.
  *
  */
-public class Metrics {
+public class GeneralMetrics {
 
 	/**
-	 * Sets Metrics in the application. Use for updating.
+	 * Sets general metrics in the application. Use for updating.
 	 */
 	public static void setAll() {
 		setServicesAndGroups();
@@ -33,17 +33,7 @@ public class Metrics {
 		setAvgCouplingPerGroup();
 		setAvgServicesPerGroup();
 	}
-
-	/**
-	 * Shows the zoom of the canvas.
-	 * 
-	 * @param zoom
-	 */
-	public static void setZoom(double zoom) {
-		zoom *= 100;
-		MainAppController.staticZoomText.setText(String.valueOf(zoom).substring(0, 4) + "%");
-	}
-
+	
 	/**
 	 * Average coupling per Group is set. Calculated: Every outgoing/incoming
 	 * relation per lowest level group.
