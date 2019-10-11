@@ -26,9 +26,11 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
@@ -75,6 +77,9 @@ public class MainAppController {
 	private SplitPane splitPane2;
 
 	public static TabPaneSetter tabPaneSetter;
+	
+	@FXML
+	private MenuBar menuBar;
 
 	// ListView
 	@FXML
@@ -99,11 +104,6 @@ public class MainAppController {
 	private Button groupingButton;
 	@FXML
 	private Button functionButton;
-
-	// TODO Delete
-	@FXML
-	private RadioMenuItem fileChanges;
-	public static RadioMenuItem staticFileChanges;
 
 	// Metrics, General
 	@FXML
@@ -222,9 +222,6 @@ public class MainAppController {
 	@FXML
 	private Menu menuHelp;
 
-	public MainAppController() {
-	}
-
 	/**
 	 * Initalizes the controller and will be called at the beginning.
 	 * 
@@ -232,11 +229,20 @@ public class MainAppController {
 	 */
 	@FXML
 	public void initialize() throws Exception {
+		
+		// Init ListView
 		listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
 		staticListWrapper = listViewWrapper;
+		
+		// Static Splitter
 		StaticSplitter.setStaticSplitPane(splitPane);
 		staticTreeView = treeView;
+		
+		// Setting MenuBar for MacOS
+		final String os = System.getProperty("os.name");
+		if (os != null && os.startsWith("Mac"))
+		  menuBar.useSystemMenuBarProperty().set(true);
 		
 		//**************
 
