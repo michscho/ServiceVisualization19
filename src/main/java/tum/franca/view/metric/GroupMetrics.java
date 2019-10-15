@@ -113,7 +113,7 @@ public class GroupMetrics {
 	public static void setInfoText(ResizableRectangleCell cell) {
 		if (getCouplingCohesionFactor(cell) >= 1) {
 			MainAppController.staticInfoText.setFill(Color.RED);
-			MainAppController.staticInfoText.setText("Unlikly high, consider change!");
+			MainAppController.staticInfoText.setText("Pretty high, consider change!");
 		} else {
 			MainAppController.staticInfoText.setFill(Color.GREEN);
 			MainAppController.staticInfoText.setText("Seems ok!");
