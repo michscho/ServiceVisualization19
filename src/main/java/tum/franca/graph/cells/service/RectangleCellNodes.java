@@ -299,46 +299,6 @@ public class RectangleCellNodes {
 		return (result < 0) ? (360d + result) : result;
 	}
 
-//	public void setRequiresProvides(Line line) {	
-//			Circle circle = new Circle(2);
-//			circle.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
-//			circle.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
-//			Arc arc = new Arc(0, 0, 5, 5, 90, 180);
-//			
-//			arc.setType(ArcType.OPEN);
-//			arc.setStrokeWidth(2);
-//			arc.setStroke(Color.BLACK);
-//			arc.setStrokeType(StrokeType.INSIDE);
-//			arc.setFill(null);
-//			arc.layoutXProperty().bind((line.startXProperty().add(line.endXProperty())).divide(2));
-//			arc.layoutYProperty().bind((line.startYProperty().add(line.endYProperty())).divide(2));
-//			MainApp.graph.getCanvas().getChildren().add(circle);
-//			MainApp.graph.getCanvas().getChildren().add(arc);
-//			
-//			Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
-//			Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
-//			arc.setStartAngle(angleOf(point1, point2) + 90);
-//			line.startXProperty().addListener(new ChangeListener<Object>() {
-//
-//				@Override
-//				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-//					Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
-//					Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
-//					arc.setStartAngle(angleOf(point1, point2) + 90);
-//				}
-//			});
-//			line.endXProperty().addListener(new ChangeListener<Object>() {
-//
-//				@Override
-//				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-//					Point point1 = new Point((int) line.getStartX(), (int) line.getStartY());
-//					Point point2 = new Point((int) line.getEndX(), (int) line.getEndY());
-//					arc.setStartAngle(angleOf(point1, point2) + 90);
-//				}
-//			});
-//			}
-
-
 	public void makeResizable(Region region, DragNodeSupplier... nodeSuppliers) {
 		final Wrapper<Point2D> mouseLocation = new Wrapper<>();
 		final List<Node> dragNodes = Arrays.stream(nodeSuppliers).map(supplier -> supplier.apply(region, mouseLocation))
@@ -370,15 +330,6 @@ public class RectangleCellNodes {
 							Edge edge = new Edge(soureRectangleCell, rectangleCell);
 							MainApp.graph.getModel().addEdge(edge);
 							MainApp.graph.addEgde(edge);
-							
-//							for (IEdge iEdge : MainApp.graph.getModel().getAddedEdges()) {
-//								if (iEdge instanceof Edge) {
-//									//((Edge) iEdge).getGraphic(MainApp.graph).toBack();
-//								}
-//							}
-							
-							
-							// setRequiresProvides(line);
 
 							for (ICell ICell : MainApp.graph.getModel().getAddedCells()) {
 								if (ICell instanceof RectangleCell) {
