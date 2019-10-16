@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -31,8 +36,7 @@ import tum.franca.view.treeView.GroupTreeViewCreator;
 
 /**
  * 
- * @author michaelschott
- * ResziableRectangleCell represents a service group.
+ * @author michaelschott ResziableRectangleCell represents a service group.
  *
  */
 public class ResizableRectangleCell extends AbstractCell {
@@ -44,11 +48,11 @@ public class ResizableRectangleCell extends AbstractCell {
 	public Pane pane;
 	public String group;
 	public CellGestures cellGestures;
-	
+
 	// Property Function
 	private ImageView imageView;
 	public List<PropertyEntity> properties = new ArrayList<PropertyEntity>();
-	
+
 	// Style
 	public Color color;
 	public Color colorStroke;
@@ -109,22 +113,103 @@ public class ResizableRectangleCell extends AbstractCell {
 		imageView.layoutXProperty().bind(view.widthProperty().subtract(18));
 		imageView.layoutYProperty().bind(view.layoutYProperty().add(3));
 
-		Text text = new Text(getName());
+		// ---------
+		Line hLine = new Line();
+		hLine.fillProperty().bind(view.fillProperty());
+		hLine.strokeProperty().bind(view.strokeProperty());
+		hLine.styleProperty().bind(view.styleProperty());
+		hLine.startXProperty().bind(view.layoutXProperty());
+		hLine.startYProperty().bind(view.layoutYProperty().add(25));
+		hLine.endXProperty().bind(view.widthProperty().divide(3));
+		hLine.endYProperty().bind(view.layoutYProperty().add(25));
+
+		// /
+		// /
+		// /
+		Line dLine = new Line();
+		dLine.fillProperty().bind(view.fillProperty());
+		dLine.strokeProperty().bind(view.strokeProperty());
+		dLine.styleProperty().bind(view.styleProperty());
+		dLine.startXProperty().bind(view.widthProperty().divide(3));
+		dLine.startYProperty().bind(view.layoutYProperty().add(25));
+		dLine.endXProperty().bind(view.widthProperty().divide(2.8));
+		dLine.endYProperty().bind(view.layoutYProperty().add(15));
+
+		// |
+		// |
+		// |
+		Line vLine = new Line();
+		vLine.fillProperty().bind(view.fillProperty());
+		vLine.strokeProperty().bind(view.strokeProperty());
+		vLine.styleProperty().bind(view.styleProperty());
+		vLine.startXProperty().bind(view.widthProperty().divide(2.8));
+		vLine.startYProperty().bind(view.layoutYProperty().add(15));
+		vLine.endXProperty().bind(view.widthProperty().divide(2.8));
+		vLine.endYProperty().bind(view.layoutYProperty());
+
+		Label label = new Label(getName());
 		if (style == GroupType.SUBSUBLEVEL) {
-			text.setStyle("-fx-font: 16 arial;");
+			label.setStyle("-fx-font: 16 arial;");
 		} else if (style == GroupType.SUBLEVEL) {
-			text.setStyle("-fx-font: 18 arial;");
+			label.setStyle("-fx-font: 18 arial;");
 		} else {
-			text.setStyle("-fx-font: 20 arial;");
+			label.setStyle("-fx-font: 20 arial;");
 		}
-		
+		label.layoutXProperty().bind(view.layoutXProperty().add(10));
+		label.layoutYProperty().bind(view.layoutYProperty().add(0));
+		label.setTooltip(new Tooltip(label.getText()));
+		label.setPrefWidth(hLine.endXProperty().subtract(hLine.startXProperty()).subtract(3).doubleValue());
+
+		hLine.endXProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				label.setPrefWidth(hLine.endXProperty().subtract(hLine.startXProperty()).subtract(3).doubleValue());
+			}
+		});
+
+		view.widthProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				if (view.getWidth() <= 100 || view.heightProperty().doubleValue() <= 40) {
+					label.setVisible(false);
+				}
+				if (view.getWidth() > 100 && view.heightProperty().doubleValue() > 40) {
+					label.setVisible(true);
+					hLine.setVisible(true);
+					dLine.setVisible(true);
+					vLine.setVisible(true);
+				}
+			}
+		});
+
+		view.heightProperty().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				if (view.widthProperty().doubleValue() <= 40 || view.heightProperty().doubleValue() <= 40) {
+					label.setVisible(false);
+					hLine.setVisible(false);
+					dLine.setVisible(false);
+					vLine.setVisible(false);
+				}
+				if (view.getWidth() > 100 && view.heightProperty().doubleValue() > 40) {
+					label.setVisible(true);
+					hLine.setVisible(true);
+					dLine.setVisible(true);
+					vLine.setVisible(true);
+				}
+			}
+		});
+
 		// Set invisible
 		imageView.setVisible(false);
 		cellGestures.setInvisible();
-		
+
 		// Add to pane
 		pane.getChildren().add(imageView);
-		pane.getChildren().add(text);
+		pane.getChildren().add(label);
+		pane.getChildren().add(hLine);
+		pane.getChildren().add(dLine);
+		pane.getChildren().add(vLine);
 
 		// Add Eventfilter
 		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, onMouseClickedPropertyFunction);
@@ -142,12 +227,13 @@ public class ResizableRectangleCell extends AbstractCell {
 	EventHandler<MouseEvent> onMouseClickedPropertyFunction = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
-			ResContxtMenu.getContextMenu(cell,pane, event);
+			ResContxtMenu.getContextMenu(cell, pane, event);
 		}
 	};
 
 	/**
 	 * Returns all Rectangles which are in this group.
+	 * 
 	 * @return List<RectangleCell>
 	 */
 	public List<RectangleCell> containsRectangleCell() {
@@ -177,6 +263,7 @@ public class ResizableRectangleCell extends AbstractCell {
 
 	/**
 	 * Returns all Subgroups of this group.
+	 * 
 	 * @return List<ResizableRectangleCell>
 	 */
 	public List<ResizableRectangleCell> containsResizableRectanlgeCells() {
@@ -203,8 +290,8 @@ public class ResizableRectangleCell extends AbstractCell {
 		}
 		return outputList;
 	}
-	
-	//***** GETTER AND SETTER START ******
+
+	// ***** GETTER AND SETTER START ******
 
 	public String getName() {
 		return name;
@@ -225,12 +312,11 @@ public class ResizableRectangleCell extends AbstractCell {
 	public void setPane(StackPane pane) {
 		this.pane = pane;
 	}
-	
-	//***** GETTER AND SETTER END ******
 
-	
-	//***** EVENTHANDLER START ******
-	
+	// ***** GETTER AND SETTER END ******
+
+	// ***** EVENTHANDLER START ******
+
 	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
@@ -238,8 +324,6 @@ public class ResizableRectangleCell extends AbstractCell {
 			imageView.setVisible(true);
 		}
 	};
-
-
 
 	EventHandler<MouseEvent> onMouseExitedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -339,8 +423,7 @@ public class ResizableRectangleCell extends AbstractCell {
 			}
 		}
 	};
-	
-	//***** EVENTHANDLER END ******
 
+	// ***** EVENTHANDLER END ******
 
 }
