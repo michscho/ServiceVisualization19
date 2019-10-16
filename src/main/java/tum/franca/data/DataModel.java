@@ -54,7 +54,7 @@ public class DataModel implements Serializable {
 	public List<String> groupRectangleColor = new ArrayList<String>();
 	public List<String> groupRectangleColorStroke = new ArrayList<String>();
 	public List<ResizableRectangleCell.GroupType> groupRectangleStyle = new ArrayList<ResizableRectangleCell.GroupType>();
-	
+
 	// Properties List
 	public List<PropertyEntity> propertyList = new ArrayList<PropertyEntity>();
 
@@ -79,7 +79,7 @@ public class DataModel implements Serializable {
 			if (tab instanceof RenameableTab) {
 				string = ((RenameableTab) tab).name.get();
 			}
-			fileChooser.setInitialFileName("visualisation-"+ string  + ".vis");
+			fileChooser.setInitialFileName("visualisation-" + string + ".vis");
 			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
 			FileOutputStream fileOut = new FileOutputStream(savedFile.getAbsolutePath());
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -101,34 +101,36 @@ public class DataModel implements Serializable {
 			fileChooser.setTitle("Select File");
 			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Visualisation Files", "*.vis"));
 			File savedFile = fileChooser.showOpenDialog(MainApp.primaryStage);
-			FileInputStream fileIn = new FileInputStream(savedFile.getAbsolutePath());
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			e = (DataModel) in.readObject();
+			if (savedFile != null) {
+				FileInputStream fileIn = new FileInputStream(savedFile.getAbsolutePath());
+				ObjectInputStream in = new ObjectInputStream(fileIn);
+				e = (DataModel) in.readObject();
 
-			// Rectangle Data
-			rectangleCellX = e.rectangleCellX;
-			rectangleCellY = e.rectangleCellY;
-			rectangleCellName = e.rectangleCellName;
+				// Rectangle Data
+				rectangleCellX = e.rectangleCellX;
+				rectangleCellY = e.rectangleCellY;
+				rectangleCellName = e.rectangleCellName;
 
-			// ResizableRec Data
-			groupRectangleWidth = e.groupRectangleWidth;
-			groupRectangleHeight = e.groupRectangleHeight;
-			groupRectangleX = e.groupRectangleX;
-			groupRectangleY = e.groupRectangleY;
-			groupRectangleName = e.groupRectangleName;
-			groupRectangleColor = e.groupRectangleColor;
-			groupRectangleColorStroke = e.groupRectangleColorStroke;
-			groupRectangleStyle = e.groupRectangleStyle;
-			
-			// Properties
-			propertyList = e.propertyList;
+				// ResizableRec Data
+				groupRectangleWidth = e.groupRectangleWidth;
+				groupRectangleHeight = e.groupRectangleHeight;
+				groupRectangleX = e.groupRectangleX;
+				groupRectangleY = e.groupRectangleY;
+				groupRectangleName = e.groupRectangleName;
+				groupRectangleColor = e.groupRectangleColor;
+				groupRectangleColorStroke = e.groupRectangleColorStroke;
+				groupRectangleStyle = e.groupRectangleStyle;
 
-			// Edge
-			edgeSource = e.edgeSource;
-			edgeTarget = e.edgeTarget;
+				// Properties
+				propertyList = e.propertyList;
 
-			in.close();
-			fileIn.close();
+				// Edge
+				edgeSource = e.edgeSource;
+				edgeTarget = e.edgeTarget;
+
+				in.close();
+				fileIn.close();
+			}
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -147,7 +149,7 @@ public class DataModel implements Serializable {
 				rectangleCellName.add(((RectangleCell) iCell).getName());
 			}
 			if (iCell instanceof ResizableRectangleCell) {
-				
+
 				// Rectangle Attributes
 				groupRectangleX.add(((ResizableRectangleCell) iCell).pane.layoutXProperty().intValue());
 				groupRectangleY.add(((ResizableRectangleCell) iCell).pane.layoutYProperty().intValue());
@@ -157,7 +159,7 @@ public class DataModel implements Serializable {
 				groupRectangleColor.add(((ResizableRectangleCell) iCell).color.toString());
 				groupRectangleColorStroke.add(((ResizableRectangleCell) iCell).colorStroke.toString());
 				groupRectangleStyle.add(((ResizableRectangleCell) iCell).style);
-				
+
 				// Properties
 				propertyList.addAll(((ResizableRectangleCell) iCell).properties);
 			}
@@ -193,7 +195,8 @@ public class DataModel implements Serializable {
 
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
-		for (ICell iCell : cellList) {			MainApp.graph.getModel().addCell(iCell);
+		for (ICell iCell : cellList) {
+			MainApp.graph.getModel().addCell(iCell);
 			MainApp.graph.getGraphic(iCell).relocate(iCell.getX(), iCell.getY());
 		}
 
@@ -202,20 +205,21 @@ public class DataModel implements Serializable {
 			for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 				for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
 					if (iCell instanceof RectangleCell && iCell2 instanceof RectangleCell) {
-						if (edgeSource.get(i).equals(((RectangleCell) iCell).getName()) && edgeTarget.get(i).equals(((RectangleCell) iCell2).getName())) {
-							 edgeList.add(new Edge(iCell, iCell2));
+						if (edgeSource.get(i).equals(((RectangleCell) iCell).getName())
+								&& edgeTarget.get(i).equals(((RectangleCell) iCell2).getName())) {
+							edgeList.add(new Edge(iCell, iCell2));
 						}
 					}
 				}
 			}
 
 		}
-		
+
 		for (Edge edge : edgeList) {
 			model.addEdge(edge);
 			MainApp.graph.addEgde(edge);
 		}
-		
+
 		for (ICell iCell : cellList) {
 			MainApp.graph.addCell(iCell);
 			MainApp.graph.getGraphic(iCell).relocate(iCell.getX(), iCell.getY());

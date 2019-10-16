@@ -26,12 +26,10 @@ import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextInputDialog;
@@ -44,8 +42,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import tum.franca.data.DataModel;
 import tum.franca.factory.GroupSetter;
-import tum.franca.factory.creator.ServiceCreation;
-import tum.franca.factory.creator.ServiceGroupCreation;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
@@ -77,7 +73,7 @@ public class MainAppController {
 	private SplitPane splitPane2;
 
 	public static TabPaneSetter tabPaneSetter;
-	
+
 	@FXML
 	private MenuBar menuBar;
 
@@ -187,7 +183,7 @@ public class MainAppController {
 	@FXML
 	private Text infoText;
 	public static Text staticInfoText;
-	
+
 	// Metrics, Service
 	// General
 	@FXML
@@ -202,7 +198,7 @@ public class MainAppController {
 	@FXML
 	private Text servicesTextServiceSubSubGroup;
 	public static Text staticServicesTextServiceSubSubGroup;
-	
+
 	// Relations
 	@FXML
 	private Text relationsTextService;
@@ -229,22 +225,22 @@ public class MainAppController {
 	 */
 	@FXML
 	public void initialize() throws Exception {
-		
+
 		// Init ListView
 		listViewWrapper = new ListViewWrapper(listView, listView2, listView3, listView4);
 		listViewWrapper.createListViews();
 		staticListWrapper = listViewWrapper;
-		
+
 		// Static Splitter
 		StaticSplitter.setStaticSplitPane(splitPane);
 		staticTreeView = treeView;
-		
+
 		// Setting MenuBar for MacOS
 		final String os = System.getProperty("os.name");
 		if (os != null && os.startsWith("Mac"))
-		  menuBar.useSystemMenuBarProperty().set(true);
-		
-		//**************
+			menuBar.useSystemMenuBarProperty().set(true);
+
+		// **************
 
 		// GENERAL METRICS
 		// General
@@ -252,21 +248,21 @@ public class MainAppController {
 		staticGroupsText = groupsText;
 		staticSubGroupsText = subGroupsText;
 		staticSubSubGroupsText = subSubGroupsText;
-		
+
 		// Relation
 		staticRelationsText = relationsText;
 		staticCouplingText = couplingText;
 		staticCohesionText = cohesionText;
-		
+
 		// Properties
 		staticMostCommonText = mostCommon;
 		staticLeastCommonText = leastCommon;
-		
+
 		// Special
 		staticAvgCoupling = avgCoupling;
 		staticAvgService = avgService;
-		
-		//**************
+
+		// **************
 
 		// GROUP METRICS
 		// General
@@ -288,16 +284,16 @@ public class MainAppController {
 		staticPropertyFunctionGroup = propertyFunctionGroup;
 		staticCoupCoheFactor = coupCoheFactor;
 		staticInfoText = infoText;
-		
-		//**************
-		
+
+		// **************
+
 		// SERVICE METRICS
 		// General
 		staticServicesTextService = servicesTextService;
 		staticServicesTextServiceGroup = servicesTextGroup;
 		staticServicesTextServiceSubGroup = servicesTextServiceSubGroup;
 		staticServicesTextServiceSubSubGroup = servicesTextServiceSubSubGroup;
-	
+
 		// Relation
 		staticRelationsTextService = relationsTextService;
 		staticCouplingTextService = couplingTextService;
@@ -323,18 +319,20 @@ public class MainAppController {
 
 	@FXML
 	public void persistFidlClicked() {
-		for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
-			if (iCell2 instanceof ResizableRectangleCell) {
-				String string1 = ((ResizableRectangleCell) iCell2).group;
-				String string2 = ((ResizableRectangleCell) iCell2).getName();
-				String[] stringArray1 = string1.split(" ");
-				String[] stringArray2 = string2.split(" ");
-				for (int i = 0; i < stringArray1.length; i++) {
-					for (int j = 0; j < stringArray2.length; j++) {
-						if (i == j) {
-							for (RectangleCell cell : ((ResizableRectangleCell) iCell2).containsRectangleCell()) {
-								System.out.println(cell.name);
-								cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
+		if (MainApp.graph != null) {
+			for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
+				if (iCell2 instanceof ResizableRectangleCell) {
+					String string1 = ((ResizableRectangleCell) iCell2).group;
+					String string2 = ((ResizableRectangleCell) iCell2).getName();
+					String[] stringArray1 = string1.split(" ");
+					String[] stringArray2 = string2.split(" ");
+					for (int i = 0; i < stringArray1.length; i++) {
+						for (int j = 0; j < stringArray2.length; j++) {
+							if (i == j) {
+								for (RectangleCell cell : ((ResizableRectangleCell) iCell2).containsRectangleCell()) {
+									System.out.println(cell.name);
+									cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
+								}
 							}
 						}
 					}
@@ -346,15 +344,19 @@ public class MainAppController {
 	@FXML
 	public void save() {
 		DataModel dataModel = new DataModel();
-		dataModel.save();
+		if (StaticFidlReader.fidlList != null && StaticFidlReader.fidlList.size() != 0) {
+			dataModel.save();
+		}
 	}
 
 	@FXML
 	public void importSavedFile() {
+		if (MainApp.graph != null) {
 		DataModel dataModel = new DataModel();
 		dataModel.deserialize();
 		dataModel.importSavedFile(tabPaneSetter);
 		StaticSplitter.setStaticSplitPane(splitPane);
+		}
 	}
 
 	@FXML
@@ -363,7 +365,6 @@ public class MainAppController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Fidl Files", "*.fidl"));
 		List<File> list = fileChooser.showOpenMultipleDialog(MainApp.primaryStage);
 		if (list == null) {
-			VisualisationsAlerts.noFilesSelected();
 		} else {
 			StaticFidlReader.newFidlList();
 			for (File file : list) {
@@ -410,6 +411,7 @@ public class MainAppController {
 		dialog.setTitle("Time Specification Settings");
 		dialog.setHeaderText("Set the interval for grouping the time specification.");
 		dialog.setContentText("Set the interval in ns:");
+		dialog.setGraphic(null);
 
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
@@ -431,6 +433,7 @@ public class MainAppController {
 
 	@FXML
 	public void saveAsPdf() throws DocumentException, MalformedURLException, IOException {
+		if (MainApp.graph != null) {
 		SnapshotParameters param = new SnapshotParameters();
 		param.setDepthBuffer(true);
 		param.setTransform(Transform.scale(2, 2));
@@ -473,6 +476,7 @@ public class MainAppController {
 		document.close();
 
 		Desktop.getDesktop().open(savedFile);
+		}
 	}
 
 	@FXML
@@ -482,6 +486,7 @@ public class MainAppController {
 
 	@FXML
 	public void saveAsPng() throws IOException {
+		if (MainApp.graph != null) {
 		SnapshotParameters param = new SnapshotParameters();
 		param.setDepthBuffer(true);
 		param.setTransform(Transform.scale(2, 2));
@@ -498,5 +503,6 @@ public class MainAppController {
 		RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
 		ImageIO.write(renderedImage, "png", savedFile);
 		Desktop.getDesktop().open(savedFile);
+		}
 	}
 }

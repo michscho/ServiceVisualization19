@@ -23,13 +23,13 @@ public class StaticSplitter {
 		divider.positionProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
-				divider.setPosition(0.165);
+				//
 			}
 		});
 		divider2.positionProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldvalue, Number newvalue) {
-				divider2.setPosition(0.81);
+				//
 			}
 		});
 	}

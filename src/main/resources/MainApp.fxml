@@ -65,42 +65,42 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <ListView fx:id="listView" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" />
-            <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" />
-            <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Level Group:" wrappingWidth="118.71044921875" />
-            <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" />
-            <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" />
-            <Text layoutX="21.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sub Level Group:" wrappingWidth="125.71044921875" />
-            <Text layoutX="21.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low Level Group:" wrappingWidth="133.71044921875" />
-            <ListView fx:id="listView4" layoutX="21.0" layoutY="406.0" prefHeight="218.0" prefWidth="190.0" />
-            <Text layoutX="21.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties to choose from:" wrappingWidth="182.71044921875" />
+            <ListView fx:id="listView" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Level Group:" wrappingWidth="243.71044921875" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="71.0" />
+            <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <Text layoutX="21.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sub Level Group:" wrappingWidth="338.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <Text layoutX="21.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Low Level Group:" wrappingWidth="133.71044921875" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <ListView fx:id="listView4" layoutX="21.0" layoutY="406.0" prefHeight="218.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <Text layoutX="21.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties to choose from:" wrappingWidth="182.71044921875" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
             <Separator layoutX="9.0" layoutY="687.0" prefHeight="3.0" prefWidth="371.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <Text layoutX="38.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Structure:" wrappingWidth="106.2060546875">
+            <Text layoutX="38.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Structure:" wrappingWidth="106.2060546875" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="40.564453125">
                <font>
                   <Font name="System Bold" size="17.0" />
                </font>
             </Text>
-            <ImageView fitHeight="22.0" fitWidth="27.0" layoutX="11.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="22.0" fitWidth="27.0" layoutX="11.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="40.0">
                <image>
                   <Image url="@structure.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="88.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="88.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="88.0">
                <image>
                   <Image url="@one.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="189.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="189.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="188.0">
                <image>
                   <Image url="@two.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="292.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="292.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="292.0">
                <image>
                   <Image url="@three.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="3.0" layoutY="406.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="3.0" layoutY="406.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="407.0">
                <image>
                   <Image url="@Available.png" />
                </image>
@@ -165,7 +165,6 @@
                         <Font name="Arial" size="22.0" />
                      </font>
                   </Text>
-                  <Text layoutX="713.0" layoutY="746.0" strokeType="OUTSIDE" strokeWidth="0.0" text="todo: Adresse zu GitHub" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="143.0" layoutX="495.0" layoutY="93.0" rotate="20.0" strokeType="INSIDE" width="402.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="447.0" layoutY="415.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#46c24426" height="50.0" layoutX="528.0" layoutY="514.0" rotate="20.0" strokeType="INSIDE" width="183.0" />
@@ -175,9 +174,9 @@
          </items></SplitPane>
     <AnchorPane fx:id="zoom" minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="1462.0">
          <children>
-            <TreeView fx:id="treeView" layoutX="-3.0" layoutY="30.0" prefHeight="203.0" prefWidth="291.0" />
-            <Text layoutX="68.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services and Properties:" textAlignment="CENTER" />
-            <Text layoutX="23.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metrics / Information:" textAlignment="CENTER" wrappingWidth="277.0">
+            <TreeView fx:id="treeView" layoutX="-3.0" layoutY="30.0" prefHeight="203.0" prefWidth="291.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+            <Text layoutX="68.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Services and Properties:" textAlignment="CENTER" AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="66.30322265625" AnchorPane.topAnchor="6.0" />
+            <Text layoutX="52.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Metrics / Information:" textAlignment="CENTER" wrappingWidth="243.71044921875" AnchorPane.leftAnchor="52.0" AnchorPane.rightAnchor="-11.71044921875">
                <font>
                   <Font size="20.0" />
                </font>
@@ -390,7 +389,6 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
          </children></AnchorPane>
   </items>
 </SplitPane>
