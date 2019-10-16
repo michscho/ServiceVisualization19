@@ -21,7 +21,7 @@ import tum.franca.view.list.ListViewWrapper;
  * @author michaelschott
  *
  */
-public class GroupSetter{
+public class GroupSetter {
 
 	public static List<FidlReader> fidlList;
 	private static ObservableList<String> listViewItems1;
@@ -47,29 +47,31 @@ public class GroupSetter{
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
 
-		grouping(model);
-		
-		ModelSetter.addCells(model);
-		ModelSetter.addRequiredEdge(model);
-		ModelSetter.addProvidedEdge(model);
+		if (fidlList != null) {
 
-		MainApp.graph.endUpdate();
-		MainApp.graph.layout(new GroupingLayout());
+			grouping(model);
 
-		makeTopLevelGroup();
-		if (!subGroup.isEmpty()) {
-			makeSubLevelGroup();
+			ModelSetter.addCells(model);
+			ModelSetter.addRequiredEdge(model);
+			ModelSetter.addProvidedEdge(model);
+
+			MainApp.graph.endUpdate();
+			MainApp.graph.layout(new GroupingLayout());
+
+			makeTopLevelGroup();
+			if (!subGroup.isEmpty()) {
+				makeSubLevelGroup();
+			}
+
+			if (!subsubGroup.isEmpty()) {
+				makeSubSubLevelGroup();
+			}
+
+			relocateToForeground();
 		}
-		
-		if (!subsubGroup.isEmpty()) {
-			makeSubSubLevelGroup();
-		}
-		
-		relocateToForeground();
 
 	}
-	
-	
+
 	/**
 	 * RectangleCell should be in the Foreground.
 	 */
@@ -121,7 +123,8 @@ public class GroupSetter{
 				}
 			}
 			final ICell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 205, (int) (maxY - minY) + 150,
-					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.GroupType.TOPLEVEL, builder.toString());
+					replaceNotDefined(reverseGroup.get(i)), ResizableRectangleCell.GroupType.TOPLEVEL,
+					builder.toString());
 			MainApp.graph.addCell(cellGroup);
 			MainApp.graph.getModel().addCell(cellGroup);
 			MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 50, (int) minY - 50);
@@ -130,7 +133,7 @@ public class GroupSetter{
 
 	private static String replaceNotDefined(String input) {
 		return input;
-		//return input.replaceAll("notDefined", "");
+		// return input.replaceAll("notDefined", "");
 	}
 
 	public static void makeSubLevelGroup() {
@@ -159,7 +162,7 @@ public class GroupSetter{
 						}
 					}
 				}
-				
+
 				ObservableList<String> list = listViewItems2;
 				StringBuilder builder = new StringBuilder();
 				for (String string : list) {
@@ -170,10 +173,11 @@ public class GroupSetter{
 							innerBuilder.append(inner[l]);
 						}
 						builder.append(innerBuilder.toString() + " ");
-					} 
+					}
 				}
-				final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155, (int) (maxY - minY) + 90,
-						replaceNotDefined(reverseSubGroup.get(j)), ResizableRectangleCell.GroupType.SUBLEVEL, builder.toString());
+				final ResizableRectangleCell cellGroup = new ResizableRectangleCell((int) (maxX - minX) + 155,
+						(int) (maxY - minY) + 90, replaceNotDefined(reverseSubGroup.get(j)),
+						ResizableRectangleCell.GroupType.SUBLEVEL, builder.toString());
 				MainApp.graph.addCell(cellGroup);
 				MainApp.graph.getModel().addCell(cellGroup);
 				MainApp.graph.getGraphic(cellGroup).relocate((int) minX - 20, (int) minY - 20);
@@ -264,7 +268,7 @@ public class GroupSetter{
 		return cellRecList;
 	}
 
-	// ASIL_A, 1; ASIL_B 2 
+	// ASIL_A, 1; ASIL_B 2
 	// can also have multiple Properties ASIL_A, crossfunctional;
 	private static HashMap<String, Integer> group;
 	private static HashMap<Integer, String> reverseGroup = new HashMap<Integer, String>();
@@ -274,10 +278,12 @@ public class GroupSetter{
 	private static HashMap<Integer, String> reverseSubSubGroup = new HashMap<Integer, String>();
 
 	public static void grouping(Model model) {
-		group = setGroups(listViewItems1);
-		subGroup = setGroups(listViewItems2);
-		subsubGroup = setGroups(listViewItems3);
-		reverseMaps();
+		if (fidlList != null) {
+			group = setGroups(listViewItems1);
+			subGroup = setGroups(listViewItems2);
+			subsubGroup = setGroups(listViewItems3);
+			reverseMaps();
+		}
 	}
 
 	/**
@@ -296,11 +302,13 @@ public class GroupSetter{
 	}
 
 	/**
-	 * A name is created depending on the selected properties. 
-	 * Then these names are stored in a HashMap to remove duplicate properties.
-	 * Example: {ASIL_A crossfunctional,0};{ASIL_B,1}...
-	 * Is made for all groups and then the parent groups are added. 
-	 * @param list - List of properties selected in List groups/subgroups/subsubgroups
+	 * A name is created depending on the selected properties. Then these names are
+	 * stored in a HashMap to remove duplicate properties. Example: {ASIL_A
+	 * crossfunctional,0};{ASIL_B,1}... Is made for all groups and then the parent
+	 * groups are added.
+	 * 
+	 * @param list - List of properties selected in List
+	 *             groups/subgroups/subsubgroups
 	 * @return HashMap<String, Integer>
 	 */
 	private static HashMap<String, Integer> setGroups(ObservableList<String> list) {
@@ -339,7 +347,7 @@ public class GroupSetter{
 		System.out.println(uniqueProperties);
 		return uniqueProperties;
 	}
-	
+
 	public static int interval = 1000;
 
 	/**
@@ -376,28 +384,28 @@ public class GroupSetter{
 			unity = "µs";
 		}
 		if (length > 6 && length <= 9) {
-			timeFrom /= 1000*1000;
-			timeTo /= 1000*1000;
+			timeFrom /= 1000 * 1000;
+			timeTo /= 1000 * 1000;
 			unity = "ms";
 
 		}
 		if (length > 9) {
-			timeFrom /= 1000*1000*1000;
-			timeTo /= 1000*1000*1000;
+			timeFrom /= 1000 * 1000 * 1000;
+			timeTo /= 1000 * 1000 * 1000;
 			unity = "s";
 		}
 		if ((int) timeFrom != (int) timeTo) {
-		return "Time between >" + (int) timeFrom + unity + " and <" + (int) timeTo + unity;
+			return "Time between >" + (int) timeFrom + unity + " and <" + (int) timeTo + unity;
 		} else {
-		return "Time of ~" + timeFrom + unity;
+			return "Time of ~" + timeFrom + unity;
 		}
 	}
 
-
 	/**
-	 * The property and its characteristics are assigned to corresponding groups or subgroups. 
-	 * Safty Critical -> ASIL A (1.3) and FunctionalScope -> Crossfunctional (2.1)
-	 * --> {(1.3),(2.1)}
+	 * The property and its characteristics are assigned to corresponding groups or
+	 * subgroups. Safty Critical -> ASIL A (1.3) and FunctionalScope ->
+	 * Crossfunctional (2.1) --> {(1.3),(2.1)}
+	 * 
 	 * @param fidlReader
 	 * @return HashMap<Integer,Integer>
 	 */

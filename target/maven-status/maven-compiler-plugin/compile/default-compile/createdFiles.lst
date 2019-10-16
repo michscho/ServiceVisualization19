@@ -153,7 +153,6 @@ tum/franca/factory/creator/ServiceCreation.class
 tum/franca/graph/graph/NodeGestures.class
 tum/franca/view/tab/RenameableTab.class
 tum/franca/view/tab/MenuBarTop$8.class
-tum/franca/main/StaticSplitter$1.class
 tum/franca/graph/cells/servicegroup/ResizableRectangleCell$5.class
 tum/franca/graph/cells/service/RectangleCellNodes$5.class
 tum/franca/graph/edges/ContxtMenuEdge$1.class
@@ -162,7 +161,6 @@ tum/franca/graph/cells/service/RectangleCellNodes$12.class
 tum/franca/graph/cells/servicegroup/CellGestures$7.class
 tum/franca/view/tab/MenuBarTop$9.class
 tum/franca/util/qualityofservice/QosWindow.class
-tum/franca/main/StaticSplitter$2.class
 tum/franca/graph/edges/AbstractEdge.class
 tum/franca/util/RectangleUtil.class
 tum/franca/factory/GroupSetter.class
