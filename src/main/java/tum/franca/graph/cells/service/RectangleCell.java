@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -40,7 +42,7 @@ public class RectangleCell extends AbstractCell {
 	public StackPane pane;
 	public Rectangle view;
 	public FidlReader fidlReader;
-	public Text text;
+	public Label text;
 	private TextField textField;
 	public RectangleCellNodes cn;
 
@@ -81,14 +83,10 @@ public class RectangleCell extends AbstractCell {
 		
 		view.setEffect(getEffect());
 
-		String input = "";
-		if (getName().length() >= 13) {
-			input = getName().substring(0, 12) + "...";
-		} else {
-			input = getName();
-		}
-
-		text = new Text(input);
+		text = new Label(getName());
+		
+		text.setTooltip(new Tooltip(getName()));
+		
 		pane.getChildren().add(text);
 
 		textField = new TextField(name);
