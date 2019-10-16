@@ -38,8 +38,8 @@ public class GroupTreeViewCreator extends AbstractTreeView {
 	 */
 	public void createTree() {
 		if (intersectionCellList.isEmpty()) {
-			TreeView<String> treeView = new TreeView<String>(rootItem);
-			MainApp.root.getItems().set(2, treeView);
+			TreeItem<String> item = new TreeItem<String>("Group contains no services.");
+			setRoot();
 		} else {
 			for (ICell iCell : intersectionCellList) {
 				RectangleCell rectCell = (RectangleCell) iCell;
@@ -60,17 +60,6 @@ public class GroupTreeViewCreator extends AbstractTreeView {
 				}
 				rootItem.getChildren().add(item);
 				setRoot();
-			}
-		}
-	}
-
-	/**
-	 * 
-	 */
-	public void printList() {
-		for (ICell iCell : intersectionCellList) {
-			if (iCell instanceof RectangleCell) {
-				System.out.println(((RectangleCell) iCell).getName());
 			}
 		}
 	}
