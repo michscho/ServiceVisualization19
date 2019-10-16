@@ -66,7 +66,7 @@ public class ViewportGestures {
 					menu = new ContextMenu();
 				}
 				menu.setAutoHide(true);
-				MenuItem item = new MenuItem("Add Services");
+				MenuItem item = new MenuItem("New Service");
 				EventHandler<ActionEvent> onAddServiceClicked = new EventHandler<ActionEvent>() {
 
 					@Override
@@ -88,7 +88,7 @@ public class ViewportGestures {
 					}
 				};
 				item.setOnAction(onAddServiceClicked);
-				MenuItem item2 = new MenuItem("Add Service Group");
+				MenuItem item2 = new MenuItem("New Service Group");
 				item2.setOnAction(onAddServiceGroupClicked);
 				menu.getItems().addAll(item, item2);
 				menu.show(canvas, event.getSceneX(), event.getScreenY());
