@@ -374,7 +374,7 @@ public class ResizableRectangleCell extends AbstractCell {
 			Binding.unbind(pane, style.ordinal());
 			if (MenuBarTop.alignOnGrid) {
 				if (pane.getLayoutX() >= 0) {
-					if (pane.getLayoutX() % 50 < 15 && pane.getLayoutX() % 50 != 0) {
+					if (pane.getLayoutX() % 50 <= 35 && pane.getLayoutX() % 50 != 0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
 						Binding.unbind(pane, style.ordinal());
@@ -386,7 +386,7 @@ public class ResizableRectangleCell extends AbstractCell {
 				} else { // pane.getLayoutX()
 							// <
 							// 0
-					if (pane.getLayoutX() % 50 > -15 && pane.getLayoutX() % 50 != -0) {
+					if (pane.getLayoutX() % 50 >= -35 && pane.getLayoutX() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
 						Binding.unbind(pane, style.ordinal());
@@ -397,11 +397,11 @@ public class ResizableRectangleCell extends AbstractCell {
 					}
 				}
 				if (pane.getLayoutY() >= 0) {
-					if (pane.getLayoutY() % 50 < 10 && pane.getLayoutY() % 50 != 0) {
+					if (pane.getLayoutY() % 50 <= 35 && pane.getLayoutY() % 50 != 0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
 						Binding.unbind(pane, style.ordinal());
-					} else if (pane.getLayoutY() % 50 > 40) {
+					} else if (pane.getLayoutY() % 50 > 35) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutY() + 50 - (pane.getLayoutY() % 50));
 						Binding.unbind(pane, style.ordinal());
@@ -409,7 +409,7 @@ public class ResizableRectangleCell extends AbstractCell {
 				} else { // pane.getLayoutY()
 							// <
 							// 0
-					if (pane.getLayoutY() % 50 > -15 && pane.getLayoutY() % 50 != -0) {
+					if (pane.getLayoutY() % 50 >= -35 && pane.getLayoutY() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
 						Binding.unbind(pane, style.ordinal());

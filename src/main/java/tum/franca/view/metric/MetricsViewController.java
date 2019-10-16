@@ -64,6 +64,7 @@ public class MetricsViewController {
 		TreeItem<MetricsEntry> itemRoot = new TreeItem<MetricsEntry>(eRoot);
 		
 		TreeItem<MetricsEntry> item1 = new TreeItem<MetricsEntry>(e1);
+		item1.setExpanded(true);
 		TreeItem<MetricsEntry> item11 = new TreeItem<MetricsEntry>(e11);
 		TreeItem<MetricsEntry> item12 = new TreeItem<MetricsEntry>(e12);
 		TreeItem<MetricsEntry> item13 = new TreeItem<MetricsEntry>(e13);
@@ -71,6 +72,7 @@ public class MetricsViewController {
 		item1.getChildren().addAll(item11, item12, item13, item14);
 		
 		TreeItem<MetricsEntry> item2 = new TreeItem<MetricsEntry>(e2);
+		item2.setExpanded(true);
 		TreeItem<MetricsEntry> item21 = new TreeItem<MetricsEntry>(e21);
 		TreeItem<MetricsEntry> item22 = new TreeItem<MetricsEntry>(e22);
 		TreeItem<MetricsEntry> item23 = new TreeItem<MetricsEntry>(e23);
@@ -79,15 +81,18 @@ public class MetricsViewController {
 		item2.getChildren().addAll(item21, item22, item23, item24, item25);
 
 		TreeItem<MetricsEntry> item3 = new TreeItem<MetricsEntry>(e3);
+		item3.setExpanded(true);
 		TreeItem<MetricsEntry> item31 = new TreeItem<MetricsEntry>(e31);
 		TreeItem<MetricsEntry> item32 = new TreeItem<MetricsEntry>(e32);
 		item3.getChildren().addAll(item31, item32);
 		
 		TreeItem<MetricsEntry> item4 = new TreeItem<MetricsEntry>(e4);
+		item4.setExpanded(true);
 		TreeItem<MetricsEntry> item41 = new TreeItem<MetricsEntry>(e41);
 		TreeItem<MetricsEntry> item42 = new TreeItem<MetricsEntry>(e42);
 		item4.getChildren().addAll(item41, item42);
 		
+		itemRoot.setExpanded(true);
 		itemRoot.getChildren().addAll(item1, item2, item3, item4);
 		
 		metricsName.setCellValueFactory(new TreeItemPropertyValueFactory<MetricsEntry, String>("name"));

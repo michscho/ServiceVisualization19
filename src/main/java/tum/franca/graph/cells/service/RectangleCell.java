@@ -98,7 +98,7 @@ public class RectangleCell extends AbstractCell {
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
-		
+				
 		cn = new RectangleCellNodes();
 		cn.makeResizable(pane, this);
 		cn.setInvisible();	
@@ -199,26 +199,26 @@ public class RectangleCell extends AbstractCell {
 		public void handle(MouseEvent event) {
 			if (MenuBarTop.alignOnGrid) {
 				if (pane.getLayoutX() >= 0) {
-					if (pane.getLayoutX() % 50 < 15 && pane.getLayoutX() % 50 != 0) {
+					if (pane.getLayoutX() % 50 <= 35 && pane.getLayoutX() % 50 != 0) {
 						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
 					} else if (pane.getLayoutX() % 50 > 35) {
 						pane.setLayoutX(pane.getLayoutX() + 50 - (pane.getLayoutX() % 50));
 					}
 				} else { // pane.getLayoutX() < 0
-					if (pane.getLayoutX() % 50 > -15 && pane.getLayoutX() % 50 != -0) {
+					if (pane.getLayoutX() % 50 >= -35 && pane.getLayoutX() % 50 != -0) {
 						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
 					} else if (pane.getLayoutX() % 50 < -35) {
 						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
 					}
 				}
 				if (pane.getLayoutY() >= 0) {
-					if (pane.getLayoutY() % 50 < 10 && pane.getLayoutY() % 50 != 0) {
+					if (pane.getLayoutY() % 50 <= 35 && pane.getLayoutY() % 50 != 0) {
 						pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
-					} else if (pane.getLayoutY() % 50 > 40) {
+					} else if (pane.getLayoutY() % 50 > 35) {
 						pane.setLayoutY(pane.getLayoutY() + 50 - (pane.getLayoutY() % 50));
 					}
 				} else { // pane.getLayoutY() < 0
-					if (pane.getLayoutY() % 50 > -15 && pane.getLayoutY() % 50 != -0) {
+					if (pane.getLayoutY() % 50 >= -35 && pane.getLayoutY() % 50 != -0) {
 						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
 					} else if (pane.getLayoutY() % 50 < -35) {
 						pane.setLayoutY(pane.getLayoutX() - (50 + (pane.getLayoutY() % 50)));

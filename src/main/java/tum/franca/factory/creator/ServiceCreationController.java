@@ -142,15 +142,15 @@ public class ServiceCreationController {
 			for (int j = 0; j < innerList.size(); j++) {
 				if (j == 0) {
 				} else {
-					if (i == 0) {
+					if (i == 6) {
 						binding.setValue("notDefined");
 						binding.getItems().add(innerList.get(j));
 					}
-					if (i == 1) {
+					if (i == 5) {
 						functional.setValue("notDefined");
 						functional.getItems().add(innerList.get(j));
 					}
-					if (i == 2) {
+					if (i == 4) {
 						hardwareDependend.setValue("notDefined");
 						hardwareDependend.getItems().add(innerList.get(j));
 					}
@@ -158,19 +158,18 @@ public class ServiceCreationController {
 						runtime.setValue("notDefined");
 						runtime.getItems().add(innerList.get(j));
 					}
-					if (i == 4) {
-						security.setValue("notDefined");
-						security.getItems().add(innerList.get(j));
-					}
-					if (i == 5) {
-						safety.setValue("notDefined");
-						safety.getItems().add(innerList.get(j));
-					}
-					if (i == 6) {
+					if (i == 2) {
 						timeUnit.setValue("notDefined");
 						timeUnit.getItems().add(innerList.get(j));
 					}
-
+					if (i == 1) {
+						safety.setValue("notDefined");
+						safety.getItems().add(innerList.get(j));
+					}
+					if (i == 0) {
+						security.setValue("notDefined");
+						security.getItems().add(innerList.get(j));
+					}
 				}
 			}
 		}
