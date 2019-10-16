@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tum.franca.factory.creator.ServiceCreationController">
+   <children>
+      <TextField fx:id="serviceName" layoutX="133.0" layoutY="25.0" prefHeight="27.0" prefWidth="189.0" />
+      <Text layoutX="26.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Name:" />
+      <Text layoutX="26.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Binding:" />
+      <Separator layoutX="14.0" layoutY="67.0" prefHeight="0.0" prefWidth="310.0" />
+      <Text layoutX="26.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FunctionalScope:" />
+      <Text layoutX="26.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="HardwareDependend:" />
+      <Text layoutX="26.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Runtime:" />
+      <Text layoutX="27.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SafetyCritical:" />
+      <Text layoutX="27.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SecurityCritical:" />
+      <Text layoutX="27.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time Specification:" />
+      <ChoiceBox fx:id="binding" layoutX="174.0" layoutY="78.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="functional" layoutX="174.0" layoutY="117.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="hardwareDependend" layoutX="174.0" layoutY="156.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="runtime" layoutX="174.0" layoutY="195.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="safety" layoutX="174.0" layoutY="231.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="security" layoutX="174.0" layoutY="274.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="timeUnit" layoutX="275.0" layoutY="314.0" prefHeight="27.0" prefWidth="50.0" />
+      <TextField fx:id="time" layoutX="177.0" layoutY="314.0" prefHeight="27.0" prefWidth="78.0" />
+      <Button layoutX="221.0" layoutY="376.0" mnemonicParsing="false" onAction="#createServiceClicked" text="Create Service" />
+      <Button layoutX="16.0" layoutY="376.0" mnemonicParsing="false" onAction="#createSimpleServiceClicked" text="Create Simple Service" />
+      <Text layoutX="34.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(Everything on default)" wrappingWidth="134.0244140625">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
