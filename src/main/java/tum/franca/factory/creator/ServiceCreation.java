@@ -67,8 +67,8 @@ public class ServiceCreation extends Application {
 			Scene scene = new Scene(root);
 			stage.setTitle("Create Service");
 			stage.setResizable(false);
-			stage.setX(X);
-			stage.setY(Y);
+			stage.setX(x);
+			stage.setY(y);
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
