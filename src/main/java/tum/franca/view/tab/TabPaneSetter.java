@@ -155,27 +155,6 @@ public class TabPaneSetter {
 								FRequires requires = FrancaFactory.eINSTANCE.createFRequires();
 								requires.setRequires(((RectangleCell) targetCell).getFidlReader().getFirstInterfaceName());
 								
-		//
-//								// Create import
-//								String[] uri = ((RectangleCell) targetCell).getFidlReader().getURI().toString().split("/");
-//								String lastUriElement = ((RectangleCell) targetCell).getFidlReader().getURI().toString()
-//										.split("/")[uri.length - 1];
-//								boolean importUriMatch = false;
-//								for (Import i : ((RectangleCell) sourceCell).getFidlReader().getImports()) {
-//									if (i.getImportURI().equals(lastUriElement)) {
-//										importUriMatch = true;
-//									}
-//								}
-//								if (!importUriMatch) {
-//									Import fImport = FrancaFactory.eINSTANCE.createImport();
-//									fImport.setImportedNamespace(((RectangleCell) targetCell).getFidlReader().getName() + ".*");
-//									fImport.setImportURI(lastUriElement);
-		//
-//									// Adding
-//									((RectangleCell) sourceCell).getFidlReader().getImports().add(fImport);
-//								
-//								}
-								
 								((RectangleCell) sourceCell).getFidlReader().getFirstRequires().add(requires);
 								
 								// Saving
