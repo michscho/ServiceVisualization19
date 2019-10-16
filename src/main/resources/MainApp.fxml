@@ -32,7 +32,8 @@
                     <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import Fidl File(s)">
                            <accelerator>
                               <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
+                           </accelerator>
+                        </MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#persistFidlClicked" text="Save Fidl File(s)" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import Visualisation (.vis)" />
@@ -40,9 +41,6 @@
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Export as Png" />
                         <MenuItem mnemonicParsing="false" onAction="#saveAsPdf" text="Export as Pdf" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#minClicked" text="Minimize" />
-                        <MenuItem mnemonicParsing="false" onAction="#quitClicked" text="Quit" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
@@ -52,6 +50,12 @@
                               <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                      </items></Menu>
+                  <Menu mnemonicParsing="false" text="Window">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#minClicked" text="Minimize" />
+                        <MenuItem mnemonicParsing="false" onAction="#quitClicked" text="Quit" />
+                    </items>
+                  </Menu>
                 <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#about" text="About">
@@ -65,9 +69,9 @@
                 </Menu>
               </menus>
             </MenuBar>
-            <ListView fx:id="listView" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+            <ListView fx:id="listView" accessibleHelp="Top-level Group" accessibleText="Top-level Group" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
             <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
-            <Text layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Level Group:" wrappingWidth="243.71044921875" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="71.0" />
+            <Text accessibleText="Top Level Group" layoutX="21.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Top Level Group:" wrappingWidth="243.71044921875" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="71.0" />
             <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
             <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
             <Text layoutX="21.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sub Level Group:" wrappingWidth="338.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
