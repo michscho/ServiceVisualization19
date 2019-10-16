@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Point3D?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="408.0" layoutX="-95.0" layoutY="-97.0" rotate="-16.7" strokeType="INSIDE" translateX="2.0" translateY="2.0" translateZ="2.0" width="737.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#1f2eff44" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </fill>
+         <rotationAxis>
+            <Point3D z="2.0" />
+         </rotationAxis>
+      </Rectangle>
+      <Text layoutX="51.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome ">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <Text layoutX="191.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="to Service Visualisation">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="56.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Step:">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="56.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Step:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <Text layoutX="150.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specify your grouping on the left side through drag and drop of your interested properties. You can define top-level and sub-level groups." wrappingWidth="316.4609375">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="150.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Go to File and Import. Select then all your Fidl Files at once." wrappingWidth="316.4609375">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="398.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="www.serviceVisulisation.de" />
+   </children>
+</Pane>
