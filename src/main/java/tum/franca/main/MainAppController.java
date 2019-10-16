@@ -235,7 +235,6 @@ public class MainAppController {
 		StaticSplitter.setStaticSplitPane(splitPane);
 		staticTreeView = treeView;
 
-		// Setting MenuBar for MacOS
 		final String os = System.getProperty("os.name");
 		if (os != null && os.startsWith("Mac"))
 			menuBar.useSystemMenuBarProperty().set(true);
@@ -318,6 +317,25 @@ public class MainAppController {
 	}
 
 	@FXML
+	public void newFile() {
+		StaticFidlReader.newFidlList();
+		try {
+			GroupSetter.createCanvas();
+			if (tabPaneSetter == null) {
+				MainAppController.tabPaneSetter = new TabPaneSetter();
+			}
+			tabPaneSetter.setCanvas();
+			MainApp.graph.getCanvas().setScale(1.0);
+			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+			treeView.createTree();
+			groupingButton.setDisable(false);
+			StaticSplitter.setStaticSplitPane(splitPane);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
 	public void persistFidlClicked() {
 		if (MainApp.graph != null) {
 			for (ICell iCell2 : MainApp.graph.getModel().getAddedCells()) {
@@ -352,10 +370,10 @@ public class MainAppController {
 	@FXML
 	public void importSavedFile() {
 		if (MainApp.graph != null) {
-		DataModel dataModel = new DataModel();
-		dataModel.deserialize();
-		dataModel.importSavedFile(tabPaneSetter);
-		StaticSplitter.setStaticSplitPane(splitPane);
+			DataModel dataModel = new DataModel();
+			dataModel.deserialize();
+			dataModel.importSavedFile(tabPaneSetter);
+			StaticSplitter.setStaticSplitPane(splitPane);
 		}
 	}
 
@@ -434,48 +452,48 @@ public class MainAppController {
 	@FXML
 	public void saveAsPdf() throws DocumentException, MalformedURLException, IOException {
 		if (MainApp.graph != null) {
-		SnapshotParameters param = new SnapshotParameters();
-		param.setDepthBuffer(true);
-		param.setTransform(Transform.scale(2, 2));
-		WritableImage image = MainApp.root.snapshot(param, null);
-		final FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save pdf");
-		String string = "default";
-		Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
-		if (tab instanceof RenameableTab) {
-			string = ((RenameableTab) tab).name.get();
-		}
-		fileChooser.setInitialFileName(string + "-snapshot.pdf");
-		File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
+			SnapshotParameters param = new SnapshotParameters();
+			param.setDepthBuffer(true);
+			param.setTransform(Transform.scale(2, 2));
+			WritableImage image = MainApp.root.snapshot(param, null);
+			final FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save pdf");
+			String string = "default";
+			Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
+			if (tab instanceof RenameableTab) {
+				string = ((RenameableTab) tab).name.get();
+			}
+			fileChooser.setInitialFileName(string + "-snapshot.pdf");
+			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
 
-		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 
-		ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteOutput);
+			ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", byteOutput);
 
-		Image graph = com.itextpdf.text.Image.getInstance(byteOutput.toByteArray());
+			Image graph = com.itextpdf.text.Image.getInstance(byteOutput.toByteArray());
 
-		Document document = new Document();
-		document.setPageSize(PageSize.A4.rotate());
+			Document document = new Document();
+			document.setPageSize(PageSize.A4.rotate());
 
-		float scaler = (float) (((document.getPageSize().getWidth() - document.leftMargin() - document.rightMargin())
-				/ image.getWidth()) * 100);
+			float scaler = (float) (((document.getPageSize().getWidth() - document.leftMargin()
+					- document.rightMargin()) / image.getWidth()) * 100);
 
-		PdfWriter.getInstance(document, new FileOutputStream(savedFile));
-		document.open();
+			PdfWriter.getInstance(document, new FileOutputStream(savedFile));
+			document.open();
 
-		document.newPage();
-		Paragraph p = new Paragraph();
-		p.add(string + "-snapshot");
-		p.setAlignment(Element.ALIGN_CENTER);
+			document.newPage();
+			Paragraph p = new Paragraph();
+			p.add(string + "-snapshot");
+			p.setAlignment(Element.ALIGN_CENTER);
 
-		document.add(p);
-		Image image2 = Image.getInstance(graph);
-		image2.scalePercent(scaler);
-		// image2.scaleAbsolute(PageSize.A4);
-		document.add(image2);
-		document.close();
+			document.add(p);
+			Image image2 = Image.getInstance(graph);
+			image2.scalePercent(scaler);
+			// image2.scaleAbsolute(PageSize.A4);
+			document.add(image2);
+			document.close();
 
-		Desktop.getDesktop().open(savedFile);
+			Desktop.getDesktop().open(savedFile);
 		}
 	}
 
@@ -487,22 +505,22 @@ public class MainAppController {
 	@FXML
 	public void saveAsPng() throws IOException {
 		if (MainApp.graph != null) {
-		SnapshotParameters param = new SnapshotParameters();
-		param.setDepthBuffer(true);
-		param.setTransform(Transform.scale(2, 2));
-		WritableImage image = MainApp.root.snapshot(param, null);
-		final FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save png");
-		String string = "default";
-		Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
-		if (tab instanceof RenameableTab) {
-			string = ((RenameableTab) tab).name.get();
-		}
-		fileChooser.setInitialFileName(string + "-snapshot.png");
-		File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
-		RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
-		ImageIO.write(renderedImage, "png", savedFile);
-		Desktop.getDesktop().open(savedFile);
+			SnapshotParameters param = new SnapshotParameters();
+			param.setDepthBuffer(true);
+			param.setTransform(Transform.scale(2, 2));
+			WritableImage image = MainApp.root.snapshot(param, null);
+			final FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save png");
+			String string = "default";
+			Tab tab = TabPaneSetter.tabPane.getSelectionModel().getSelectedItem();
+			if (tab instanceof RenameableTab) {
+				string = ((RenameableTab) tab).name.get();
+			}
+			fileChooser.setInitialFileName(string + "-snapshot.png");
+			File savedFile = fileChooser.showSaveDialog(MainApp.primaryStage);
+			RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
+			ImageIO.write(renderedImage, "png", savedFile);
+			Desktop.getDesktop().open(savedFile);
 		}
 	}
 }
