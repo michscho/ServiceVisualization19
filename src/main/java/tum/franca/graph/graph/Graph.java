@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.Region;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.IGraphNode;
@@ -51,33 +52,13 @@ public class Graph {
 		pannableCanvas = new PannableCanvas();
 		viewportGestures = new ViewportGestures(pannableCanvas);
 		useViewportGestures = new SimpleBooleanProperty(true);
-//		useViewportGestures.addListener((obs, oldVal, newVal) -> {
-//			System.out.println("HERIERER");
-//			final Parent parent = pannableCanvas.parentProperty().get();
-//			if (parent == null) {
-//				return;
-//			}
-//			if (newVal) {
-//				parent.addEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
-//				parent.addEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
-//				parent.addEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
-//			} else {
-//				parent.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
-//				parent.removeEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
-//				parent.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
-//			}
-//		});
 		
 		pannableCanvas.parentProperty().addListener((obs, oldVal, newVal) -> {
-			if (oldVal != null) {
-//				oldVal.removeEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
-//				oldVal.removeEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
-//				oldVal.removeEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
-			}
 			if (newVal != null) {
 				newVal.addEventHandler(MouseEvent.MOUSE_PRESSED, viewportGestures.getOnMousePressedEventHandler());
 				newVal.addEventHandler(MouseEvent.MOUSE_DRAGGED, viewportGestures.getOnMouseDraggedEventHandler());
 				newVal.addEventHandler(ScrollEvent.ANY, viewportGestures.getOnScrollEventHandler());
+				newVal.addEventHandler(ZoomEvent.ANY, viewportGestures.onZoomEventHandler);
 			}
 		});
 

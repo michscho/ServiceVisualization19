@@ -403,9 +403,9 @@ public class MainAppController {
 				tabPaneSetter.setCanvas();
 				ColorUtil.recolorCanvas();
 				MainApp.graph.getCanvas().setScale(1.0);
-				GeneralMetrics.setAll();
-				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-				treeView.createTree();
+//				GeneralMetrics.setAll();
+//				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+//				treeView.createTree();
 				groupingButton.setDisable(false);
 				StaticSplitter.setStaticSplitPane(splitPane);
 			} catch (NullPointerException e) {

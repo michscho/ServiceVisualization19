@@ -246,13 +246,16 @@ public class TabPaneSetter {
 	 */
 	public void setCanvas() {
 
-		// Setting menu at the top
-		BorderPane borderPane = new BorderPane();
-		borderPane.setTop(MenuBarTop.getMenuBar());
+		
+		// ROOT PANE
+		BorderPane rootPane = new BorderPane();
+		
+		// MENU AT THE TOP
+		rootPane.setTop(MenuBarTop.getMenuBar());
 
 		if (tabPane == null || tabPane.getTabs().size() == 0) {
 
-			// HBox of control buttons
+			// HBox of CONTROL BUTTONS
 			HBox hbox = new HBox();
 			undo = createUndoButton();
 			redo = createRedoButton();
@@ -270,8 +273,9 @@ public class TabPaneSetter {
 			Tab tab2 = new RenameableTab(sP2);
 
 			// Three Tabs at the bottom
-			TabPane innerTabPane = InnerTabPane.getInnerTabPane();
-			InnerTabPane.setContentMain(MainApp.graph.getCanvas());
+			TabPane innerTabPane = InnerTabPane.getInnerTabPane();			
+		    
+			InnerTabPane.setContentInCanvas(MainApp.graph.getCanvas());
 			tab1.setContent(innerTabPane);
 
 			MainApp.graphList[0] = MainApp.graph;
@@ -295,14 +299,14 @@ public class TabPaneSetter {
 			AnchorPane.setRightAnchor(tabPane, 1.0);
 			AnchorPane.setLeftAnchor(tabPane, 1.0);
 			AnchorPane.setBottomAnchor(tabPane, 1.0);
-			borderPane.setCenter(anchor);
-			MainApp.root.getItems().set(1, borderPane);
+			rootPane.setCenter(anchor);
+			MainApp.root.getItems().set(1, rootPane);
 
 		} else {
 
 			// Three Tabs at the bottom
 			TabPane innerTabPane = InnerTabPane.getInnerTabPane();
-			InnerTabPane.setContentMain(MainApp.graph.getCanvas());
+			InnerTabPane.setContentInCanvas(MainApp.graph.getCanvas());
 			tabPane.getSelectionModel().getSelectedItem().setContent(innerTabPane);
 			GeneralMetrics.setAll();
 
