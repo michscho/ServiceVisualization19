@@ -34,7 +34,7 @@ public class InnerTabPane {
 		return innerTabPane;
 	}
 	
-	public static void setContentMain(Node node) {
+	public static void setContentInCanvas(Node node) {
 		innerTabMain.setContent(node);
 	}
 	

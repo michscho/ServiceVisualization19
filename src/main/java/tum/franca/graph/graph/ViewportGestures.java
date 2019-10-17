@@ -10,9 +10,9 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.ZoomEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
-import tum.franca.view.metric.GeneralMetrics;
 
 /**
  * https://github.com/generalic/GraphVisualisation/blob/master/src/hr/fer/zemris/graph/test/GraphPane.java
@@ -119,8 +119,10 @@ public class ViewportGestures {
 				menu.hide();
 			}
 
-			if (!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
-				return;
+			if (!(event.getClickCount() >= 2)) {
+				if (!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
+					return;
+				}
 			}
 
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
@@ -142,13 +144,65 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
+			
 			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
 			final double oldScale = scale;
 
 			if (event.getDeltaY() < 0) {
-				scale /= getZoomSpeed();
+				scale /= 1.02;
 			} else {
-				scale *= getZoomSpeed();
+				scale *= 1.02;
+			}
+
+			scale = clamp(scale, minScaleProperty.get(), maxScaleProperty.get());
+			final double f = (scale / oldScale) - 1;
+
+			// maxX = right overhang, maxY = lower overhang
+			final double maxX = canvas.getBoundsInParent().getMaxX()
+					- canvas.localToParent(canvas.getPrefWidth(), canvas.getPrefHeight()).getX();
+			final double maxY = canvas.getBoundsInParent().getMaxY()
+					- canvas.localToParent(canvas.getPrefWidth(), canvas.getPrefHeight()).getY();
+
+			// minX = left overhang, minY = upper overhang
+			final double minX = canvas.localToParent(0, 0).getX() - canvas.getBoundsInParent().getMinX();
+			final double minY = canvas.localToParent(0, 0).getY() - canvas.getBoundsInParent().getMinY();
+
+			// adding the overhangs together, as we only consider the width of canvas itself
+			final double subX = maxX + minX;
+			final double subY = maxY + minY;
+
+			// subtracting the overall overhang from the width and only the left and upper
+			// overhang from the upper left point
+			final double dx = (event.getSceneX() - ((canvas.getBoundsInParent().getWidth() - subX) / 2
+					+ (canvas.getBoundsInParent().getMinX() + minX)));
+			final double dy = (event.getSceneY() - ((canvas.getBoundsInParent().getHeight() - subY) / 2
+					+ (canvas.getBoundsInParent().getMinY() + minY)));
+
+			canvas.setScale(scale);
+
+			// note: pivot value must be untransformed, i. e. without scaling
+			canvas.setPivot(f * dx, f * dy);
+
+			event.consume();
+
+		}
+
+	};
+
+	public final EventHandler<ZoomEvent> onZoomEventHandler = new EventHandler<ZoomEvent>() {
+
+		@Override
+		public void handle(ZoomEvent event) {
+			if (menu != null) {
+				menu.hide();
+			}
+			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
+			final double oldScale = scale;
+
+			if (event.getZoomFactor() > 1) {
+				scale *= 1.010;
+			} else {
+				scale /= 1.010;
 			}
 
 			scale = clamp(scale, minScaleProperty.get(), maxScaleProperty.get());

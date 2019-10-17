@@ -278,12 +278,10 @@ public class GroupSetter {
 	private static HashMap<Integer, String> reverseSubSubGroup = new HashMap<Integer, String>();
 
 	public static void grouping(Model model) {
-		if (fidlList != null) {
 			group = setGroups(listViewItems1);
 			subGroup = setGroups(listViewItems2);
 			subsubGroup = setGroups(listViewItems3);
 			reverseMaps();
-		}
 	}
 
 	/**
