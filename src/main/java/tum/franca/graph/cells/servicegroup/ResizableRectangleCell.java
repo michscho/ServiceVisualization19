@@ -117,22 +117,20 @@ public class ResizableRectangleCell extends AbstractCell {
 		Line hLine = new Line();
 		hLine.fillProperty().bind(view.fillProperty());
 		hLine.strokeProperty().bind(view.strokeProperty());
-		hLine.styleProperty().bind(view.styleProperty());
 		hLine.startXProperty().bind(view.layoutXProperty());
 		hLine.startYProperty().bind(view.layoutYProperty().add(25));
 		hLine.endXProperty().bind(view.widthProperty().divide(3));
 		hLine.endYProperty().bind(view.layoutYProperty().add(25));
 
-		// /
-		// /
+		//   /
+		//  /
 		// /
 		Line dLine = new Line();
 		dLine.fillProperty().bind(view.fillProperty());
 		dLine.strokeProperty().bind(view.strokeProperty());
-		dLine.styleProperty().bind(view.styleProperty());
 		dLine.startXProperty().bind(view.widthProperty().divide(3));
 		dLine.startYProperty().bind(view.layoutYProperty().add(25));
-		dLine.endXProperty().bind(view.widthProperty().divide(2.8));
+		dLine.endXProperty().bind(view.widthProperty().divide(3).add(15));
 		dLine.endYProperty().bind(view.layoutYProperty().add(15));
 
 		// |
@@ -141,10 +139,9 @@ public class ResizableRectangleCell extends AbstractCell {
 		Line vLine = new Line();
 		vLine.fillProperty().bind(view.fillProperty());
 		vLine.strokeProperty().bind(view.strokeProperty());
-		vLine.styleProperty().bind(view.styleProperty());
-		vLine.startXProperty().bind(view.widthProperty().divide(2.8));
+		vLine.startXProperty().bind(view.widthProperty().divide(3).add(15));
 		vLine.startYProperty().bind(view.layoutYProperty().add(15));
-		vLine.endXProperty().bind(view.widthProperty().divide(2.8));
+		vLine.endXProperty().bind(view.widthProperty().divide(3).add(15));
 		vLine.endYProperty().bind(view.layoutYProperty());
 
 		Label label = new Label(getName());
