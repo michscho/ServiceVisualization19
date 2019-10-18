@@ -45,6 +45,7 @@ tum/franca/view/treeView/FidlViewController$2.class
 tum/franca/view/metric/ServiceMetrics.class
 tum/franca/main/window/ColorPickerWindow.class
 tum/franca/main/MainApp$1.class
+tum/franca/graph/graph/ViewportGestures$4.class
 tum/franca/view/tab/MenuBarTop$3.class
 tum/franca/view/tab/TabPaneSetter.class
 tum/franca/util/alerts/VisualisationsAlerts.class
