@@ -45,6 +45,7 @@ import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
+import tum.franca.graph.graph.Grid;
 import tum.franca.main.window.AboutWindow;
 import tum.franca.util.ColorUtil;
 import tum.franca.util.alerts.VisualisationsAlerts;
@@ -310,6 +311,7 @@ public class MainAppController {
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
 			StaticSplitter.setStaticSplitPane(splitPane);
+			Grid.checkAndConfigureGrid();
 		} else {
 			VisualisationsAlerts.noFilesSelected();
 		}
@@ -329,6 +331,7 @@ public class MainAppController {
 			treeView.createTree();
 			groupingButton.setDisable(false);
 			StaticSplitter.setStaticSplitPane(splitPane);
+			Grid.checkAndConfigureGrid();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -372,6 +375,7 @@ public class MainAppController {
 			dataModel.deserialize();
 			dataModel.importSavedFile(tabPaneSetter);
 			StaticSplitter.setStaticSplitPane(splitPane);
+			Grid.checkAndConfigureGrid();
 		}
 	}
 
@@ -406,6 +410,7 @@ public class MainAppController {
 				treeView.createTree();
 				groupingButton.setDisable(false);
 				StaticSplitter.setStaticSplitPane(splitPane);
+				Grid.checkAndConfigureGrid();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 				VisualisationsAlerts.wrongGrouping();

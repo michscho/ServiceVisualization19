@@ -30,6 +30,7 @@ import tum.franca.util.RectangleUtil;
 public class MenuBarTop {
 
 	public static boolean alignOnGrid = false;
+	public static boolean isGridEnabled = false;
 
 	private static RadioMenuItem menuItemAlign;
 
@@ -136,6 +137,7 @@ public class MenuBarTop {
 
 		@Override
 		public void handle(ActionEvent event) {
+			isGridEnabled = true;
 			Grid.add();
 		}
 
@@ -148,6 +150,7 @@ public class MenuBarTop {
 
 		@Override
 		public void handle(ActionEvent event) {
+			isGridEnabled = false;
 			Grid.remove();
 		}
 
