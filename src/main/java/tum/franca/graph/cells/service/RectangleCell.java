@@ -57,7 +57,7 @@ public class RectangleCell extends AbstractCell {
 	public HashMap<Integer, Integer> getGrouping() {
 		return groupNumbers;
 	}
-	
+
 	private DropShadow getEffect() {
 		DropShadow e = new DropShadow();
 		e.setWidth(8);
@@ -79,40 +79,42 @@ public class RectangleCell extends AbstractCell {
 		pane.setPrefSize(100, 40);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
-		
-		
+
 		view.setEffect(getEffect());
 
 		text = new Label(getName());
-		
-		text.setTooltip(new Tooltip(getName()));
-		
+
+		Tooltip tooltip = new Tooltip(getName());
+		tooltip.setStyle("-fx-font-size: 18");
+		text.setTooltip(tooltip);
+
 		pane.getChildren().add(text);
 
 		textField = new TextField(name);
+		pane.getChildren().add(textField);
+		textField.setVisible(false);
 
 		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
-		
+
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
-				
+
 		cn = new RectangleCellNodes();
 		cn.makeResizable(pane, this);
-		cn.setInvisible();	
+		cn.setInvisible();
 
 		return pane;
 	}
-	
+
 	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
 			cn.setVisible();
 		}
 	};
-
 
 	public String getName() {
 		return name;
@@ -156,11 +158,9 @@ public class RectangleCell extends AbstractCell {
 
 	EventHandler<MouseEvent> onMouseExitedEventHandler = t -> {
 		cn.setInvisible();
-		if (textField != null) {
-			pane.getChildren().remove(textField);
-		}
+		textField.setVisible(false);
 	};
-	
+
 	public static RectangleCell staticCell;
 
 	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
@@ -171,7 +171,8 @@ public class RectangleCell extends AbstractCell {
 			treeView.createTree();
 			if (!(t.getButton() == MouseButton.SECONDARY)) {
 
-				pane.getChildren().add(textField);
+				textField.setVisible(true);
+				textField.toFront();
 				textField.textProperty().addListener((observable, oldValue, newValue) -> {
 					String input = "";
 					if (textField.getText().length() >= 13) {
@@ -189,10 +190,8 @@ public class RectangleCell extends AbstractCell {
 				t.consume();
 			}
 		}
-		
-	};
 
-	
+	};
 
 	EventHandler<MouseEvent> onReleasedEventHandler = new EventHandler<MouseEvent>() {
 		@Override

@@ -27,8 +27,8 @@ public class Grid {
 			line.setEndX(x);
 			line.setEndY(10000);
 			line.setStrokeWidth(0.5);
-			line.setStroke(Color.rgb(0, 0, 0));
-			line.setFill(Color.rgb(0, 0, 0, 0.1));
+			line.setStroke(Color.rgb(((int) Color.GREY.getRed()), ((int) Color.GREY.getGreen()), ((int) Color.GREY.getBlue()), 0.2));
+			line.setFill(Color.rgb(((int) Color.GREY.getRed()), ((int) Color.GREY.getGreen()), ((int) Color.GREY.getBlue()), 0.2));
 			x += 50;
 			MainApp.graph.getCanvas().getChildren().add(line);
 			line.toBack();
@@ -41,8 +41,8 @@ public class Grid {
 			line.setEndX(10000);
 			line.setEndY(y);
 			line.setStrokeWidth(0.5);
-			line.setStroke(Color.rgb(0, 0, 0));
-			line.setFill(Color.rgb(0, 0, 0, 0.1));
+			line.setFill(Color.rgb(((int) Color.GREY.getRed()), ((int) Color.GREY.getGreen()), ((int) Color.GREY.getBlue()), 0.2));
+			line.setStroke(Color.rgb(((int) Color.GREY.getRed()), ((int) Color.GREY.getGreen()), ((int) Color.GREY.getBlue()), 0.2));
 			y += 50;
 			MainApp.graph.getCanvas().getChildren().add(line);
 			line.toBack();
