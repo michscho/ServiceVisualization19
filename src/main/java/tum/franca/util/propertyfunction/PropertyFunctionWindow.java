@@ -44,7 +44,6 @@ public class PropertyFunctionWindow extends Application {
 						c.setEmptyContent(contentPane, newEntity);
 					} else {
 						for (PropertyElement element : oldEntity.getElementList()) {
-							System.out.println("Element " + element.getKey() + " " + element.getValue());
 							c.setContent(contentPane, element.getKey(), element.getValue(), element.getGroup(),
 									newEntity);
 						}

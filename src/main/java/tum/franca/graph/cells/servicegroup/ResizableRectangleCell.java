@@ -29,8 +29,6 @@ import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.graph.Graph;
-import tum.franca.graph.graph.PannableCanvas;
-import tum.franca.graph.graph.ViewportGestures;
 import tum.franca.main.MainApp;
 import tum.franca.main.window.ColorPickerWindow;
 import tum.franca.util.Binding;
@@ -404,7 +402,6 @@ public class ResizableRectangleCell extends AbstractCell {
 		public void handle(MouseEvent event) {
 			Binding.unbind(pane, style.ordinal());
 			if (MenuBarTop.alignOnGrid) {
-				System.out.println(pane.getLayoutX() % 50 + " ijeifjeifj");
 				if (pane.getLayoutX() >= 0) {
 					if (pane.getLayoutX() % 50 <= 35 && pane.getLayoutX() % 50 != 0) {
 						Binding.bind(pane, style.ordinal());

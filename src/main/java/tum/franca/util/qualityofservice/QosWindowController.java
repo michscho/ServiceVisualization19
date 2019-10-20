@@ -119,7 +119,6 @@ public class QosWindowController {
 			@Override
 			public void handle(ActionEvent event) {
 				String s = textField.getText();
-				System.out.println("textfield removed " + s);
 				for (FidlReader fr : StaticFidlReader.getFidlList()) {
 					
 					for (int i = 0; i < fr.getFirstProvides().size(); i++) {
@@ -129,20 +128,16 @@ public class QosWindowController {
 								provides.setProvides(fr.getFirstProvides().get(i).getProvides());
 								fr.getFirstProvides().remove(i);
 								fr.getFirstProvides().add(provides);
-								System.out.println("Removed " + fr.getFirstInterfaceName());
 							}
 						}
 					}
 					for (int i = 0; i < fr.getFirstRequires().size(); i++) {
 						if (fr.getFirstRequires().get(i).getQos() != null) {
-							System.out.println(fr.getFirstRequires().get(i).getQos().getName());
-							System.out.println(fr.getFirstInterfaceName());
 							if (fr.getFirstRequires().get(i).getQos().getName().equals(s)) {
 								FRequires requires = FrancaFactory.eINSTANCE.createFRequires();
 								requires.setRequires(fr.getFirstRequires().get(i).getRequires());
 								fr.getFirstRequires().remove(i);
 								fr.getFirstRequires().add(requires);
-								System.out.println("Removed " + fr.getFirstInterfaceName());
 								FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 								fPM.saveModel(fr.getFModel(), fr.getURI().toString());
 							}

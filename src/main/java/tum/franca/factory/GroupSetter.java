@@ -342,7 +342,6 @@ public class GroupSetter {
 				uniqueProperties.put(sB.toString(), counter++);
 			}
 		}
-		System.out.println(uniqueProperties);
 		return uniqueProperties;
 	}
 

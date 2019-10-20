@@ -71,8 +71,6 @@ public class ViewportGestures {
 
 					@Override
 					public void handle(ActionEvent event) {
-						System.out.println(MouseInfo.getPointerInfo().getLocation().x);
-						System.out.println(MouseInfo.getPointerInfo().getLocation().y);
 						ServiceCreation.initServiceCreationWithLocation(MouseInfo.getPointerInfo().getLocation().x,
 								MouseInfo.getPointerInfo().getLocation().y);
 						menu.hide();

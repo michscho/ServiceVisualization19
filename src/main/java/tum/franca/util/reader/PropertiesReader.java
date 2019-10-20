@@ -58,7 +58,6 @@ public class PropertiesReader extends InterfaceReader {
 	public void setProperty(String group, String property) {
 		group = group.toLowerCase();
 		property = property.toLowerCase();
-		System.out.println("PROPERTY: " + group + " " + property);
 		FrancaPersistenceManager fPM = new FrancaPersistenceManager();
 		switch (group) {
 
@@ -330,7 +329,6 @@ public class PropertiesReader extends InterfaceReader {
 	}
 
 	public Properties.BINDING getBindingProperties() {
-		System.out.println(getFirstInterface().getBinding().getName());
 		return CharacteristicsWrapper.bindingHashMap.get(getFirstInterface().getBinding().getName());
 	}
 
