@@ -271,6 +271,7 @@ public class TabPaneSetter {
 			Tab tab1 = new RenameableTab(sP);
 			StringProperty sP2 = new SimpleStringProperty("New Group");
 			Tab tab2 = new RenameableTab(sP2);
+			tab2.setClosable(false);
 
 			// Three Tabs at the bottom
 			TabPane innerTabPane = InnerTabPane.getInnerTabPane();			
@@ -308,6 +309,7 @@ public class TabPaneSetter {
 			TabPane innerTabPane = InnerTabPane.getInnerTabPane();
 			InnerTabPane.setContentInCanvas(MainApp.graph.getCanvas());
 			tabPane.getSelectionModel().getSelectedItem().setContent(innerTabPane);
+			tabPane.getSelectionModel().getSelectedItem().setClosable(true);
 			GeneralMetrics.setAll();
 
 			MainApp.graphList[tabPane.getSelectionModel().getSelectedIndex()] = MainApp.graph;
@@ -321,6 +323,7 @@ public class TabPaneSetter {
 			if (!freeSpace) {
 				StringProperty sP2 = new SimpleStringProperty("New Group");
 				Tab tab2 = new RenameableTab(sP2);
+				tab2.setClosable(false);
 				tabPane.getTabs().add(tab2);
 			}
 		}
