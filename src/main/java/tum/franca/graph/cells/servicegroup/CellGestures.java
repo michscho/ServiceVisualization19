@@ -472,9 +472,6 @@ public class CellGestures {
 					Point point4 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(), cell2.pane.getLayoutY(),
 							cell2.pane.getWidth(), cell2.pane.getHeight());
 					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
-						System.out.println(CellGestures.class);
-						System.out.println(cell.getName());
-						System.out.println(cell2.getName());
 						return;
 					}
 				}

@@ -347,7 +347,6 @@ public class MainAppController {
 						for (int j = 0; j < stringArray2.length; j++) {
 							if (i == j) {
 								for (RectangleCell cell : ((ResizableRectangleCell) iCell2).containsRectangleCell()) {
-									System.out.println(cell.name);
 									cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
 								}
 							}

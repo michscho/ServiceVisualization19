@@ -47,7 +47,6 @@ public class FidlViewController {
 				.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 		String uriFileString = uri.toFileString();
 		String[] stringArray = uriFileString.split("/");
-		System.out.println(uriFileString.replace(stringArray[stringArray.length-1], ""));
 		Desktop.getDesktop().open(new File(uriFileString.replace(stringArray[stringArray.length-1], "")));
 
 	}
