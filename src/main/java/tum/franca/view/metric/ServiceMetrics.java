@@ -55,9 +55,6 @@ public class ServiceMetrics {
 		MainAppController.staticServicesTextServiceSubGroup.setText("Unknown");
 		MainAppController.staticServicesTextServiceSubSubGroup.setText("Unknown");
 		for (ResizableRectangleCell rezCell : ((RectangleCell) cell).getGroupRectangle()) {
-			System.out.println(rezCell.getName());
-			System.out.println(rezCell.style);
-			
 			if (rezCell.style == ResizableRectangleCell.GroupType.TOPLEVEL) {
 				MainAppController.staticServicesTextServiceGroup.setText(rezCell.getName());
 			}
