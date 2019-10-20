@@ -10,9 +10,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import tum.franca.data.RedoManager;
 import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
 import tum.franca.main.MainApp;
 import tum.franca.util.RectangleUtil;
+import tum.franca.view.metric.ServiceMetrics;
 
 /**
  * 
@@ -21,7 +23,7 @@ import tum.franca.util.RectangleUtil;
  */
 public class NodeGestures {
 
-	final DragContext dragContext = new DragContext();
+	public final DragContext dragContext = new DragContext();
 	final Graph graph;
 	static boolean pressedBefore = false;
 
@@ -104,6 +106,10 @@ public class NodeGestures {
 							}
 						}
 					}
+				}
+				
+				if (nodeCellMap.get(node) instanceof RectangleCell) {
+					ServiceMetrics.setAll((RectangleCell) nodeCellMap.get(node)); 
 				}
 
 				node.relocate(offsetX, offsetY);

@@ -492,7 +492,6 @@ public class MainAppController {
 			document.add(p);
 			Image image2 = Image.getInstance(graph);
 			image2.scalePercent(scaler);
-			// image2.scaleAbsolute(PageSize.A4);
 			document.add(image2);
 			document.close();
 
