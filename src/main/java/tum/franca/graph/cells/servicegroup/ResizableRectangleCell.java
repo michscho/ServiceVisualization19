@@ -8,7 +8,10 @@ import java.util.Random;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,12 +22,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tum.franca.factory.creator.ServiceCreation;
+import tum.franca.factory.creator.ServiceGroupCreation;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.graph.Graph;
+import tum.franca.graph.graph.PannableCanvas;
+import tum.franca.graph.graph.ViewportGestures;
 import tum.franca.main.MainApp;
 import tum.franca.main.window.ColorPickerWindow;
 import tum.franca.util.Binding;
@@ -122,8 +128,8 @@ public class ResizableRectangleCell extends AbstractCell {
 		hLine.endXProperty().bind(view.widthProperty().divide(3));
 		hLine.endYProperty().bind(view.layoutYProperty().add(25));
 
-		//   /
-		//  /
+		// /
+		// /
 		// /
 		Line dLine = new Line();
 		dLine.fillProperty().bind(view.fillProperty());
@@ -218,7 +224,6 @@ public class ResizableRectangleCell extends AbstractCell {
 		pane.setOnMouseClicked(e -> e.consume());
 
 		return pane;
-
 	}
 
 	EventHandler<MouseEvent> onMouseClickedPropertyFunction = new EventHandler<MouseEvent>() {
@@ -355,11 +360,40 @@ public class ResizableRectangleCell extends AbstractCell {
 			GroupTreeViewCreator groupTreeView = new GroupTreeViewCreator(name, intersectionCellList);
 			groupTreeView.createTree();
 			if (event.isSecondaryButtonDown() && !event.isPrimaryButtonDown()) {
-				ColorPickerWindow colorPickerWindow = new ColorPickerWindow();
-				colorPickerWindow.start(new Stage());
-				color = (Color) view.getFill();
-				colorStroke = (Color) view.getStroke();
-				ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY(), cell);
+
+				ContextMenu menu = new ContextMenu();
+				MenuItem remove = new MenuItem("Remove Group");
+				SeparatorMenuItem sep1 = new SeparatorMenuItem();
+				MenuItem changeColor = new MenuItem("Change Color");
+				SeparatorMenuItem sep2 = new SeparatorMenuItem();
+				MenuItem newService = new MenuItem("New Service");
+				MenuItem newServiceGroup = new MenuItem("New Group");
+				menu.getItems().addAll(newService, newServiceGroup, sep2, changeColor, sep1, remove);
+
+				menu.show(pane, event.getSceneX(), event.getSceneY());
+				
+				remove.setOnAction(e -> {
+					MainApp.graph.removeCell(cell);
+					MainApp.graph.getModel().removeCell(cell);
+				});
+				
+				newService.setOnAction(e -> {
+					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getScreenY());
+				});
+				
+				newServiceGroup.setOnAction(e -> {
+					ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY());
+				});
+
+				changeColor.setOnAction(e -> {
+					ColorPickerWindow colorPickerWindow = new ColorPickerWindow();
+					colorPickerWindow.start(new Stage());
+					color = (Color) view.getFill();
+					colorStroke = (Color) view.getStroke();
+					ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY(),
+							cell);
+				});
+
 				event.consume();
 			}
 		}
@@ -370,6 +404,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		public void handle(MouseEvent event) {
 			Binding.unbind(pane, style.ordinal());
 			if (MenuBarTop.alignOnGrid) {
+				System.out.println(pane.getLayoutX() % 50 + " ijeifjeifj");
 				if (pane.getLayoutX() >= 0) {
 					if (pane.getLayoutX() % 50 <= 35 && pane.getLayoutX() % 50 != 0) {
 						Binding.bind(pane, style.ordinal());

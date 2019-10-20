@@ -24,7 +24,7 @@ public class ViewportGestures {
 	private final DoubleProperty maxScaleProperty = new SimpleDoubleProperty(10.0d);
 	private final DoubleProperty minScaleProperty = new SimpleDoubleProperty(0.1d);
 
-	private final PannableCanvas.DragContext sceneDragContext = new PannableCanvas.DragContext();
+	public final PannableCanvas.DragContext sceneDragContext = new PannableCanvas.DragContext();
 
 	PannableCanvas canvas;
 

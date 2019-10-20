@@ -116,6 +116,7 @@ public class ServiceCreationController {
 		final RectangleCell cell = new RectangleCell(serviceName.getText(), null, fr);
 		MainApp.graph.getModel().getAddedCells().add(cell);
 		MainApp.graph.addCell(cell);
+		MainApp.graph.getGraphic(cell).relocate(ServiceCreation.x, ServiceCreation.y);
 	}
 
 	private boolean checkInput() {
