@@ -204,7 +204,7 @@ public class RectangleCell extends AbstractCell {
 					}
 				} else { // pane.getLayoutX() < 0
 					if (pane.getLayoutX() % 50 >= -35 && pane.getLayoutX() % 50 != -0) {
-						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
+						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
 					} else if (pane.getLayoutX() % 50 < -35) {
 						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
 					}
@@ -217,9 +217,9 @@ public class RectangleCell extends AbstractCell {
 					}
 				} else { // pane.getLayoutY() < 0
 					if (pane.getLayoutY() % 50 >= -35 && pane.getLayoutY() % 50 != -0) {
-						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
+						pane.setLayoutY(pane.getLayoutX() - pane.getLayoutY() % 50);
 					} else if (pane.getLayoutY() % 50 < -35) {
-						pane.setLayoutY(pane.getLayoutX() - (50 + (pane.getLayoutY() % 50)));
+						pane.setLayoutY(pane.getLayoutY() - (50 + (pane.getLayoutY() % 50)));
 					}
 
 				}
