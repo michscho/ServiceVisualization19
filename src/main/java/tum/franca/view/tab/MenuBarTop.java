@@ -41,7 +41,7 @@ public class MenuBarTop {
 	 * @return MenuBar
 	 */
 	static MenuBar getMenuBar() {
-		
+
 		MenuBar menuBar = new MenuBar();
 
 		// Grid
@@ -63,7 +63,11 @@ public class MenuBarTop {
 		menuItemAlign.setToggleGroup(toggleGroupGrid2);
 		menuItemGrid1.setToggleGroup(toggleGroupGrid);
 		menuItemGrid2.setToggleGroup(toggleGroupGrid);
-		menuItemAlign.setSelected(false);
+		if (!alignOnGrid) {
+			menuItemAlign.setSelected(false);
+		} else {
+			menuItemAlign.setSelected(true);
+		}
 		menuItemGrid2.setSelected(true);
 		gridMenu.getItems().addAll(menuItemAlign, seperatorItem, menuItemGrid1, menuItemGrid2);
 
@@ -245,8 +249,7 @@ public class MenuBarTop {
 			}
 		}
 	};
-	
-	
+
 	/**
 	 * Rearranges the top group.
 	 */
@@ -278,7 +281,7 @@ public class MenuBarTop {
 
 		}
 	};
-	
+
 	static EventHandler<ActionEvent> onClickOnMenuGroups2 = new EventHandler<ActionEvent>() {
 
 		@Override
@@ -296,6 +299,5 @@ public class MenuBarTop {
 			ColorUtil.recolorCanvas();
 		}
 	};
-
 
 }
