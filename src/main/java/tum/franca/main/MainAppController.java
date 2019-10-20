@@ -304,7 +304,7 @@ public class MainAppController {
 	public void applyGrouping() {
 		if (StaticFidlReader.getFidlList() != null) {
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
-			GroupSetter.createCanvas();
+			GroupSetter.createGraph();
 			tabPaneSetter.setCanvas();
 			GeneralMetrics.setAll();
 			ColorUtil.recolorCanvas();
@@ -321,10 +321,12 @@ public class MainAppController {
 	public void newFile() {
 		StaticFidlReader.newFidlList();
 		try {
-			GroupSetter.createCanvas();
+			GroupSetter.createGraph();
 			if (tabPaneSetter == null) {
 				MainAppController.tabPaneSetter = new TabPaneSetter();
 			}
+			List<FidlReader> fR = StaticFidlReader.getFidlList();
+			StaticFidlReader.fidlList = null;
 			tabPaneSetter.setCanvas();
 			MainApp.graph.getCanvas().setScale(1.0);
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
@@ -332,6 +334,7 @@ public class MainAppController {
 			groupingButton.setDisable(false);
 			StaticSplitter.setStaticSplitPane(splitPane);
 			Grid.checkAndConfigureGrid();
+			StaticFidlReader.fidlList = fR;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -398,7 +401,7 @@ public class MainAppController {
 			}
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			try {
-				GroupSetter.createCanvas();
+				GroupSetter.createGraph();
 				if (tabPaneSetter == null) {
 					MainAppController.tabPaneSetter = new TabPaneSetter();
 				}
