@@ -1,18 +1,18 @@
 package tum.franca.graph.graph;
 
-import java.awt.MouseInfo;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
+import tum.franca.main.window.ColorPickerWindowCanvas;
 
 /**
  * https://github.com/generalic/GraphVisualisation/blob/master/src/hr/fer/zemris/graph/test/GraphPane.java
@@ -87,7 +87,18 @@ public class ViewportGestures {
 				item.setOnAction(onAddServiceClicked);
 				MenuItem item2 = new MenuItem("New Service Group");
 				item2.setOnAction(onAddServiceGroupClicked);
-				menu.getItems().addAll(item, item2);
+				SeparatorMenuItem sepMenuItem = new SeparatorMenuItem();
+				MenuItem item3 = new MenuItem("Change Background");
+				EventHandler<ActionEvent> onChangeBackgroundlicked = new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent action) {
+						ColorPickerWindowCanvas.initColorPicker((int) event.getSceneX(),(int) event.getSceneY());
+						menu.hide();
+					}
+				};
+				item3.setOnAction(onChangeBackgroundlicked);
+				menu.getItems().addAll(item, item2, sepMenuItem, item3);
 				menu.show(canvas, event.getSceneX(), event.getScreenY());
 				menu.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
 					menu.hide();
@@ -115,7 +126,7 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-
+			System.out.println("HERE");
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
 			canvas.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
 
