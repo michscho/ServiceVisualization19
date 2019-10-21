@@ -126,7 +126,6 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-			System.out.println("HERE");
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
 			canvas.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
 
