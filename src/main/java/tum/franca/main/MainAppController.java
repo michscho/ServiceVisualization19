@@ -325,8 +325,6 @@ public class MainAppController {
 			if (tabPaneSetter == null) {
 				MainAppController.tabPaneSetter = new TabPaneSetter();
 			}
-			List<FidlReader> fR = StaticFidlReader.getFidlList();
-			StaticFidlReader.fidlList = null;
 			tabPaneSetter.setCanvas();
 			MainApp.graph.getCanvas().setScale(1.0);
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
@@ -334,7 +332,6 @@ public class MainAppController {
 			groupingButton.setDisable(false);
 			StaticSplitter.setStaticSplitPane(splitPane);
 			Grid.checkAndConfigureGrid();
-			StaticFidlReader.fidlList = fR;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
