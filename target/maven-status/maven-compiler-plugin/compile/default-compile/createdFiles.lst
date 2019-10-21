@@ -13,6 +13,7 @@ tum/franca/graph/cells/servicegroup/ResizableRectangleCell$3.class
 tum/franca/graph/cells/servicegroup/CellGestures$5.class
 tum/franca/factory/creator/ServiceGroupCreationController$1.class
 tum/franca/graph/cells/service/RectangleCellNodes$2.class
+tum/franca/main/window/ColorPickerWindowCanvas.class
 tum/franca/graph/cells/servicegroup/ResContxtMenu$1.class
 tum/franca/factory/creator/ServiceCreationController.class
 tum/franca/util/characteristics/CharacteristicsWrapper$Properties$HARDWAREDEPENDEND.class
@@ -120,6 +121,7 @@ tum/franca/graph/cells/ICell.class
 tum/franca/graph/graph/NodeGestures$1.class
 tum/franca/util/characteristics/CharacteristicsWrapper$Properties$BINDING.class
 tum/franca/graph/graph/ViewportGestures$1.class
+tum/franca/graph/graph/ViewportGestures$1$3.class
 tum/franca/graph/cells/servicegroup/ResizableRectangleCell$1.class
 tum/franca/util/propertyfunction/PropertyElement.class
 tum/franca/factory/ModelSetter.class
@@ -131,6 +133,7 @@ tum/franca/view/metric/GeneralMetrics.class
 tum/franca/view/tab/MenuBarTop$6.class
 tum/franca/graph/cells/servicegroup/CellGestures$6.class
 tum/franca/util/propertyfunction/PropertyEntity.class
+tum/franca/graph/cells/service/RectangleCellNodes$13.class
 tum/franca/graph/cells/service/RectangleCellNodes$6.class
 tum/franca/graph/cells/servicegroup/ResizableRectangleCell$4.class
 tum/franca/util/propertyfunction/PropertyFunctionWindowController$8.class
@@ -144,6 +147,7 @@ tum/franca/view/list/ListViewWrapper.class
 tum/franca/graph/graph/Model.class
 tum/franca/util/propertyfunction/PropertyFunctionWindowController$5.class
 tum/franca/view/tab/TabPaneSetter$2.class
+tum/franca/main/window/ColorPickerWindowCanvas$1.class
 tum/franca/util/characteristics/CharacteristicsUtil.class
 tum/franca/graph/edges/Edge$1.class
 tum/franca/util/reader/StaticFidlReader.class
