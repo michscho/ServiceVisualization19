@@ -77,6 +77,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleN, mouseLocation, Cursor.N_RESIZE);
 
 			resizeHandleN.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragNorth(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -100,6 +101,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleNE, mouseLocation, Cursor.NE_RESIZE);
 
 			resizeHandleNE.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragNorth(event, mouseLocation, region, handleRadius);
 					dragEast(event, mouseLocation, region, handleRadius);
@@ -129,6 +131,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleE, mouseLocation, Cursor.E_RESIZE);
 
 			resizeHandleE.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragEast(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -153,6 +156,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleSE, mouseLocation, Cursor.SE_RESIZE);
 
 			resizeHandleSE.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragSouth(event, mouseLocation, region, handleRadius);
 					dragEast(event, mouseLocation, region, handleRadius);
@@ -179,6 +183,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleS, mouseLocation, Cursor.S_RESIZE);
 
 			resizeHandleS.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragSouth(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -202,6 +207,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleSW, mouseLocation, Cursor.SW_RESIZE);
 
 			resizeHandleSW.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragSouth(event, mouseLocation, region, handleRadius);
 					dragWest(event, mouseLocation, region, handleRadius);
@@ -227,6 +233,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleW, mouseLocation, Cursor.W_RESIZE);
 
 			resizeHandleW.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragWest(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -249,6 +256,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleNW, mouseLocation, Cursor.NW_RESIZE);
 
 			resizeHandleNW.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragNorth(event, mouseLocation, region, handleRadius);
 					dragWest(event, mouseLocation, region, handleRadius);
@@ -713,6 +721,7 @@ public class CellGestures {
 			node.getParent().setCursor(Cursor.DEFAULT);
 		});
 		node.setOnDragDetected(event -> {
+			event.consume();
 			node.getParent().setCursor(Cursor.CLOSED_HAND);
 			mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 		});

@@ -12,7 +12,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
+import tum.franca.graph.edges.Edge;
+import tum.franca.graph.edges.IEdge;
+import tum.franca.main.MainApp;
 
 /**
  * 
@@ -33,7 +38,8 @@ public class ColorPickerWindow extends Application {
 		}
 	}
 
-	public static void initColorPicker(Rectangle view, Color color1, Color colorStroke, double x, double y, ResizableRectangleCell cell) {
+	public static void initColorPicker(Rectangle view, Color color1, Color colorStroke, double x, double y,
+			ResizableRectangleCell cell) {
 		final ColorPicker colorPicker = new ColorPicker();
 		colorPicker.setValue(color1);
 
@@ -41,7 +47,18 @@ public class ColorPickerWindow extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				view.setFill(colorPicker.getValue());
+				Color color = Color.color(colorPicker.getValue().getRed(), colorPicker.getValue().getGreen(),
+						colorPicker.getValue().getBlue(), 0.9);
+				view.setFill(color.brighter());
+
+				for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+					((Edge) edge).toFront();
+				}
+				for (ICell cell : MainApp.graph.getModel().getAddedCells()) {
+					if (cell instanceof RectangleCell) {
+						((RectangleCell) cell).pane.toFront();
+					}
+				}
 			}
 		});
 
@@ -55,10 +72,15 @@ public class ColorPickerWindow extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				view.setStroke(colorPicker2.getValue());
+				if (colorPicker2.getValue().getOpacity() < 0.4) {
+					view.setStroke(Color.color(colorPicker2.getValue().getRed(), colorPicker2.getValue().getGreen(),
+							colorPicker2.getValue().getBlue(), colorPicker2.getValue().getOpacity()));
+				} else {
+					view.setStroke(Color.color(colorPicker2.getValue().getRed(), colorPicker2.getValue().getGreen(),
+							colorPicker2.getValue().getBlue(), colorPicker2.getValue().getOpacity()));
+				}
 			}
 		});
-		
 
 		FlowPane root = new FlowPane();
 		root.setPadding(new Insets(10));
