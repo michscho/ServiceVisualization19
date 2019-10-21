@@ -22,6 +22,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
@@ -149,16 +152,13 @@ public class ResizableRectangleCell extends AbstractCell {
 		vLine.endYProperty().bind(view.layoutYProperty());
 
 		Label label = new Label(getName());
-		if (style == GroupType.SUBSUBLEVEL) {
-			label.setStyle("-fx-font: 16 arial;");
-		} else if (style == GroupType.SUBLEVEL) {
-			label.setStyle("-fx-font: 18 arial;");
-		} else {
-			label.setStyle("-fx-font: 20 arial;");
-		}
+		label.setFont(Font.font("Verdana", FontWeight.BOLD, 17));
+
 		label.layoutXProperty().bind(view.layoutXProperty().add(10));
-		label.layoutYProperty().bind(view.layoutYProperty().add(0));
-		label.setTooltip(new Tooltip(label.getText()));
+		label.layoutYProperty().bind(view.layoutYProperty().add(2));
+		Tooltip toolTip = new Tooltip(label.getText());
+		toolTip.setStyle("-fx-font-size: 18");
+		label.setTooltip(toolTip);
 		label.setPrefWidth(hLine.endXProperty().subtract(hLine.startXProperty()).subtract(3).doubleValue());
 
 		hLine.endXProperty().addListener(new ChangeListener<Object>() {
@@ -173,6 +173,9 @@ public class ResizableRectangleCell extends AbstractCell {
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 				if (view.getWidth() <= 100 || view.heightProperty().doubleValue() <= 40) {
 					label.setVisible(false);
+					hLine.setVisible(false);
+					dLine.setVisible(false);
+					vLine.setVisible(false);
 				}
 				if (view.getWidth() > 100 && view.heightProperty().doubleValue() > 40) {
 					label.setVisible(true);
