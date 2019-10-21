@@ -16,6 +16,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
@@ -82,6 +85,7 @@ public class RectangleCell extends AbstractCell {
 		view.setEffect(getEffect());
 
 		text = new Label(getName());
+		text.setFont(Font.font("Verdana", FontWeight.NORMAL, 17));
 
 		Tooltip tooltip = new Tooltip(getName());
 		tooltip.setStyle("-fx-font-size: 18");
