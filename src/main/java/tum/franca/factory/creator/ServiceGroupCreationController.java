@@ -156,6 +156,7 @@ public class ServiceGroupCreationController {
 		MainApp.graph.getModel().addCell(cellGroup);
 		overloadCounter = 0;
 		relocate(cellGroup, 0);
+		ServiceGroupCreation.stage.close();
 		
 	}
 	

@@ -98,6 +98,7 @@ public class RectangleCellNodes {
 
 		@Override
 		public void handle(MouseEvent event) {
+			event.consume();
 			for (ICell icell : MainApp.graph.getModel().getAddedCells()) {
 				if (icell instanceof RectangleCell) {
 					((RectangleCell) icell).cn.setVisible();
@@ -357,6 +358,7 @@ public class RectangleCellNodes {
 				EventHandler<MouseEvent> mouseDragged = new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent t) {
+						t.consume();
 						if (line != null) {
 							Node pickResult = t.getPickResult().getIntersectedNode();
 							if (pickResult == null || pickResult.getUserData() != Boolean.TRUE) {
