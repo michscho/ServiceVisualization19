@@ -379,7 +379,7 @@ public class ResizableRectangleCell extends AbstractCell {
 				});
 				
 				newService.setOnAction(e -> {
-					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getScreenY());
+					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY());
 				});
 				
 				newServiceGroup.setOnAction(e -> {

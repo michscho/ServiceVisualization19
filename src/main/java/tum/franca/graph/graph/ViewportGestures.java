@@ -70,18 +70,17 @@ public class ViewportGestures {
 				EventHandler<ActionEvent> onAddServiceClicked = new EventHandler<ActionEvent>() {
 
 					@Override
-					public void handle(ActionEvent event) {
-						ServiceCreation.initServiceCreationWithLocation(MouseInfo.getPointerInfo().getLocation().x,
-								MouseInfo.getPointerInfo().getLocation().y);
+					public void handle(ActionEvent action) {
+						ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(),(int) event.getSceneY());
 						menu.hide();
 					}
 				};
 				EventHandler<ActionEvent> onAddServiceGroupClicked = new EventHandler<ActionEvent>() {
 
 					@Override
-					public void handle(ActionEvent event) {
+					public void handle(ActionEvent action) {
 						ServiceGroupCreation.initServiceGroupCreationWithLocation(
-								MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+								(int) event.getSceneX(),(int) event.getSceneY());
 						menu.hide();
 					}
 				};
