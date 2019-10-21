@@ -24,7 +24,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
@@ -222,6 +221,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> imageView.setVisible(true));
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
+
 		pane.setOnMouseClicked(e -> e.consume());
 
 		return pane;

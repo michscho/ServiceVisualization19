@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
@@ -104,7 +103,7 @@ public class RectangleCell extends AbstractCell {
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
-
+		
 		cn = new RectangleCellNodes();
 		cn.makeResizable(pane, this);
 		cn.setInvisible();

@@ -73,6 +73,7 @@ public class NodeGestures {
 
 		@Override
 		public void handle(MouseEvent event) {
+			event.consume();
 			if (event.getButton() == MouseButton.PRIMARY && !event.isSecondaryButtonDown() && pressedBefore) {
 
 				final Node node = (Node) event.getSource();

@@ -117,12 +117,6 @@ public class ViewportGestures {
 				menu.hide();
 			}
 
-			if (!(event.getClickCount() >= 2)) {
-				if (!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
-					return;
-				}
-			}
-
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
 			canvas.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
 
