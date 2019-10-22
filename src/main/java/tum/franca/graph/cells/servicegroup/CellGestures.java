@@ -83,9 +83,11 @@ public class CellGestures {
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 				}
 			});
+//			resizeHandleN.setOnMouseReleased(e -> alignOnGridNorth(region));
 			return resizeHandleN;
 		}
 	};
+
 
 	DragNodeSupplier NORTH_EAST = new DragNodeSupplier() {
 		@Override
@@ -301,6 +303,27 @@ public class CellGestures {
 			}
 		});
 	}
+	
+//	public void alignOnGridNorth(Region region) {
+//		if (MenuBarTop.alignOnGrid) {
+//			Binding.bind((Pane) region, 0);
+//			if (region.getPrefHeight() >= 0) {
+//				if (region.getPrefHeight() % 50 <= 35 && region.getPrefHeight() % 50 != 0) {
+//					region.setPrefHeight(region.getPrefHeight() - region.getPrefHeight() % 50);
+//				} else if (region.getPrefHeight() % 50 > 35) {
+//					region.setPrefHeight(region.getPrefHeight() + 50 - (region.getPrefHeight() % 50));
+//				}
+//			} 
+//			if (region.getLayoutY() >= 0) {
+//				if (region.getLayoutY() % 50 <= 35 && region.getLayoutY() % 50 != 0) {
+//					region.setLayoutY(region.getLayoutY() - region.getLayoutY() % 50);
+//				} else if (region.getLayoutY() % 50 > 35) {
+//					region.setLayoutY(region.getLayoutY() + 50 - (region.getLayoutY() % 50));
+//				}
+//			} 
+//			Binding.unbind((Pane) region, 0);
+//		}
+//	}
 
 	private void dragNorth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
 		ResizableRectangleCell cell = rezRectangle;
@@ -393,9 +416,8 @@ public class CellGestures {
 			region.setLayoutY(newY);
 			region.setPrefHeight(region.getPrefHeight() - deltaY);
 		}
-		
-		RectangleUtil.inconsistantBoardState2();
 
+		RectangleUtil.inconsistantBoardState2();
 
 	}
 
@@ -486,12 +508,11 @@ public class CellGestures {
 			}
 		}
 
-
 		if (newMaxX >= region.getLayoutX()
 				&& newMaxX <= region.getParent().getBoundsInLocal().getWidth() - handleRadius) {
 			region.setPrefWidth(region.getPrefWidth() + deltaX);
 		}
-		
+
 		RectangleUtil.inconsistantBoardState2();
 
 	}
@@ -596,12 +617,11 @@ public class CellGestures {
 				&& newMaxY <= region.getParent().getBoundsInLocal().getHeight() - handleRadius) {
 			region.setPrefHeight(region.getPrefHeight() + deltaY);
 		}
-		
+
 		RectangleUtil.inconsistantBoardState2();
 
-
 	}
-	
+
 	// SOUTH
 
 	/**
@@ -707,9 +727,8 @@ public class CellGestures {
 			region.setLayoutX(newX);
 			region.setPrefWidth(region.getPrefWidth() - deltaX);
 		}
-		
-		RectangleUtil.inconsistantBoardState2();
 
+		RectangleUtil.inconsistantBoardState2();
 
 	}
 
