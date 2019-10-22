@@ -4,6 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -12,6 +13,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
+import tum.franca.main.MainApp;
 import tum.franca.main.window.ColorPickerWindowCanvas;
 
 /**
@@ -48,12 +50,33 @@ public class ViewportGestures {
 		minScaleProperty.set(minScale);
 		maxScaleProperty.set(maxScale);
 	}
-
+	
 	private final EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent event) {
+			
+			final Node node = (Node) event.getSource();
 
+			final double scale = MainApp.graph.getScale();
+
+//			double X = event.getScreenX() + node.getB - event.getScreenX();
+//			double Y = event.getScreenY() + node.getLocalToParentTransform(). * scale - event.getScreenY();
+//
+//			X /= scale;
+//			Y /= scale;
+			
+			System.out.println(event.getSceneX());
+			System.out.println(event.getSceneY());
+			
+			System.out.println(canvas.getTranslateX());
+			System.out.println(canvas.getTranslateY());
+			
+			System.out.println("Scale " + scale);
+			
+			System.out.println("CALC: " + ((canvas.getTranslateX()/-1)/scale));
+			
+			
 			if (menu != null) {
 				menu.hide();
 			}
@@ -71,7 +94,7 @@ public class ViewportGestures {
 
 					@Override
 					public void handle(ActionEvent action) {
-						ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(),(int) event.getSceneY());
+						ServiceCreation.initServiceCreationWithLocation((int) ((canvas.getTranslateX()*-1)*scale + (event.getSceneX()-284)*scale),(int) ((canvas.getTranslateY()*-1)/scale + (event.getSceneY()-66)/scale));
 						menu.hide();
 					}
 				};
@@ -126,6 +149,7 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
+			
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
 			canvas.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
 

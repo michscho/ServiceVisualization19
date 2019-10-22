@@ -23,7 +23,7 @@ import tum.franca.view.metric.ServiceMetrics;
  */
 public class NodeGestures {
 
-	public final DragContext dragContext = new DragContext();
+	public static final DragContext dragContext = new DragContext();
 	final Graph graph;
 	static boolean pressedBefore = false;
 
