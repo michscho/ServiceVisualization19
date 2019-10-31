@@ -13,6 +13,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
+import tum.franca.graph.graph.NodeGestures.DragContext;
 import tum.franca.main.MainApp;
 import tum.franca.main.window.ColorPickerWindowCanvas;
 
@@ -50,33 +51,18 @@ public class ViewportGestures {
 		minScaleProperty.set(minScale);
 		maxScaleProperty.set(maxScale);
 	}
-	
+
+	public static final DragContext dragContext = new DragContext();
+
 	private final EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent event) {
-			
-			final Node node = (Node) event.getSource();
 
 			final double scale = MainApp.graph.getScale();
 
-//			double X = event.getScreenX() + node.getB - event.getScreenX();
-//			double Y = event.getScreenY() + node.getLocalToParentTransform(). * scale - event.getScreenY();
-//
-//			X /= scale;
-//			Y /= scale;
-			
-			System.out.println(event.getSceneX());
-			System.out.println(event.getSceneY());
-			
-			System.out.println(canvas.getTranslateX());
-			System.out.println(canvas.getTranslateY());
-			
-			System.out.println("Scale " + scale);
-			
-			System.out.println("CALC: " + ((canvas.getTranslateX()/-1)/scale));
-			
-			
+			final Node node = (Node) event.getSource();
+
 			if (menu != null) {
 				menu.hide();
 			}
@@ -94,7 +80,29 @@ public class ViewportGestures {
 
 					@Override
 					public void handle(ActionEvent action) {
-						ServiceCreation.initServiceCreationWithLocation((int) ((canvas.getTranslateX()*-1)*scale + (event.getSceneX()-284)*scale),(int) ((canvas.getTranslateY()*-1)/scale + (event.getSceneY()-66)/scale));
+						System.out.println(event.getX());
+
+						System.out.println(event.getY());
+						
+						System.out.println(event.getSceneX());
+						
+						System.out.println(event.getSceneY());
+
+						System.out.println("SCALE: " + scale);
+
+						System.out.println(canvas.getTranslateX());
+
+						System.out.println(canvas.getTranslateY());
+
+						int x = (int) ((canvas.getTranslateX()/scale * -1.0 + event.getX()));
+
+						int y = (int) ((canvas.getTranslateY()/scale * -1.0 + event.getY()));
+
+						System.out.println("CALC X: " + x);
+
+						System.out.println("CALC Y: " + y);
+
+						ServiceCreation.initServiceCreationWithLocation(event.getSceneX(), event.getSceneY(), x, y);
 						menu.hide();
 					}
 				};
@@ -102,8 +110,11 @@ public class ViewportGestures {
 
 					@Override
 					public void handle(ActionEvent action) {
-						ServiceGroupCreation.initServiceGroupCreationWithLocation(
-								(int) event.getSceneX(),(int) event.getSceneY());
+						int x = (int) ((canvas.getTranslateX()/scale * -1.0 + event.getX()));
+
+						int y = (int) ((canvas.getTranslateY()/scale * -1.0 + event.getY()));
+						ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(),
+								(int) event.getSceneY(),x,y);
 						menu.hide();
 					}
 				};
@@ -116,7 +127,7 @@ public class ViewportGestures {
 
 					@Override
 					public void handle(ActionEvent action) {
-						ColorPickerWindowCanvas.initColorPicker((int) event.getSceneX(),(int) event.getSceneY());
+						ColorPickerWindowCanvas.initColorPicker((int) event.getSceneX(), (int) event.getSceneY());
 						menu.hide();
 					}
 				};
@@ -149,7 +160,7 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-			
+
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
 			canvas.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
 
@@ -169,7 +180,7 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-			
+
 			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
 			final double oldScale = scale;
 
@@ -221,7 +232,16 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
+			double scale = canvas.getScale(); // currently
+												// we
+												// only
+												// use
+												// Y,
+												// same
+												// value
+												// is
+												// used
+												// for X
 			final double oldScale = scale;
 
 			if (event.getZoomFactor() > 1) {

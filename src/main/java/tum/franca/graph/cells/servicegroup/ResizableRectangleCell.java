@@ -379,11 +379,18 @@ public class ResizableRectangleCell extends AbstractCell {
 				});
 				
 				newService.setOnAction(e -> {
-					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY());
+					int x = (int) ((MainApp.graph.getCanvas().getTranslateX()/MainApp.graph.getScale() * -1.0 + event.getX()));
+
+					int y = (int) ((MainApp.graph.getCanvas().getTranslateY()/MainApp.graph.getScale() * -1.0 + event.getY()));
+					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY(),x,y);
 				});
 				
 				newServiceGroup.setOnAction(e -> {
-					ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY());
+					int x = (int) ((MainApp.graph.getCanvas().getTranslateX()/MainApp.graph.getScale() * -1.0 + event.getX()));
+
+					int y = (int) ((MainApp.graph.getCanvas().getTranslateY()/MainApp.graph.getScale() * -1.0 + event.getY()));
+					
+					ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY(),x,y);
 				});
 
 				changeColor.setOnAction(e -> {

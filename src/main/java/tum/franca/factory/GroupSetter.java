@@ -47,7 +47,7 @@ public class GroupSetter {
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
 
-		if (fidlList != null) {
+		if (fidlList != null && !fidlList.isEmpty()) {
 
 			grouping(model);
 
