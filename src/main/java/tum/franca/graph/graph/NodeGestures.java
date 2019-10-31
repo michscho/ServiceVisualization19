@@ -62,6 +62,10 @@ public class NodeGestures {
 
 			dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();
 			dragContext.y = node.getBoundsInParent().getMinY() * scale - event.getScreenY();
+			
+			System.out.println("LayoutX: " + node.getLayoutX());
+			System.out.println("LayoutY: " + node.getLayoutX());
+
 
 			if (!(event.isPrimaryButtonDown() && event.isSecondaryButtonDown())) {
 				pressedBefore = true;

@@ -29,7 +29,7 @@ public class ServiceCreation extends Application {
 		}
 	}
 
-	public static void initServiceCreationWithLocation(int x, int y) {
+	public static void initServiceCreationWithLocation(double windowLocationX, double windowLocationY, int x, int y) {
 		ServiceCreation.x = x;
 		ServiceCreation.y = y;
 		if (ServiceCreation.stage == null) {
@@ -45,8 +45,8 @@ public class ServiceCreation extends Application {
 			Scene scene = new Scene(root);
 			stage.setTitle("Create Service");
 			stage.setResizable(false);
-			stage.setX(x);
-			stage.setY(y);
+			stage.setX(windowLocationX);
+			stage.setY(windowLocationY);
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {

@@ -316,10 +316,11 @@ public class MainAppController {
 			VisualisationsAlerts.noFilesSelected();
 		}
 	}
-
+	
 	@FXML
 	public void newFile() {
 		StaticFidlReader.newFidlList();
+		new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 		try {
 			GroupSetter.createGraph();
 			if (tabPaneSetter == null) {

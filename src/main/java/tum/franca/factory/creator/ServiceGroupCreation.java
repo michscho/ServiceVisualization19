@@ -30,7 +30,7 @@ public class ServiceGroupCreation extends Application {
 	public static int x;
 	public static int y;
 	
-	public static void initServiceGroupCreationWithLocation(int x, int y) {
+	public static void initServiceGroupCreationWithLocation(double windowLocationX, double windowLocationY, int x, int y) {
 		ServiceGroupCreation.x = x;
 		ServiceGroupCreation.y = y;
 		if (ServiceGroupCreation.stage == null) {
@@ -46,8 +46,8 @@ public class ServiceGroupCreation extends Application {
 			Scene scene = new Scene(root);
 			stage.setTitle("Create Group");
 			stage.setResizable(false);
-			stage.setX(x);
-			stage.setY(y);
+			stage.setX(windowLocationX);
+			stage.setY(windowLocationY);
 			stage.setScene(scene);
 			stage.show();
 		} catch (IOException e) {
