@@ -47,7 +47,6 @@ public class FidlViewController {
 				.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 		String uriFileString = uri.toFileString();
 		String[] stringArray = uriFileString.split("/");
-		System.out.println(uriFileString.replace(stringArray[stringArray.length-1], ""));
 		Desktop.getDesktop().open(new File(uriFileString.replace(stringArray[stringArray.length-1], "")));
 
 	}
@@ -63,7 +62,6 @@ public class FidlViewController {
 		}
 
 		listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
 				textArea.setText("");
@@ -71,12 +69,10 @@ public class FidlViewController {
 				URI uri = MainApp.graph.getModel()
 						.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 				try (BufferedReader reader = new BufferedReader(new FileReader(new File(uri.toFileString())))) {
-
 					String line;
 					while ((line = reader.readLine()) != null) {
 						textArea.appendText(line + "\n");
 					}
-
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -86,6 +82,9 @@ public class FidlViewController {
 
 	@FXML
 	public void initialize() throws Exception {
+		
+		listView.setOnMouseMoved(e -> onReloadClicked());
+		
 		listView.getItems().clear();
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {

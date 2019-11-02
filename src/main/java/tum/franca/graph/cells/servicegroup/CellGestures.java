@@ -77,14 +77,17 @@ public class CellGestures {
 			setUpDragging(resizeHandleN, mouseLocation, Cursor.N_RESIZE);
 
 			resizeHandleN.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragNorth(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 				}
 			});
+//			resizeHandleN.setOnMouseReleased(e -> alignOnGridNorth(region));
 			return resizeHandleN;
 		}
 	};
+
 
 	DragNodeSupplier NORTH_EAST = new DragNodeSupplier() {
 		@Override
@@ -100,6 +103,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleNE, mouseLocation, Cursor.NE_RESIZE);
 
 			resizeHandleNE.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragNorth(event, mouseLocation, region, handleRadius);
 					dragEast(event, mouseLocation, region, handleRadius);
@@ -129,6 +133,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleE, mouseLocation, Cursor.E_RESIZE);
 
 			resizeHandleE.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragEast(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -153,6 +158,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleSE, mouseLocation, Cursor.SE_RESIZE);
 
 			resizeHandleSE.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragSouth(event, mouseLocation, region, handleRadius);
 					dragEast(event, mouseLocation, region, handleRadius);
@@ -179,6 +185,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleS, mouseLocation, Cursor.S_RESIZE);
 
 			resizeHandleS.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragSouth(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -202,6 +209,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleSW, mouseLocation, Cursor.SW_RESIZE);
 
 			resizeHandleSW.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragSouth(event, mouseLocation, region, handleRadius);
 					dragWest(event, mouseLocation, region, handleRadius);
@@ -227,6 +235,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleW, mouseLocation, Cursor.W_RESIZE);
 
 			resizeHandleW.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragWest(event, mouseLocation, region, handleRadius);
 					mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
@@ -249,6 +258,7 @@ public class CellGestures {
 			setUpDragging(resizeHandleNW, mouseLocation, Cursor.NW_RESIZE);
 
 			resizeHandleNW.setOnMouseDragged(event -> {
+				event.consume();
 				if (mouseLocation.value != null) {
 					dragNorth(event, mouseLocation, region, handleRadius);
 					dragWest(event, mouseLocation, region, handleRadius);
@@ -293,6 +303,27 @@ public class CellGestures {
 			}
 		});
 	}
+	
+//	public void alignOnGridNorth(Region region) {
+//		if (MenuBarTop.alignOnGrid) {
+//			Binding.bind((Pane) region, 0);
+//			if (region.getPrefHeight() >= 0) {
+//				if (region.getPrefHeight() % 50 <= 35 && region.getPrefHeight() % 50 != 0) {
+//					region.setPrefHeight(region.getPrefHeight() - region.getPrefHeight() % 50);
+//				} else if (region.getPrefHeight() % 50 > 35) {
+//					region.setPrefHeight(region.getPrefHeight() + 50 - (region.getPrefHeight() % 50));
+//				}
+//			} 
+//			if (region.getLayoutY() >= 0) {
+//				if (region.getLayoutY() % 50 <= 35 && region.getLayoutY() % 50 != 0) {
+//					region.setLayoutY(region.getLayoutY() - region.getLayoutY() % 50);
+//				} else if (region.getLayoutY() % 50 > 35) {
+//					region.setLayoutY(region.getLayoutY() + 50 - (region.getLayoutY() % 50));
+//				}
+//			} 
+//			Binding.unbind((Pane) region, 0);
+//		}
+//	}
 
 	private void dragNorth(MouseEvent event, Wrapper<Point2D> mouseLocation, Region region, double handleRadius) {
 		ResizableRectangleCell cell = rezRectangle;
@@ -385,9 +416,8 @@ public class CellGestures {
 			region.setLayoutY(newY);
 			region.setPrefHeight(region.getPrefHeight() - deltaY);
 		}
-		
-		RectangleUtil.inconsistantBoardState2();
 
+		RectangleUtil.inconsistantBoardState2();
 
 	}
 
@@ -472,21 +502,17 @@ public class CellGestures {
 					Point point4 = RectangleUtil.getPointOfRechtangle(cell2.pane.getLayoutX(), cell2.pane.getLayoutY(),
 							cell2.pane.getWidth(), cell2.pane.getHeight());
 					if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
-						System.out.println(CellGestures.class);
-						System.out.println(cell.getName());
-						System.out.println(cell2.getName());
 						return;
 					}
 				}
 			}
 		}
 
-
 		if (newMaxX >= region.getLayoutX()
 				&& newMaxX <= region.getParent().getBoundsInLocal().getWidth() - handleRadius) {
 			region.setPrefWidth(region.getPrefWidth() + deltaX);
 		}
-		
+
 		RectangleUtil.inconsistantBoardState2();
 
 	}
@@ -591,12 +617,11 @@ public class CellGestures {
 				&& newMaxY <= region.getParent().getBoundsInLocal().getHeight() - handleRadius) {
 			region.setPrefHeight(region.getPrefHeight() + deltaY);
 		}
-		
+
 		RectangleUtil.inconsistantBoardState2();
 
-
 	}
-	
+
 	// SOUTH
 
 	/**
@@ -702,9 +727,8 @@ public class CellGestures {
 			region.setLayoutX(newX);
 			region.setPrefWidth(region.getPrefWidth() - deltaX);
 		}
-		
-		RectangleUtil.inconsistantBoardState2();
 
+		RectangleUtil.inconsistantBoardState2();
 
 	}
 
@@ -716,6 +740,7 @@ public class CellGestures {
 			node.getParent().setCursor(Cursor.DEFAULT);
 		});
 		node.setOnDragDetected(event -> {
+			event.consume();
 			node.getParent().setCursor(Cursor.CLOSED_HAND);
 			mouseLocation.value = new Point2D(event.getSceneX(), event.getSceneY());
 		});

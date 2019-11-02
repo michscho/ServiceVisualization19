@@ -94,7 +94,6 @@ public class GroupingLayout implements Layout {
 					yGroup += 50;
 				}
 				
-				System.out.println(cell.name + " Layout X:" +  x + "Layout Y:" + y);
 				graph.getGraphic(cell).relocate(x, y);
 				cell.setX(x);
 				cell.setY(y);
@@ -135,9 +134,7 @@ public class GroupingLayout implements Layout {
 	public void printTree(DefaultMutableTreeNode tree, String appender) {
 		if (tree.getUserObject() instanceof RectangleCell) {
 			RectangleCell cell = (RectangleCell) tree.getUserObject();
-			System.out.println("Node" + appender + cell.getName());
 		} else {
-			System.out.println("Node" + appender + tree.toString());
 		}
 		for (int i = 0; i < tree.getChildCount(); i++) {
 			printTree((DefaultMutableTreeNode) tree.getChildAt(i), appender + appender);

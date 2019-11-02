@@ -34,6 +34,7 @@ public class RectangleCellNodes {
 	// PROPERTIES
 	private static final double handleRadius = 8d;
 	private static final Color nodeColor = new Color(0.2, 0.2, 0.2, 0.5);
+	private static boolean visible = false;
 
 	// DRAG AND DROP LINE
 	private static Line line;
@@ -55,6 +56,7 @@ public class RectangleCellNodes {
 	 * Makes the nodes for drag and drop for rectangles invisible.
 	 */
 	void setInvisible() {
+		visible = false;
 		resizeHandleN.setVisible(false);
 		resizeHandleNE.setVisible(false);
 		resizeHandleE.setVisible(false);
@@ -69,6 +71,14 @@ public class RectangleCellNodes {
 	 * Makes the nodes for drag and drop for rectangles visible.
 	 */
 	void setVisible() {
+		visible = true;
+//		long mTime = System.currentTimeMillis();
+//		long end = mTime + 50; 
+//
+//		while (mTime < end) 
+//		{
+//		    mTime = System.currentTimeMillis();
+//		} 
 		resizeHandleN.setVisible(true);
 		resizeHandleN.toFront();
 		resizeHandleNE.setVisible(true);
@@ -91,13 +101,15 @@ public class RectangleCellNodes {
 	 * 
 	 * @author michaelschott
 	 * 
-	 * Initalizes the dragging of the line.
+	 *         Initalizes the dragging of the line.
 	 *
 	 */
 	class DragStartHandler implements EventHandler<MouseEvent> {
 
 		@Override
 		public void handle(MouseEvent event) {
+			visible = true;
+			event.consume();
 			for (ICell icell : MainApp.graph.getModel().getAddedCells()) {
 				if (icell instanceof RectangleCell) {
 					((RectangleCell) icell).cn.setVisible();
@@ -116,7 +128,7 @@ public class RectangleCellNodes {
 				MainApp.graph.getCanvas().getChildren().add(line);
 				line.startFullDrag();
 			}
-			
+
 		}
 	}
 
@@ -158,7 +170,6 @@ public class RectangleCellNodes {
 		}
 	};
 	// *********************** NORTH-EAST ***********************
-
 
 	// *********************** EAST ***********************
 	DragNodeSupplier EAST = new DragNodeSupplier() {
@@ -284,7 +295,7 @@ public class RectangleCellNodes {
 	 * @param region
 	 * @param rectangleCell
 	 * 
-	 * Initalization of all nodes.
+	 *                      Initalization of all nodes.
 	 */
 	public void makeResizable(Region region, RectangleCell rectangleCell) {
 		this.rectangleCell = rectangleCell;
@@ -339,15 +350,16 @@ public class RectangleCellNodes {
 						}
 					}
 				};
-				
+
 				EventHandler<MouseEvent> dragEnteredHandler = evt -> {
 					if (line != null) {
-
+						evt.consume();
 						Node node = (Node) evt.getSource();
 						Bounds bounds = node.getBoundsInParent();
 						line.setEndX((bounds.getMinX() + bounds.getMaxX()) / 2);
 						line.setEndY((bounds.getMinY() + bounds.getMaxY()) / 2);
-
+					} else if (visible) {
+						evt.consume();
 					}
 				};
 
@@ -358,12 +370,29 @@ public class RectangleCellNodes {
 					@Override
 					public void handle(MouseEvent t) {
 						if (line != null) {
+							t.consume();
 							Node pickResult = t.getPickResult().getIntersectedNode();
 							if (pickResult == null || pickResult.getUserData() != Boolean.TRUE) {
 								line.setEndX(t.getX());
 								line.setEndY(t.getY());
 							}
+						} else if (visible) {
+							t.consume();
 						}
+					}
+				};
+				
+				EventHandler<MouseEvent> mouseDraggedC = new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent t) {
+						t.consume();
+						if (line != null) {
+							Node pickResult = t.getPickResult().getIntersectedNode();
+							if (pickResult == null || pickResult.getUserData() != Boolean.TRUE) {
+								line.setEndX(t.getX());
+								line.setEndY(t.getY());
+							}
+						} 
 					}
 				};
 
@@ -379,12 +408,16 @@ public class RectangleCellNodes {
 						line = null;
 					}
 				};
+
 				MainApp.graph.getCanvas().addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 				MainApp.graph.getCanvas().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleased);
-
+				
+				c.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedC);
+				
 				c.addEventFilter(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
+						visible = true;
 						rectangleCell.cn.setVisible();
 					}
 				});

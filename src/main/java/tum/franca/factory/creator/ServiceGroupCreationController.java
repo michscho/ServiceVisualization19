@@ -156,6 +156,7 @@ public class ServiceGroupCreationController {
 		MainApp.graph.getModel().addCell(cellGroup);
 		overloadCounter = 0;
 		relocate(cellGroup, 0);
+		ServiceGroupCreation.stage.close();
 		
 	}
 	
@@ -177,7 +178,6 @@ public class ServiceGroupCreationController {
 
 		if (MainAppController.staticListWrapper.getListView2().getItems().filtered(f -> !f.equals("")).size() > 0) {
 			groupLevel.getItems().add("Sub Level Group");
-			System.out.println("HERE");
 		}
 		if (MainAppController.staticListWrapper.getListView3().getItems().filtered(f -> !f.equals("")).size() > 0) {
 			groupLevel.getItems().add("Low Level Group");

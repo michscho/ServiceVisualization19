@@ -86,7 +86,6 @@ public class DataModel implements Serializable {
 			out.writeObject(this);
 			out.close();
 			fileOut.close();
-			System.out.printf("Serialized data is saved in " + savedFile.getAbsolutePath());
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
@@ -135,7 +134,6 @@ public class DataModel implements Serializable {
 			i.printStackTrace();
 			return;
 		} catch (ClassNotFoundException c) {
-			System.out.println("DataModel class not found");
 			c.printStackTrace();
 			return;
 		}

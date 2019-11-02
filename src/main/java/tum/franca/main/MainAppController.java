@@ -45,6 +45,7 @@ import tum.franca.factory.GroupSetter;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
+import tum.franca.graph.graph.Grid;
 import tum.franca.main.window.AboutWindow;
 import tum.franca.util.ColorUtil;
 import tum.franca.util.alerts.VisualisationsAlerts;
@@ -285,11 +286,10 @@ public class MainAppController {
 		staticInfoText = infoText;
 
 		// **************
-
 		// SERVICE METRICS
 		// General
 		staticServicesTextService = servicesTextService;
-		staticServicesTextServiceGroup = servicesTextGroup;
+		staticServicesTextServiceGroup = servicesTextServiceGroup;
 		staticServicesTextServiceSubGroup = servicesTextServiceSubGroup;
 		staticServicesTextServiceSubSubGroup = servicesTextServiceSubSubGroup;
 
@@ -304,23 +304,25 @@ public class MainAppController {
 	public void applyGrouping() {
 		if (StaticFidlReader.getFidlList() != null) {
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
-			GroupSetter.createCanvas();
+			GroupSetter.createGraph();
 			tabPaneSetter.setCanvas();
 			GeneralMetrics.setAll();
 			ColorUtil.recolorCanvas();
 			TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
 			treeView.createTree();
 			StaticSplitter.setStaticSplitPane(splitPane);
+			Grid.checkAndConfigureGrid();
 		} else {
 			VisualisationsAlerts.noFilesSelected();
 		}
 	}
-
+	
 	@FXML
 	public void newFile() {
 		StaticFidlReader.newFidlList();
+		new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 		try {
-			GroupSetter.createCanvas();
+			GroupSetter.createGraph();
 			if (tabPaneSetter == null) {
 				MainAppController.tabPaneSetter = new TabPaneSetter();
 			}
@@ -330,6 +332,7 @@ public class MainAppController {
 			treeView.createTree();
 			groupingButton.setDisable(false);
 			StaticSplitter.setStaticSplitPane(splitPane);
+			Grid.checkAndConfigureGrid();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -348,7 +351,6 @@ public class MainAppController {
 						for (int j = 0; j < stringArray2.length; j++) {
 							if (i == j) {
 								for (RectangleCell cell : ((ResizableRectangleCell) iCell2).containsRectangleCell()) {
-									System.out.println(cell.name);
 									cell.fidlReader.getPropertiesReader().setProperty(stringArray1[i], stringArray2[i]);
 								}
 							}
@@ -374,6 +376,7 @@ public class MainAppController {
 			dataModel.deserialize();
 			dataModel.importSavedFile(tabPaneSetter);
 			StaticSplitter.setStaticSplitPane(splitPane);
+			Grid.checkAndConfigureGrid();
 		}
 	}
 
@@ -396,18 +399,19 @@ public class MainAppController {
 			}
 			new GroupSetter(StaticFidlReader.getFidlList(), listViewWrapper);
 			try {
-				GroupSetter.createCanvas();
+				GroupSetter.createGraph();
 				if (tabPaneSetter == null) {
 					MainAppController.tabPaneSetter = new TabPaneSetter();
 				}
 				tabPaneSetter.setCanvas();
 				ColorUtil.recolorCanvas();
 				MainApp.graph.getCanvas().setScale(1.0);
-//				GeneralMetrics.setAll();
-//				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
-//				treeView.createTree();
+				GeneralMetrics.setAll();
+				TreeViewCreator treeView = new TreeViewCreator(StaticFidlReader.getFidlList());
+				treeView.createTree();
 				groupingButton.setDisable(false);
 				StaticSplitter.setStaticSplitPane(splitPane);
+				Grid.checkAndConfigureGrid();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 				VisualisationsAlerts.wrongGrouping();
@@ -489,7 +493,6 @@ public class MainAppController {
 			document.add(p);
 			Image image2 = Image.getInstance(graph);
 			image2.scalePercent(scaler);
-			// image2.scaleAbsolute(PageSize.A4);
 			document.add(image2);
 			document.close();
 

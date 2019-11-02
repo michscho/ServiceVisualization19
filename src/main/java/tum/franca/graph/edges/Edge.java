@@ -112,6 +112,10 @@ public class Edge extends AbstractEdge {
 	public Group getGroup() {
 		return group;
 	}
+	
+	public void toFront() {
+		group.toFront();
+	}
 
 	public Line getLine() {
 		return line;

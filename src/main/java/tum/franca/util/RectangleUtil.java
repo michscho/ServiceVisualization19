@@ -134,10 +134,6 @@ public class RectangleUtil {
 										cell.pane.getHeight() == 0 ? cell.pane.getPrefHeight() : cell.pane.getHeight());
 
 								if (RectangleUtil.doOverlap(point, point2, point3, point4)) {
-									System.out.println(RectangleUtil.class);
-									System.out.println(cell2.getName());
-									System.out.println(cell.getName());
-									System.out.println("inconsistant");
 									return true;
 								}
 							}

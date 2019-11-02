@@ -16,7 +16,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
@@ -57,7 +58,7 @@ public class RectangleCell extends AbstractCell {
 	public HashMap<Integer, Integer> getGrouping() {
 		return groupNumbers;
 	}
-	
+
 	private DropShadow getEffect() {
 		DropShadow e = new DropShadow();
 		e.setWidth(8);
@@ -79,40 +80,43 @@ public class RectangleCell extends AbstractCell {
 		pane.setPrefSize(100, 40);
 		view.widthProperty().bind(pane.prefWidthProperty());
 		view.heightProperty().bind(pane.prefHeightProperty());
-		
-		
+
 		view.setEffect(getEffect());
 
 		text = new Label(getName());
-		
-		text.setTooltip(new Tooltip(getName()));
-		
+		text.setFont(Font.font("Verdana", FontWeight.NORMAL, 17));
+
+		Tooltip tooltip = new Tooltip(getName());
+		tooltip.setStyle("-fx-font-size: 18");
+		text.setTooltip(tooltip);
+
 		pane.getChildren().add(text);
 
 		textField = new TextField(name);
+		pane.getChildren().add(textField);
+		textField.setVisible(false);
 
 		pane.addEventFilter(MouseEvent.MOUSE_PRESSED, onMousePressedEventHandler);
-		
+
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onReleasedEventHandler);
 
 		pane.addEventFilter(MouseEvent.MOUSE_EXITED, onMouseExitedEventHandler);
-				
+		
 		cn = new RectangleCellNodes();
 		cn.makeResizable(pane, this);
-		cn.setInvisible();	
+		cn.setInvisible();
 
 		return pane;
 	}
-	
+
 	EventHandler<MouseEvent> onMouseEnteredEventHandler = new EventHandler<MouseEvent>() {
 		@Override
 		public void handle(MouseEvent event) {
 			cn.setVisible();
 		}
 	};
-
 
 	public String getName() {
 		return name;
@@ -156,11 +160,9 @@ public class RectangleCell extends AbstractCell {
 
 	EventHandler<MouseEvent> onMouseExitedEventHandler = t -> {
 		cn.setInvisible();
-		if (textField != null) {
-			pane.getChildren().remove(textField);
-		}
+		textField.setVisible(false);
 	};
-	
+
 	public static RectangleCell staticCell;
 
 	EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
@@ -171,7 +173,8 @@ public class RectangleCell extends AbstractCell {
 			treeView.createTree();
 			if (!(t.getButton() == MouseButton.SECONDARY)) {
 
-				pane.getChildren().add(textField);
+				textField.setVisible(true);
+				textField.toFront();
 				textField.textProperty().addListener((observable, oldValue, newValue) -> {
 					String input = "";
 					if (textField.getText().length() >= 13) {
@@ -189,10 +192,8 @@ public class RectangleCell extends AbstractCell {
 				t.consume();
 			}
 		}
-		
-	};
 
-	
+	};
 
 	EventHandler<MouseEvent> onReleasedEventHandler = new EventHandler<MouseEvent>() {
 		@Override
@@ -206,7 +207,7 @@ public class RectangleCell extends AbstractCell {
 					}
 				} else { // pane.getLayoutX() < 0
 					if (pane.getLayoutX() % 50 >= -35 && pane.getLayoutX() % 50 != -0) {
-						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
+						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
 					} else if (pane.getLayoutX() % 50 < -35) {
 						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
 					}
@@ -219,14 +220,13 @@ public class RectangleCell extends AbstractCell {
 					}
 				} else { // pane.getLayoutY() < 0
 					if (pane.getLayoutY() % 50 >= -35 && pane.getLayoutY() % 50 != -0) {
-						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
+						pane.setLayoutY(pane.getLayoutX() - pane.getLayoutY() % 50);
 					} else if (pane.getLayoutY() % 50 < -35) {
-						pane.setLayoutY(pane.getLayoutX() - (50 + (pane.getLayoutY() % 50)));
+						pane.setLayoutY(pane.getLayoutY() - (50 + (pane.getLayoutY() % 50)));
 					}
 
 				}
 			}
-
 		}
 	};
 
