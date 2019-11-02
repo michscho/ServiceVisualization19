@@ -91,7 +91,6 @@ public class GeneralMetrics {
 				}
 			}
 		}
-		System.out.println(counterLowLevelGroup);
 		return (float) counterService / counterLowLevelGroup;
 	}
 

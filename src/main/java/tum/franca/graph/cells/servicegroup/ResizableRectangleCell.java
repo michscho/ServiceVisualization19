@@ -8,7 +8,10 @@ import java.util.Random;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,8 +22,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import tum.franca.factory.creator.ServiceCreation;
+import tum.franca.factory.creator.ServiceGroupCreation;
 import tum.franca.graph.cells.AbstractCell;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
@@ -122,8 +128,8 @@ public class ResizableRectangleCell extends AbstractCell {
 		hLine.endXProperty().bind(view.widthProperty().divide(3));
 		hLine.endYProperty().bind(view.layoutYProperty().add(25));
 
-		//   /
-		//  /
+		// /
+		// /
 		// /
 		Line dLine = new Line();
 		dLine.fillProperty().bind(view.fillProperty());
@@ -145,16 +151,13 @@ public class ResizableRectangleCell extends AbstractCell {
 		vLine.endYProperty().bind(view.layoutYProperty());
 
 		Label label = new Label(getName());
-		if (style == GroupType.SUBSUBLEVEL) {
-			label.setStyle("-fx-font: 16 arial;");
-		} else if (style == GroupType.SUBLEVEL) {
-			label.setStyle("-fx-font: 18 arial;");
-		} else {
-			label.setStyle("-fx-font: 20 arial;");
-		}
+		label.setFont(Font.font("Verdana", FontWeight.BOLD, 17));
+
 		label.layoutXProperty().bind(view.layoutXProperty().add(10));
-		label.layoutYProperty().bind(view.layoutYProperty().add(0));
-		label.setTooltip(new Tooltip(label.getText()));
+		label.layoutYProperty().bind(view.layoutYProperty().add(2));
+		Tooltip toolTip = new Tooltip(label.getText());
+		toolTip.setStyle("-fx-font-size: 18");
+		label.setTooltip(toolTip);
 		label.setPrefWidth(hLine.endXProperty().subtract(hLine.startXProperty()).subtract(3).doubleValue());
 
 		hLine.endXProperty().addListener(new ChangeListener<Object>() {
@@ -169,6 +172,9 @@ public class ResizableRectangleCell extends AbstractCell {
 			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
 				if (view.getWidth() <= 100 || view.heightProperty().doubleValue() <= 40) {
 					label.setVisible(false);
+					hLine.setVisible(false);
+					dLine.setVisible(false);
+					vLine.setVisible(false);
 				}
 				if (view.getWidth() > 100 && view.heightProperty().doubleValue() > 40) {
 					label.setVisible(true);
@@ -215,10 +221,10 @@ public class ResizableRectangleCell extends AbstractCell {
 		pane.addEventFilter(MouseEvent.MOUSE_RELEASED, onMouseReleasedEventHandler);
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> imageView.setVisible(true));
 		pane.addEventFilter(MouseEvent.MOUSE_ENTERED, onMouseEnteredEventHandler);
+
 		pane.setOnMouseClicked(e -> e.consume());
 
 		return pane;
-
 	}
 
 	EventHandler<MouseEvent> onMouseClickedPropertyFunction = new EventHandler<MouseEvent>() {
@@ -355,11 +361,47 @@ public class ResizableRectangleCell extends AbstractCell {
 			GroupTreeViewCreator groupTreeView = new GroupTreeViewCreator(name, intersectionCellList);
 			groupTreeView.createTree();
 			if (event.isSecondaryButtonDown() && !event.isPrimaryButtonDown()) {
-				ColorPickerWindow colorPickerWindow = new ColorPickerWindow();
-				colorPickerWindow.start(new Stage());
-				color = (Color) view.getFill();
-				colorStroke = (Color) view.getStroke();
-				ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY(), cell);
+
+				ContextMenu menu = new ContextMenu();
+				MenuItem remove = new MenuItem("Remove Group");
+				SeparatorMenuItem sep1 = new SeparatorMenuItem();
+				MenuItem changeColor = new MenuItem("Change Color");
+				SeparatorMenuItem sep2 = new SeparatorMenuItem();
+				MenuItem newService = new MenuItem("New Service");
+				MenuItem newServiceGroup = new MenuItem("New Group");
+				menu.getItems().addAll(newService, newServiceGroup, sep2, changeColor, sep1, remove);
+
+				menu.show(pane, event.getSceneX(), event.getSceneY());
+				
+				remove.setOnAction(e -> {
+					MainApp.graph.removeCell(cell);
+					MainApp.graph.getModel().removeCell(cell);
+				});
+				
+				newService.setOnAction(e -> {
+					int x = (int) ((MainApp.graph.getCanvas().getTranslateX()/MainApp.graph.getScale() * -1.0 + event.getX()));
+
+					int y = (int) ((MainApp.graph.getCanvas().getTranslateY()/MainApp.graph.getScale() * -1.0 + event.getY()));
+					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY(),x,y);
+				});
+				
+				newServiceGroup.setOnAction(e -> {
+					int x = (int) ((MainApp.graph.getCanvas().getTranslateX()/MainApp.graph.getScale() * -1.0 + event.getX()));
+
+					int y = (int) ((MainApp.graph.getCanvas().getTranslateY()/MainApp.graph.getScale() * -1.0 + event.getY()));
+					
+					ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY(),x,y);
+				});
+
+				changeColor.setOnAction(e -> {
+					ColorPickerWindow colorPickerWindow = new ColorPickerWindow();
+					colorPickerWindow.start(new Stage());
+					color = (Color) view.getFill();
+					colorStroke = (Color) view.getStroke();
+					ColorPickerWindow.initColorPicker(view, color, colorStroke, event.getSceneX(), event.getSceneY(),
+							cell);
+				});
+
 				event.consume();
 			}
 		}
@@ -370,6 +412,8 @@ public class ResizableRectangleCell extends AbstractCell {
 		public void handle(MouseEvent event) {
 			Binding.unbind(pane, style.ordinal());
 			if (MenuBarTop.alignOnGrid) {
+				System.out.println("X: " + pane.getLayoutX());
+				System.out.println("Y: " + pane.getLayoutY());
 				if (pane.getLayoutX() >= 0) {
 					if (pane.getLayoutX() % 50 <= 35 && pane.getLayoutX() % 50 != 0) {
 						Binding.bind(pane, style.ordinal());
@@ -385,11 +429,13 @@ public class ResizableRectangleCell extends AbstractCell {
 							// 0
 					if (pane.getLayoutX() % 50 >= -35 && pane.getLayoutX() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
-						pane.setLayoutX(pane.getLayoutX() + pane.getLayoutX() % 50);
+						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
+						System.out.println("X1, newly calculated X: " + (pane.getLayoutX() - pane.getLayoutX() % 50));
 						Binding.unbind(pane, style.ordinal());
 					} else if (pane.getLayoutX() % 50 < -35) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
+						System.out.println("X2, newly calculated X: " + (pane.getLayoutX() - (50 + (pane.getLayoutX() % 50))));
 						Binding.unbind(pane, style.ordinal());
 					}
 				}
@@ -408,12 +454,15 @@ public class ResizableRectangleCell extends AbstractCell {
 							// 0
 					if (pane.getLayoutY() % 50 >= -35 && pane.getLayoutY() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
-						pane.setLayoutY(pane.getLayoutX() + pane.getLayoutY() % 50);
+						pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
+						System.out.println("Y1, newly calculated Y: " + (pane.getLayoutY() - pane.getLayoutY() % 50));
 						Binding.unbind(pane, style.ordinal());
 					} else if (pane.getLayoutY() % 50 < -35) {
 						Binding.bind(pane, style.ordinal());
-						pane.setLayoutY(pane.getLayoutX() - (50 + (pane.getLayoutY() % 50)));
+						pane.setLayoutY(pane.getLayoutY() - (50 + (pane.getLayoutY() % 50)));
+						System.out.println("Y2, newly calculated Y: " + (pane.getLayoutY() - (50 + (pane.getLayoutY() % 50))));
 						Binding.unbind(pane, style.ordinal());
+
 					}
 
 				}

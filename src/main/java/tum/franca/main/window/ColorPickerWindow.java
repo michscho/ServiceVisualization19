@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -13,7 +12,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
+import tum.franca.graph.edges.Edge;
+import tum.franca.graph.edges.IEdge;
 import tum.franca.main.MainApp;
 
 /**
@@ -35,7 +38,8 @@ public class ColorPickerWindow extends Application {
 		}
 	}
 
-	public static void initColorPicker(Rectangle view, Color color1, Color colorStroke, double x, double y, ResizableRectangleCell cell) {
+	public static void initColorPicker(Rectangle view, Color color1, Color colorStroke, double x, double y,
+			ResizableRectangleCell cell) {
 		final ColorPicker colorPicker = new ColorPicker();
 		colorPicker.setValue(color1);
 
@@ -43,13 +47,23 @@ public class ColorPickerWindow extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				view.setFill(colorPicker.getValue());
+				Color color = Color.color(colorPicker.getValue().getRed(), colorPicker.getValue().getGreen(),
+						colorPicker.getValue().getBlue(), 0.9);
+				view.setFill(color.brighter());
+
+				for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+					((Edge) edge).toFront();
+				}
+				for (ICell cell : MainApp.graph.getModel().getAddedCells()) {
+					if (cell instanceof RectangleCell) {
+						((RectangleCell) cell).pane.toFront();
+					}
+				}
 			}
 		});
 
 		final Text text1 = new Text("Change Fill:");
 		final Text text2 = new Text("Change Stroke:  ");
-		final Text text3 = new Text("Group: ");
 
 		final ColorPicker colorPicker2 = new ColorPicker();
 		colorPicker2.setValue(colorStroke);
@@ -58,24 +72,20 @@ public class ColorPickerWindow extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				view.setStroke(colorPicker2.getValue());
+				if (colorPicker2.getValue().getOpacity() < 0.4) {
+					view.setStroke(Color.color(colorPicker2.getValue().getRed(), colorPicker2.getValue().getGreen(),
+							colorPicker2.getValue().getBlue(), colorPicker2.getValue().getOpacity()));
+				} else {
+					view.setStroke(Color.color(colorPicker2.getValue().getRed(), colorPicker2.getValue().getGreen(),
+							colorPicker2.getValue().getBlue(), colorPicker2.getValue().getOpacity()));
+				}
 			}
 		});
-		
-		final Button removeGroup = new Button();
-		removeGroup.setText("Remove Group");
-		
-		removeGroup.setOnAction(e -> {
-			MainApp.graph.removeCell(cell);
-			MainApp.graph.getModel().removeCell(cell);
-			stage.hide();
-		});
-		
 
 		FlowPane root = new FlowPane();
 		root.setPadding(new Insets(10));
 		root.setHgap(10);
-		root.getChildren().addAll(text1, colorPicker, text2, colorPicker2, text3, removeGroup);
+		root.getChildren().addAll(text1, colorPicker, text2, colorPicker2);
 
 		Scene scene = new Scene(root, 170, 150);
 

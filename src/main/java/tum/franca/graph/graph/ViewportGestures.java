@@ -1,18 +1,21 @@
 package tum.franca.graph.graph;
 
-import java.awt.MouseInfo;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import tum.franca.factory.creator.ServiceCreation;
 import tum.franca.factory.creator.ServiceGroupCreation;
+import tum.franca.graph.graph.NodeGestures.DragContext;
+import tum.franca.main.MainApp;
+import tum.franca.main.window.ColorPickerWindowCanvas;
 
 /**
  * https://github.com/generalic/GraphVisualisation/blob/master/src/hr/fer/zemris/graph/test/GraphPane.java
@@ -24,7 +27,7 @@ public class ViewportGestures {
 	private final DoubleProperty maxScaleProperty = new SimpleDoubleProperty(10.0d);
 	private final DoubleProperty minScaleProperty = new SimpleDoubleProperty(0.1d);
 
-	private final PannableCanvas.DragContext sceneDragContext = new PannableCanvas.DragContext();
+	public final PannableCanvas.DragContext sceneDragContext = new PannableCanvas.DragContext();
 
 	PannableCanvas canvas;
 
@@ -49,10 +52,16 @@ public class ViewportGestures {
 		maxScaleProperty.set(maxScale);
 	}
 
+	public static final DragContext dragContext = new DragContext();
+
 	private final EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
 		@Override
 		public void handle(MouseEvent event) {
+
+			final double scale = MainApp.graph.getScale();
+
+			final Node node = (Node) event.getSource();
 
 			if (menu != null) {
 				menu.hide();
@@ -70,27 +79,60 @@ public class ViewportGestures {
 				EventHandler<ActionEvent> onAddServiceClicked = new EventHandler<ActionEvent>() {
 
 					@Override
-					public void handle(ActionEvent event) {
-						System.out.println(MouseInfo.getPointerInfo().getLocation().x);
-						System.out.println(MouseInfo.getPointerInfo().getLocation().y);
-						ServiceCreation.initServiceCreationWithLocation(MouseInfo.getPointerInfo().getLocation().x,
-								MouseInfo.getPointerInfo().getLocation().y);
+					public void handle(ActionEvent action) {
+						System.out.println(event.getX());
+
+						System.out.println(event.getY());
+						
+						System.out.println(event.getSceneX());
+						
+						System.out.println(event.getSceneY());
+
+						System.out.println("SCALE: " + scale);
+
+						System.out.println(canvas.getTranslateX());
+
+						System.out.println(canvas.getTranslateY());
+
+						int x = (int) ((canvas.getTranslateX()/scale * -1.0 + event.getX()));
+
+						int y = (int) ((canvas.getTranslateY()/scale * -1.0 + event.getY()));
+
+						System.out.println("CALC X: " + x);
+
+						System.out.println("CALC Y: " + y);
+
+						ServiceCreation.initServiceCreationWithLocation(event.getSceneX(), event.getSceneY(), x, y);
 						menu.hide();
 					}
 				};
 				EventHandler<ActionEvent> onAddServiceGroupClicked = new EventHandler<ActionEvent>() {
 
 					@Override
-					public void handle(ActionEvent event) {
-						ServiceGroupCreation.initServiceGroupCreationWithLocation(
-								MouseInfo.getPointerInfo().getLocation().x, MouseInfo.getPointerInfo().getLocation().y);
+					public void handle(ActionEvent action) {
+						int x = (int) ((canvas.getTranslateX()/scale * -1.0 + event.getX()));
+
+						int y = (int) ((canvas.getTranslateY()/scale * -1.0 + event.getY()));
+						ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(),
+								(int) event.getSceneY(),x,y);
 						menu.hide();
 					}
 				};
 				item.setOnAction(onAddServiceClicked);
 				MenuItem item2 = new MenuItem("New Service Group");
 				item2.setOnAction(onAddServiceGroupClicked);
-				menu.getItems().addAll(item, item2);
+				SeparatorMenuItem sepMenuItem = new SeparatorMenuItem();
+				MenuItem item3 = new MenuItem("Change Background");
+				EventHandler<ActionEvent> onChangeBackgroundlicked = new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent action) {
+						ColorPickerWindowCanvas.initColorPicker((int) event.getSceneX(), (int) event.getSceneY());
+						menu.hide();
+					}
+				};
+				item3.setOnAction(onChangeBackgroundlicked);
+				menu.getItems().addAll(item, item2, sepMenuItem, item3);
 				menu.show(canvas, event.getSceneX(), event.getScreenY());
 				menu.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
 					menu.hide();
@@ -119,12 +161,6 @@ public class ViewportGestures {
 				menu.hide();
 			}
 
-			if (!(event.getClickCount() >= 2)) {
-				if (!event.isSecondaryButtonDown() || !event.isPrimaryButtonDown()) {
-					return;
-				}
-			}
-
 			canvas.setTranslateX(sceneDragContext.translateAnchorX + event.getSceneX() - sceneDragContext.mouseAnchorX);
 			canvas.setTranslateY(sceneDragContext.translateAnchorY + event.getSceneY() - sceneDragContext.mouseAnchorY);
 
@@ -144,7 +180,7 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-			
+
 			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
 			final double oldScale = scale;
 
@@ -196,7 +232,16 @@ public class ViewportGestures {
 			if (menu != null) {
 				menu.hide();
 			}
-			double scale = canvas.getScale(); // currently we only use Y, same value is used for X
+			double scale = canvas.getScale(); // currently
+												// we
+												// only
+												// use
+												// Y,
+												// same
+												// value
+												// is
+												// used
+												// for X
 			final double oldScale = scale;
 
 			if (event.getZoomFactor() > 1) {

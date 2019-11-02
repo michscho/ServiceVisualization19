@@ -28,7 +28,6 @@ public class QosCreation {
 				}
 				for (FContent content : qos.getContent()) {
 					window.getController().setContent((FlowPane) titledPane.getContent(), content.getKey().getKey(), content.getValue().getValue(), content.getUnit().getUnit());
-					System.out.println(content.getKey().getKey());
 				}
 			}
 		}

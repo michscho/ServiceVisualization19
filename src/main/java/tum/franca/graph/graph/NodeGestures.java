@@ -10,9 +10,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import tum.franca.data.RedoManager;
 import tum.franca.graph.cells.ICell;
+import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
 import tum.franca.main.MainApp;
 import tum.franca.util.RectangleUtil;
+import tum.franca.view.metric.ServiceMetrics;
 
 /**
  * 
@@ -21,7 +23,7 @@ import tum.franca.util.RectangleUtil;
  */
 public class NodeGestures {
 
-	final DragContext dragContext = new DragContext();
+	public static final DragContext dragContext = new DragContext();
 	final Graph graph;
 	static boolean pressedBefore = false;
 
@@ -60,6 +62,10 @@ public class NodeGestures {
 
 			dragContext.x = node.getBoundsInParent().getMinX() * scale - event.getScreenX();
 			dragContext.y = node.getBoundsInParent().getMinY() * scale - event.getScreenY();
+			
+			System.out.println("LayoutX: " + node.getLayoutX());
+			System.out.println("LayoutY: " + node.getLayoutX());
+
 
 			if (!(event.isPrimaryButtonDown() && event.isSecondaryButtonDown())) {
 				pressedBefore = true;
@@ -71,6 +77,7 @@ public class NodeGestures {
 
 		@Override
 		public void handle(MouseEvent event) {
+			event.consume();
 			if (event.getButton() == MouseButton.PRIMARY && !event.isSecondaryButtonDown() && pressedBefore) {
 
 				final Node node = (Node) event.getSource();
@@ -104,6 +111,10 @@ public class NodeGestures {
 							}
 						}
 					}
+				}
+				
+				if (nodeCellMap.get(node) instanceof RectangleCell) {
+					ServiceMetrics.setAll((RectangleCell) nodeCellMap.get(node)); 
 				}
 
 				node.relocate(offsetX, offsetY);

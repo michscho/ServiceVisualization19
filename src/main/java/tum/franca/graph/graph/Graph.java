@@ -118,7 +118,6 @@ public class Graph {
 	}
 
 	private void addEdges(List<IEdge> edges) {
-		System.out.println(edges);
 		edges.forEach(edge -> {
 			try {
 				getCanvas().getChildren().add((Group) edge.getGraphic(MainApp.graph));

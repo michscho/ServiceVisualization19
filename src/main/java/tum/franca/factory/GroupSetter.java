@@ -41,13 +41,13 @@ public class GroupSetter {
 	}
 
 	/**
-	 * Main steps to create the canvas.
+	 * Main steps to create the graph.
 	 */
-	public static void createCanvas() {
+	public static void createGraph() {
 		MainApp.graph = new Graph();
 		final Model model = MainApp.graph.getModel();
 
-		if (fidlList != null) {
+		if (fidlList != null && !fidlList.isEmpty()) {
 
 			grouping(model);
 
@@ -342,7 +342,6 @@ public class GroupSetter {
 				uniqueProperties.put(sB.toString(), counter++);
 			}
 		}
-		System.out.println(uniqueProperties);
 		return uniqueProperties;
 	}
 
