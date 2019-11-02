@@ -372,25 +372,30 @@ public class ResizableRectangleCell extends AbstractCell {
 				menu.getItems().addAll(newService, newServiceGroup, sep2, changeColor, sep1, remove);
 
 				menu.show(pane, event.getSceneX(), event.getSceneY());
-				
+
 				remove.setOnAction(e -> {
 					MainApp.graph.removeCell(cell);
 					MainApp.graph.getModel().removeCell(cell);
 				});
-				
+
 				newService.setOnAction(e -> {
-					int x = (int) ((MainApp.graph.getCanvas().getTranslateX()/MainApp.graph.getScale() * -1.0 + event.getX()));
+					int x = (int) ((MainApp.graph.getCanvas().getTranslateX() / MainApp.graph.getScale() * -1.0
+							+ event.getX()));
 
-					int y = (int) ((MainApp.graph.getCanvas().getTranslateY()/MainApp.graph.getScale() * -1.0 + event.getY()));
-					ServiceCreation.initServiceCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY(),x,y);
+					int y = (int) ((MainApp.graph.getCanvas().getTranslateY() / MainApp.graph.getScale() * -1.0
+							+ event.getY()));
+					ServiceCreation.initServiceCreationWithLocation(event.getSceneX(), event.getSceneY(), x, y);
 				});
-				
-				newServiceGroup.setOnAction(e -> {
-					int x = (int) ((MainApp.graph.getCanvas().getTranslateX()/MainApp.graph.getScale() * -1.0 + event.getX()));
 
-					int y = (int) ((MainApp.graph.getCanvas().getTranslateY()/MainApp.graph.getScale() * -1.0 + event.getY()));
-					
-					ServiceGroupCreation.initServiceGroupCreationWithLocation((int) event.getSceneX(), (int) event.getSceneY(),x,y);
+				newServiceGroup.setOnAction(e -> {
+					int x = (int) ((MainApp.graph.getCanvas().getTranslateX() / MainApp.graph.getScale() * -1.0
+							+ event.getX()));
+
+					int y = (int) ((MainApp.graph.getCanvas().getTranslateY() / MainApp.graph.getScale() * -1.0
+							+ event.getY()));
+
+					ServiceGroupCreation.initServiceGroupCreationWithLocation(event.getSceneX(), event.getSceneY(), x,
+							y);
 				});
 
 				changeColor.setOnAction(e -> {
@@ -435,7 +440,8 @@ public class ResizableRectangleCell extends AbstractCell {
 					} else if (pane.getLayoutX() % 50 < -35) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
-						System.out.println("X2, newly calculated X: " + (pane.getLayoutX() - (50 + (pane.getLayoutX() % 50))));
+						System.out.println(
+								"X2, newly calculated X: " + (pane.getLayoutX() - (50 + (pane.getLayoutX() % 50))));
 						Binding.unbind(pane, style.ordinal());
 					}
 				}
@@ -460,7 +466,8 @@ public class ResizableRectangleCell extends AbstractCell {
 					} else if (pane.getLayoutY() % 50 < -35) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutY() - (50 + (pane.getLayoutY() % 50)));
-						System.out.println("Y2, newly calculated Y: " + (pane.getLayoutY() - (50 + (pane.getLayoutY() % 50))));
+						System.out.println(
+								"Y2, newly calculated Y: " + (pane.getLayoutY() - (50 + (pane.getLayoutY() % 50))));
 						Binding.unbind(pane, style.ordinal());
 
 					}
