@@ -58,6 +58,15 @@ public class MetricsViewController {
 		MetricsEntry e4 = new MetricsEntry("Special", "", "Metrics in relation to Groups");
 		MetricsEntry e41 = new MetricsEntry("Avg. Services / Group", String.format("%.02f", GeneralMetrics.getAvgCouplingPerGroup()), "");
 		MetricsEntry e42 = new MetricsEntry("Avg. Coupling / Group", String.format("%.02f", GeneralMetrics.getAvgServicePerGroup()), "");
+		//MetricsEntry e44 = new MetricsEntr(,,)
+		//MetricsEntry e45 = new MetricsEntr(,,)
+		//MetricsEntry e46 = new MetricsEntr(,,)
+		//MetricsEntry e47 = new MetricsEntr(,,)
+		//MetricsEntry e48 = new MetricsEntr(,,)
+		//MetricsEntry e49 = new MetricsEntr(,,)
+		//MetricsEntry e410 = new MetricsEntr(,,)
+		//MetricsEntry e411 = new MetricsEntr(,,)
+																		
 
 		
 		// Items

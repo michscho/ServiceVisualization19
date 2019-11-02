@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
@@ -24,96 +25,103 @@
 
 <SplitPane fx:id="splitPane" dividerPositions="0.2, 0.85" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tum.franca.main.MainAppController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1078.0" prefWidth="384.0">
-         <children>
-            <MenuBar fx:id="menuBar" prefHeight="29.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-              <menus>
-                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
-                  <items>
-                        <MenuItem mnemonicParsing="false" onAction="#newFile" text="New" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                    <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import Fidl File(s)">
+      <ScrollPane fitToWidth="true">
+         <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="703.0" prefWidth="380.0">
+               <children>
+                  <MenuBar fx:id="menuBar" prefHeight="29.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <menus>
+                      <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+                        <items>
+                              <MenuItem mnemonicParsing="false" onAction="#newFile" text="New" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                          <MenuItem mnemonicParsing="false" onAction="#importFile" text="Import Fidl File(s)">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#persistFidlClicked" text="Save Fidl File(s)" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import Visualisation (.vis)" />
+                              <MenuItem mnemonicParsing="false" onAction="#save" text="Save Visualisation" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Export as Png" />
+                              <MenuItem mnemonicParsing="false" onAction="#saveAsPdf" text="Export as Pdf" />
+                        </items>
+                      </Menu>
+                      <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#timeSpecification" text="Time Specification">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                           </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Window">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#minClicked" text="Minimize" />
+                              <MenuItem mnemonicParsing="false" onAction="#quitClicked" text="Quit" />
+                          </items>
+                        </Menu>
+                      <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#about" text="About">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                 </accelerator>
+                              </MenuItem>
+                        </items>
                            <accelerator>
-                              <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
-                        </MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#persistFidlClicked" text="Save Fidl File(s)" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#importSavedFile" text="Import Visualisation (.vis)" />
-                        <MenuItem mnemonicParsing="false" onAction="#save" text="Save Visualisation" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#saveAsPng" text="Export as Png" />
-                        <MenuItem mnemonicParsing="false" onAction="#saveAsPdf" text="Export as Pdf" />
-                  </items>
-                </Menu>
-                <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#timeSpecification" text="Time Specification">
-                           <accelerator>
-                              <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                     </items></Menu>
-                  <Menu mnemonicParsing="false" text="Window">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#minClicked" text="Minimize" />
-                        <MenuItem mnemonicParsing="false" onAction="#quitClicked" text="Quit" />
-                    </items>
-                  </Menu>
-                <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#about" text="About">
-                           <accelerator>
-                              <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                           </accelerator></MenuItem>
-                  </items>
-                     <accelerator>
-                        <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <ListView fx:id="listView" accessibleHelp="Top-level Group" accessibleText="Top-level Group" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
-            <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
-            <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
-            <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
-            <ListView fx:id="listView4" layoutX="21.0" layoutY="406.0" prefHeight="218.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
-            <Separator layoutX="9.0" layoutY="687.0" prefHeight="3.0" prefWidth="371.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-            <ImageView fitHeight="22.0" fitWidth="27.0" layoutX="11.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="40.0">
-               <image>
-                  <Image url="@structure.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="88.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="88.0">
-               <image>
-                  <Image url="@one.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="189.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="188.0">
-               <image>
-                  <Image url="@two.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="292.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="292.0">
-               <image>
-                  <Image url="@three.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="3.0" layoutY="406.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="407.0">
-               <image>
-                  <Image url="@Available.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="47.0" layoutY="40.0" prefHeight="22.0" prefWidth="134.0" text="Structure:" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
-               <font>
-                  <Font name="System Bold Italic" size="17.0" />
-               </font>
-            </Label>
-            <Label layoutX="23.0" layoutY="71.0" prefHeight="17.0" prefWidth="338.0" text="Top-level group" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" />
-            <Label layoutX="22.0" layoutY="174.0" text="Sub-level group" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="174.0" />
-            <Label layoutX="22.0" layoutY="275.0" text="Subsub-level group" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0" />
-            <Label layoutX="21.0" layoutY="389.0" text="Properties to choose from:" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="390.0" />
-         </children>
-      </AnchorPane>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <ListView fx:id="listView" accessibleHelp="Top-level Group" accessibleText="Top-level Group" layoutX="21.0" layoutY="88.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+                  <Button fx:id="groupingButton" disable="true" layoutX="21.0" layoutY="638.0" mnemonicParsing="false" onAction="#applyGrouping" prefHeight="27.0" prefWidth="190.0" text="Apply Grouping" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+                  <ListView fx:id="listView2" layoutX="21.0" layoutY="189.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+                  <ListView fx:id="listView3" layoutX="21.0" layoutY="292.0" prefHeight="86.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+                  <ListView fx:id="listView4" layoutX="21.0" layoutY="406.0" prefHeight="218.0" prefWidth="190.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.0" />
+                  <Separator layoutX="9.0" layoutY="687.0" prefHeight="3.0" prefWidth="371.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <ImageView fitHeight="22.0" fitWidth="27.0" layoutX="11.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="40.0">
+                     <image>
+                        <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/structure.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="88.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="88.0">
+                     <image>
+                        <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/one.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="189.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="188.0">
+                     <image>
+                        <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/two.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="2.0" layoutY="292.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="292.0">
+                     <image>
+                        <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/three.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="16.0" fitWidth="20.0" layoutX="3.0" layoutY="406.0" opacity="0.8" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="407.0">
+                     <image>
+                        <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/Available.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="47.0" layoutY="40.0" prefHeight="22.0" prefWidth="134.0" text="Structure:" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                     <font>
+                        <Font name="System Bold Italic" size="17.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="23.0" layoutY="71.0" prefHeight="17.0" prefWidth="338.0" text="Top-level group" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" />
+                  <Label layoutX="22.0" layoutY="174.0" text="Sub-level group" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="174.0" />
+                  <Label layoutX="22.0" layoutY="275.0" text="Subsub-level group" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="275.0" />
+                  <Label layoutX="21.0" layoutY="389.0" text="Properties to choose from:" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="390.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
       <SplitPane fx:id="splitPane2" prefHeight="200.0" prefWidth="200.0">
          <items>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -186,10 +194,10 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="504.0" prefWidth="282.0">
                      <children>
                         <TreeView fx:id="treeView" prefHeight="203.0" prefWidth="291.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                        <Label prefHeight="17.0" prefWidth="208.0" text="Services and Properties:" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="0.0" />
-                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="42.0">
+                        <Label layoutX="62.0" layoutY="6.0" prefHeight="17.0" prefWidth="221.0" text="Services and Properties:" textAlignment="CENTER" AnchorPane.leftAnchor="62.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0" />
+                        <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="31.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="231.0" AnchorPane.topAnchor="6.0">
                            <image>
-                              <Image url="@servicesandproperties.png" />
+                              <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/servicesandproperties.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -205,173 +213,193 @@
                           <tabs>
                             <Tab text="General">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Text fx:id="servicesText" layoutX="227.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="groupsText" layoutX="227.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="subGroupsText" layoutX="227.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="subSubGroupsText" layoutX="227.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Separator layoutX="12.0" layoutY="141.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@properties.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text fx:id="leastCommon" layoutX="149.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="16.28955078125" />
-                                          <Text fx:id="mostCommon" layoutX="149.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="16.28955078125" />
-                                          <Separator layoutX="12.0" layoutY="261.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="relationsText" layoutX="231.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="couplingText" layoutX="231.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="cohesionText" layoutX="231.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@connection.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Separator layoutX="12.0" layoutY="400.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="avgService" layoutX="231.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="avgCoupling" layoutX="231.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@star.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Separator layoutX="12.0" layoutY="515.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="235.0" text="Number of services:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="14.0" layoutY="45.0" prefHeight="17.0" prefWidth="235.0" text="Number of groups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="14.0" layoutY="75.0" prefHeight="17.0" prefWidth="235.0" text="Number of subgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="14.0" layoutY="105.0" prefHeight="17.0" prefWidth="235.0" text="Number of subsubgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="14.0" layoutY="193.0" prefHeight="17.0" prefWidth="189.0" text="Most common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="81.0" />
-                                          <Label layoutX="14.0" layoutY="223.0" prefHeight="17.0" prefWidth="189.0" text="Least common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="81.0" />
-                                          <Label layoutX="15.0" layoutY="311.0" prefHeight="17.0" prefWidth="235.0" text="Number of relations:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="15.0" layoutY="341.0" prefHeight="17.0" prefWidth="235.0" text="Number of coupling:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="15.0" layoutY="371.0" prefHeight="17.0" prefWidth="235.0" text="Number of cohesion:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="14.0" layoutY="440.0" prefHeight="17.0" prefWidth="235.0" text="Avg. Service / Group:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="14.0" layoutY="469.0" prefHeight="17.0" prefWidth="235.0" text="Avg. Coupling / Group:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
-                                          <Label layoutX="42.0" layoutY="154.0" prefHeight="17.0" prefWidth="235.0" text="Properties:" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="42.0" layoutY="269.0" prefHeight="17.0" prefWidth="235.0" text="Relations:" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="42.0" layoutY="413.0" prefHeight="17.0" prefWidth="235.0" text="Special:" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </AnchorPane>
+                                    <ScrollPane fitToWidth="true">
+                                       <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="282.0">
+                                             <children>
+                                                <Text fx:id="servicesText" layoutX="227.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="groupsText" layoutX="227.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="subGroupsText" layoutX="227.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="subSubGroupsText" layoutX="227.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Separator layoutX="12.0" layoutY="141.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/properties.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Text fx:id="leastCommon" layoutX="149.0" layoutY="236.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="16.28955078125" />
+                                                <Text fx:id="mostCommon" layoutX="149.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="16.28955078125" />
+                                                <Separator layoutX="12.0" layoutY="261.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="relationsText" layoutX="231.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="couplingText" layoutX="231.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="cohesionText" layoutX="231.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/connection.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Separator layoutX="12.0" layoutY="400.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="avgService" layoutX="231.0" layoutY="453.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="avgCoupling" layoutX="231.0" layoutY="482.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/star.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Separator layoutX="12.0" layoutY="515.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="235.0" text="Number of services:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="14.0" layoutY="45.0" prefHeight="17.0" prefWidth="235.0" text="Number of groups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="14.0" layoutY="75.0" prefHeight="17.0" prefWidth="235.0" text="Number of subgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="14.0" layoutY="105.0" prefHeight="17.0" prefWidth="235.0" text="Number of subsubgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="14.0" layoutY="193.0" prefHeight="17.0" prefWidth="189.0" text="Most common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="81.0" />
+                                                <Label layoutX="14.0" layoutY="223.0" prefHeight="17.0" prefWidth="189.0" text="Least common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="81.0" />
+                                                <Label layoutX="15.0" layoutY="311.0" prefHeight="17.0" prefWidth="235.0" text="Number of relations:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="15.0" layoutY="341.0" prefHeight="17.0" prefWidth="235.0" text="Number of coupling:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="15.0" layoutY="371.0" prefHeight="17.0" prefWidth="235.0" text="Number of cohesion:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="14.0" layoutY="440.0" prefHeight="17.0" prefWidth="235.0" text="Avg. Service / Group:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="14.0" layoutY="469.0" prefHeight="17.0" prefWidth="235.0" text="Avg. Coupling / Group:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="35.0" />
+                                                <Label layoutX="42.0" layoutY="154.0" prefHeight="17.0" prefWidth="235.0" text="Properties:" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="42.0" layoutY="269.0" prefHeight="17.0" prefWidth="235.0" text="Relations:" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="42.0" layoutY="413.0" prefHeight="17.0" prefWidth="235.0" text="Special:" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
                               </content>
                             </Tab>
                             <Tab text="Group">
                                  <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Text fx:id="servicesTextGroup" layoutX="226.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="subGroupsTextGroup" layoutX="226.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="subSubGroupsTextGroup" layoutX="226.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Separator layoutX="12.0" layoutY="143.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="16.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@properties.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text fx:id="leastCommonGroup" layoutX="149.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="mostCommonGroup" layoutX="149.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
-                                          <Separator layoutX="12.0" layoutY="261.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="relationsTextGroup" layoutX="233.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="couplingTextGroup" layoutX="233.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="cohesionTextGroup" layoutX="233.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@connection.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Separator layoutX="12.0" layoutY="400.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="propertyFunctionGroup" layoutX="234.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
-                                          <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@star.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Separator layoutX="12.0" layoutY="594.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="groupName" layoutX="152.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="infoText" layoutX="36.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Group selected..." wrappingWidth="160.2060546875" />
-                                          <Text fx:id="coupCoheFactor" layoutX="260.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="15.0" />
-                                          <Label layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="237.0" text="Number of services: " AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="32.0" />
-                                          <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="161.0" text="Name:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="108.0" />
-                                          <Label layoutX="15.0" layoutY="75.0" prefHeight="17.0" prefWidth="233.0" text="Number of subgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="36.0" />
-                                          <Label layoutX="15.0" layoutY="105.0" prefHeight="17.0" prefWidth="244.0" text="Number of subsubgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="25.0" />
-                                          <Label layoutX="15.0" layoutY="194.0" prefHeight="17.0" prefWidth="189.0" text="Most common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="81.0" />
-                                          <Label layoutX="15.0" layoutY="224.0" prefHeight="17.0" prefWidth="189.0" text="Least common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="142.0" />
-                                          <Label layoutX="14.0" layoutY="311.0" prefHeight="17.0" prefWidth="225.0" text="Number of relations:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
-                                          <Label layoutX="14.0" layoutY="341.0" prefHeight="17.0" prefWidth="232.0" text="Number of coupling:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
-                                          <Label layoutX="14.0" layoutY="371.0" prefHeight="17.0" prefWidth="228.0" text="Number of cohesion:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
-                                          <Label layoutX="13.0" layoutY="447.0" prefHeight="17.0" prefWidth="228.0" text="Property functions:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
-                                          <Label layoutX="13.0" layoutY="476.0" prefHeight="17.0" prefWidth="228.0" text="Coupling cohesions factor:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
-                                          <Label layoutX="43.0" layoutY="155.0" prefHeight="17.0" prefWidth="244.0" text="Properties:" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="0.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="43.0" layoutY="269.0" prefHeight="17.0" prefWidth="244.0" text="Relations:" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="0.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="43.0" layoutY="413.0" prefHeight="17.0" prefWidth="244.0" text="Special:" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="0.0">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </AnchorPane>
+                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="604.0" prefWidth="282.0" vbarPolicy="ALWAYS">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="714.0" prefWidth="265.0">
+                                             <children>
+                                                <Text fx:id="servicesTextGroup" layoutX="226.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="subGroupsTextGroup" layoutX="226.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="subSubGroupsTextGroup" layoutX="226.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Separator layoutX="12.0" layoutY="143.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <ImageView fitHeight="15.0" fitWidth="16.0" layoutX="16.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/properties.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Text fx:id="leastCommonGroup" layoutX="149.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="mostCommonGroup" layoutX="149.0" layoutY="207.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
+                                                <Separator layoutX="12.0" layoutY="261.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="relationsTextGroup" layoutX="233.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="couplingTextGroup" layoutX="233.0" layoutY="354.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="cohesionTextGroup" layoutX="233.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="271.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/connection.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Separator layoutX="12.0" layoutY="400.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="propertyFunctionGroup" layoutX="234.0" layoutY="460.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
+                                                <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="16.0" layoutY="415.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/star.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Text fx:id="groupName" layoutX="152.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="infoText" layoutX="36.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Group selected..." wrappingWidth="160.2060546875" />
+                                                <Text fx:id="coupCoheFactor" layoutX="260.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="15.0" />
+                                                <Label layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="237.0" text="Number of services: " AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="32.0" />
+                                                <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="161.0" text="Name:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="108.0" />
+                                                <Label layoutX="15.0" layoutY="75.0" prefHeight="17.0" prefWidth="233.0" text="Number of subgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="36.0" />
+                                                <Label layoutX="15.0" layoutY="105.0" prefHeight="17.0" prefWidth="244.0" text="Number of subsubgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="25.0" />
+                                                <Label layoutX="15.0" layoutY="194.0" prefHeight="17.0" prefWidth="189.0" text="Most common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="81.0" />
+                                                <Label layoutX="15.0" layoutY="224.0" prefHeight="17.0" prefWidth="189.0" text="Least common:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="142.0" />
+                                                <Label layoutX="14.0" layoutY="311.0" prefHeight="17.0" prefWidth="225.0" text="Number of relations:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="14.0" layoutY="341.0" prefHeight="17.0" prefWidth="232.0" text="Number of coupling:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="14.0" layoutY="371.0" prefHeight="17.0" prefWidth="228.0" text="Number of cohesion:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="13.0" layoutY="447.0" prefHeight="17.0" prefWidth="228.0" text="Property functions:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="13.0" layoutY="476.0" prefHeight="17.0" prefWidth="228.0" text="Coupling cohesions factor:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="43.0" layoutY="155.0" prefHeight="17.0" prefWidth="244.0" text="Properties:" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="43.0" layoutY="269.0" prefHeight="17.0" prefWidth="244.0" text="Relations:" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="43.0" layoutY="413.0" prefHeight="17.0" prefWidth="244.0" text="Special:" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="0.0">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label layoutX="15.0" layoutY="564.0" prefHeight="17.0" prefWidth="228.0" text="Service Group Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Text fx:id="sgic" layoutX="242.0" layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
+                                                <Label layoutX="15.0" layoutY="601.0" prefHeight="17.0" prefWidth="228.0" text="Service Group Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Text fx:id="sgiic" layoutX="242.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
+                                                <Label layoutX="15.0" layoutY="639.0" prefHeight="17.0" prefWidth="228.0" text="Service Group Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Text fx:id="sgied" layoutX="242.0" layoutY="652.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
+                                                <Label layoutX="13.0" layoutY="672.0" prefHeight="3.0" prefWidth="228.0" text="Service Group Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Separator layoutX="23.0" layoutY="542.0" prefHeight="3.0" prefWidth="240.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="sgied1" layoutX="242.0" layoutY="685.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
                                  </content>
                             </Tab>
                               <Tab text="Service">
                                  <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <Text fx:id="servicesTextService" layoutX="199.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
-                                          <Separator layoutX="12.0" layoutY="136.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Separator layoutX="12.0" layoutY="231.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="relationsTextService" layoutX="260.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.8115234375" />
-                                          <Text fx:id="couplingTextService" layoutX="260.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.8115234375" />
-                                          <Text fx:id="cohesionTextService" layoutX="260.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.8115234375" />
-                                          <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="15.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@connection.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Separator layoutX="12.0" layoutY="437.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                          <Text fx:id="servicesTextServiceGroup" layoutX="199.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="servicesTextServiceSubGroup" layoutX="199.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
-                                          <Text fx:id="servicesTextServiceSubSubGroup" layoutX="199.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
-                                          <Label layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="189.0" text="Name:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
-                                          <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="189.0" text="In group:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
-                                          <Label layoutX="17.0" layoutY="74.0" prefHeight="17.0" prefWidth="189.0" text="In subgroup:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
-                                          <Label layoutX="16.0" layoutY="104.0" text="In subsubgroup:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
-                                          <Label layoutX="15.0" layoutY="291.0" prefHeight="17.0" prefWidth="232.0" text="Number of relations:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="37.0" />
-                                          <Label layoutX="15.0" layoutY="321.0" prefHeight="17.0" prefWidth="232.0" text="Number of coupling:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="37.0" />
-                                          <Label layoutX="15.0" layoutY="351.0" prefHeight="17.0" prefWidth="232.0" text="Number of cohesion:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="37.0" />
-                                          <Label layoutX="43.0" layoutY="260.0" prefHeight="17.0" prefWidth="226.0" text="Relations:">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </AnchorPane>
+                                    <ScrollPane fitToWidth="true">
+                                       <content>
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="444.0" prefWidth="282.0">
+                                             <children>
+                                                <Text fx:id="servicesTextService" layoutX="199.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
+                                                <Separator layoutX="12.0" layoutY="136.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Separator layoutX="12.0" layoutY="231.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="relationsTextService" layoutX="260.0" layoutY="304.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.8115234375" />
+                                                <Text fx:id="couplingTextService" layoutX="260.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.8115234375" />
+                                                <Text fx:id="cohesionTextService" layoutX="260.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.8115234375" />
+                                                <ImageView fitHeight="15.0" fitWidth="20.0" layoutX="15.0" layoutY="261.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/connection.png" />
+                                                   </image>
+                                                </ImageView>
+                                                <Separator layoutX="12.0" layoutY="437.0" prefHeight="3.0" prefWidth="260.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
+                                                <Text fx:id="servicesTextServiceGroup" layoutX="199.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="servicesTextServiceSubGroup" layoutX="199.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="servicesTextServiceSubSubGroup" layoutX="199.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" AnchorPane.rightAnchor="15.0" />
+                                                <Label layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="189.0" text="Name:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
+                                                <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="189.0" text="In group:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
+                                                <Label layoutX="17.0" layoutY="74.0" prefHeight="17.0" prefWidth="189.0" text="In subgroup:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
+                                                <Label layoutX="16.0" layoutY="104.0" text="In subsubgroup:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="80.0" />
+                                                <Label layoutX="15.0" layoutY="291.0" prefHeight="17.0" prefWidth="232.0" text="Number of relations:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="37.0" />
+                                                <Label layoutX="15.0" layoutY="321.0" prefHeight="17.0" prefWidth="232.0" text="Number of coupling:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="37.0" />
+                                                <Label layoutX="15.0" layoutY="351.0" prefHeight="17.0" prefWidth="232.0" text="Number of cohesion:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="37.0" />
+                                                <Label layoutX="43.0" layoutY="260.0" prefHeight="17.0" prefWidth="226.0" text="Relations:">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </ScrollPane>
                                  </content>
                               </Tab>
                           </tabs>
                         </TabPane>
                         <ImageView fitHeight="29.0" fitWidth="29.0" layoutX="14.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="1.0">
                            <image>
-                              <Image url="@metrics.png" />
+                              <Image url="@../../../../../../Uni%20-%206.%20Semester/ServiceVisualisation/src/main/resources/metrics.png" />
                            </image>
                         </ImageView>
                      </children>
