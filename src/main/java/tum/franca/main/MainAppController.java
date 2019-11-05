@@ -27,7 +27,6 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -185,6 +184,35 @@ public class MainAppController {
 	@FXML
 	private Text infoText;
 	public static Text staticInfoText;
+	
+	// Vadim Group Metrics
+	@FXML
+	private Text sgic;
+	public static Text staticsgic;
+	@FXML
+	private Text sgiic;
+	public static Text staticsgiic;
+	@FXML
+	private Text sgied;
+	public static Text staticsgied;
+	@FXML
+	private Text sgcd;
+	public static Text staticsgcd;
+	@FXML
+	private Text sgsdd;
+	public static Text staticsgsdd;
+	@FXML
+	private Text sgwdd;
+	public static Text staticsgwdd;
+	@FXML
+	private Text ic;
+	public static Text staticic;
+	@FXML
+	private Text ac;
+	public static Text staticac;
+	@FXML
+	private Text aec;
+	public static Text staticaec;
 
 	// Metrics, Service
 	// General
@@ -285,7 +313,18 @@ public class MainAppController {
 		staticPropertyFunctionGroup = propertyFunctionGroup;
 		staticCoupCoheFactor = coupCoheFactor;
 		staticInfoText = infoText;
-
+		
+		// Vadim Group Metrics
+		staticsgic = sgic;
+		staticsgiic = sgiic;
+		staticsgied = sgied;
+		staticsgcd = sgcd;
+		staticsgsdd = sgsdd;
+		staticsgwdd = sgwdd;
+		staticic = ic;
+		staticac = ac;
+		staticaec = aec;
+	
 		// **************
 		// SERVICE METRICS
 		// General

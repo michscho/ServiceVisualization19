@@ -37,6 +37,7 @@ import tum.franca.util.Binding;
 import tum.franca.util.RectangleUtil;
 import tum.franca.util.propertyfunction.PropertyEntity;
 import tum.franca.view.metric.GroupMetrics;
+import tum.franca.view.metric.VadimCebotariGroupMetrics;
 import tum.franca.view.tab.MenuBarTop;
 import tum.franca.view.treeView.GroupTreeViewCreator;
 
@@ -340,6 +341,7 @@ public class ResizableRectangleCell extends AbstractCell {
 		@Override
 		public void handle(MouseEvent event) {
 			GroupMetrics.setAll(cell);
+			VadimCebotariGroupMetrics.setAll(cell);
 			Binding.bind(pane, style.ordinal());
 			List<ICell> cellList = MainApp.graph.getModel().getAddedCells();
 			List<ICell> intersectionCellList = new ArrayList<ICell>();
