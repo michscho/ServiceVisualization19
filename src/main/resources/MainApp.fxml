@@ -313,8 +313,8 @@
                                                    </image>
                                                 </ImageView>
                                                 <Text fx:id="groupName" layoutX="152.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" textAlignment="RIGHT" wrappingWidth="118.71044921875" AnchorPane.rightAnchor="15.0" />
-                                                <Text fx:id="infoText" layoutX="36.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Group selected..." wrappingWidth="160.2060546875" />
-                                                <Text fx:id="coupCoheFactor" layoutX="260.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="infoText" layoutX="36.0" layoutY="521.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Group selected..." wrappingWidth="160.2060546875" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Text fx:id="coupCoheFactor" layoutX="215.0" layoutY="489.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="36.0" AnchorPane.rightAnchor="15.0" />
                                                 <Label layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="237.0" text="Number of services: " AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="32.0" />
                                                 <Label layoutX="15.0" layoutY="44.0" prefHeight="17.0" prefWidth="161.0" text="Name:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="108.0" />
                                                 <Label layoutX="15.0" layoutY="75.0" prefHeight="17.0" prefWidth="233.0" text="Number of subgroups:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="36.0" />

@@ -31,29 +31,32 @@ public class FidlViewController {
 	private TextArea textArea;
 	@FXML
 	private ListView<String> listView;
-	
-	
+
+	private static URI uri;
+
 	@FXML
 	public void open() throws IOException {
-		URI uri = MainApp.graph.getModel()
-				.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 		Desktop.getDesktop().edit(new File(uri.toFileString()));
-
 	}
-	
+
 	@FXML
 	public void openExplorer() throws IOException {
-		URI uri = MainApp.graph.getModel()
-				.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
 		String uriFileString = uri.toFileString();
 		String[] stringArray = uriFileString.split("/");
-		Desktop.getDesktop().open(new File(uriFileString.replace(stringArray[stringArray.length-1], "")));
+		Desktop.getDesktop().open(new File(uriFileString.replace(stringArray[stringArray.length - 1], "")));
 
 	}
-	
-	
+
 	@FXML
 	public void onReloadClicked() {
+		if (listView.getSelectionModel().getSelectedItem() != null) {
+			URI uri = MainApp.graph.getModel()
+					.getRectangleCell(listView.getSelectionModel().getSelectedItem()).fidlReader.getURI();
+			if (uri != null) {
+				FidlViewController.uri = uri;
+			}
+		}
+
 		listView.getItems().clear();
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
@@ -82,13 +85,13 @@ public class FidlViewController {
 
 	@FXML
 	public void initialize() throws Exception {
-		
+
 		listView.setOnMouseMoved(e -> onReloadClicked());
-		
+
 		listView.getItems().clear();
 		for (ICell iCell : MainApp.graph.getModel().getAddedCells()) {
 			if (iCell instanceof RectangleCell) {
-			
+
 				listView.getItems().add(((RectangleCell) iCell).name);
 			}
 		}
