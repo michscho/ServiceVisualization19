@@ -103,6 +103,9 @@ public class GroupMetrics {
 	}
 	
 	public static float getCouplingCohesionFactor(ResizableRectangleCell cell) {
+		if (getCohesion(cell) == 0) {
+			return (float) getCoupling(cell) / 1;
+		}
 		return (float) getCoupling(cell) / getCohesion(cell);
 	}
 	

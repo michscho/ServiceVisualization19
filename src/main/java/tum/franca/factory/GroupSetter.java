@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import tum.franca.graph.cells.ICell;
 import tum.franca.graph.cells.service.RectangleCell;
 import tum.franca.graph.cells.servicegroup.ResizableRectangleCell;
+import tum.franca.graph.edges.Edge;
+import tum.franca.graph.edges.IEdge;
 import tum.franca.graph.graph.Graph;
 import tum.franca.graph.graph.Model;
 import tum.franca.graph.layout.GroupingLayout;
@@ -76,6 +78,11 @@ public class GroupSetter {
 	 * RectangleCell should be in the Foreground.
 	 */
 	public static void relocateToForeground() {
+		for (IEdge edge : MainApp.graph.getModel().getAddedEdges()) {
+			if (edge instanceof Edge) {
+				((Edge) edge).getGroup().toFront();
+			}
+		}
 		List<RectangleCell> cellList = getRectangleList(MainApp.graph.getModel().getAddedCells());
 		for (RectangleCell rectangleCell : cellList) {
 			rectangleCell.pane.toFront();
