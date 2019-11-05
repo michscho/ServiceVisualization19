@@ -281,9 +281,9 @@
                             </Tab>
                             <Tab text="Group">
                                  <content>
-                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="604.0" prefWidth="282.0" vbarPolicy="ALWAYS" vvalue="1.0">
+                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="604.0" prefWidth="282.0" vbarPolicy="ALWAYS">
                                        <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="714.0" prefWidth="265.0">
+                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="891.0" prefWidth="265.0">
                                              <children>
                                                 <Text fx:id="servicesTextGroup" layoutX="226.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
                                                 <Text fx:id="subGroupsTextGroup" layoutX="226.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.rightAnchor="15.0" />
@@ -341,15 +341,25 @@
                                                       <Font size="15.0" />
                                                    </font>
                                                 </Label>
-                                                <Label layoutX="15.0" layoutY="564.0" prefHeight="17.0" prefWidth="228.0" text="Service Group Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
-                                                <Text fx:id="sgic" layoutX="242.0" layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
-                                                <Label layoutX="15.0" layoutY="601.0" prefHeight="17.0" prefWidth="228.0" text="Service Group Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
-                                                <Text fx:id="sgiic" layoutX="242.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
-                                                <Label layoutX="15.0" layoutY="639.0" prefHeight="17.0" prefWidth="228.0" text="Service Group Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
-                                                <Text fx:id="sgied" layoutX="242.0" layoutY="652.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
-                                                <Label layoutX="13.0" layoutY="672.0" prefHeight="3.0" prefWidth="228.0" text="Service Group Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Label layoutX="15.0" layoutY="564.0" prefHeight="17.0" prefWidth="228.0" text="Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Text fx:id="sgic" layoutX="221.0" layoutY="577.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Label layoutX="15.0" layoutY="601.0" prefHeight="17.0" prefWidth="228.0" text="Internal Interface Count:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Text fx:id="sgiic" layoutX="221.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Label layoutX="15.0" layoutY="639.0" prefHeight="17.0" prefWidth="228.0" text="Interface Exposure Degree:" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="44.0" />
+                                                <Text fx:id="sgied" layoutX="221.0" layoutY="652.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Label layoutX="14.0" layoutY="677.0" prefHeight="3.0" prefWidth="228.0" text="Composability Degree:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
                                                 <Separator layoutX="23.0" layoutY="542.0" prefHeight="3.0" prefWidth="240.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" />
-                                                <Text fx:id="sgied1" layoutX="242.0" layoutY="685.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="9.0" AnchorPane.rightAnchor="14.0" />
+                                                <Text fx:id="sgcd" layoutX="220.0" layoutY="690.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="16.0" />
+                                                <Label layoutX="13.0" layoutY="709.0" prefHeight="3.0" prefWidth="228.0" text="Strict Dynamicity Degree:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="13.0" layoutY="744.0" prefHeight="3.0" prefWidth="228.0" text="Strict Static Degree:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Text fx:id="sgsdd" layoutX="219.0" layoutY="722.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="sgwdd" layoutX="221.0" layoutY="757.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Label layoutX="13.0" layoutY="778.0" prefHeight="3.0" prefWidth="228.0" text="Internal Communication:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="13.0" layoutY="813.0" prefHeight="3.0" prefWidth="228.0" text="External Communication:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Label layoutX="13.0" layoutY="847.0" prefHeight="3.0" prefWidth="228.0" text="Average External Communication:" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="45.0" />
+                                                <Text fx:id="ic" layoutX="219.0" layoutY="791.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="ec" layoutX="221.0" layoutY="826.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
+                                                <Text fx:id="aec" layoutX="221.0" layoutY="860.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="29.0" AnchorPane.rightAnchor="15.0" />
                                              </children>
                                           </AnchorPane>
                                        </content>
