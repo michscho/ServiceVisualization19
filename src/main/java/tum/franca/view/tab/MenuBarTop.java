@@ -80,9 +80,9 @@ public class MenuBarTop {
 		groupsMenu.setGraphic(imageView2);
 		MenuItem menuItemGroups = new MenuItem("Rearrange Service Groups");
 		groupsMenu.getItems().add(menuItemGroups);
-		MenuItem menuItemGroups2 = new MenuItem("Recolor (Shift color index rigth)");
+		MenuItem menuItemGroups2 = new MenuItem("Darker");
 		groupsMenu.getItems().add(menuItemGroups2);
-		MenuItem menuItemGroups3 = new MenuItem("Recolor (Shift color index left)");
+		MenuItem menuItemGroups3 = new MenuItem("Brighter");
 		groupsMenu.getItems().add(menuItemGroups3);
 		menuItemGroups.setOnAction(onClickOnMenuGroups);
 		menuItemGroups2.setOnAction(onClickOnMenuGroups2);

@@ -419,8 +419,6 @@ public class ResizableRectangleCell extends AbstractCell {
 		public void handle(MouseEvent event) {
 			Binding.unbind(pane, style.ordinal());
 			if (MenuBarTop.alignOnGrid) {
-				System.out.println("X: " + pane.getLayoutX());
-				System.out.println("Y: " + pane.getLayoutY());
 				if (pane.getLayoutX() >= 0) {
 					if (pane.getLayoutX() % 50 <= 35 && pane.getLayoutX() % 50 != 0) {
 						Binding.bind(pane, style.ordinal());
@@ -437,13 +435,10 @@ public class ResizableRectangleCell extends AbstractCell {
 					if (pane.getLayoutX() % 50 >= -35 && pane.getLayoutX() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() - pane.getLayoutX() % 50);
-						System.out.println("X1, newly calculated X: " + (pane.getLayoutX() - pane.getLayoutX() % 50));
 						Binding.unbind(pane, style.ordinal());
 					} else if (pane.getLayoutX() % 50 < -35) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutX(pane.getLayoutX() - (50 + (pane.getLayoutX() % 50)));
-						System.out.println(
-								"X2, newly calculated X: " + (pane.getLayoutX() - (50 + (pane.getLayoutX() % 50))));
 						Binding.unbind(pane, style.ordinal());
 					}
 				}
@@ -463,15 +458,11 @@ public class ResizableRectangleCell extends AbstractCell {
 					if (pane.getLayoutY() % 50 >= -35 && pane.getLayoutY() % 50 != -0) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutY() - pane.getLayoutY() % 50);
-						System.out.println("Y1, newly calculated Y: " + (pane.getLayoutY() - pane.getLayoutY() % 50));
 						Binding.unbind(pane, style.ordinal());
 					} else if (pane.getLayoutY() % 50 < -35) {
 						Binding.bind(pane, style.ordinal());
 						pane.setLayoutY(pane.getLayoutY() - (50 + (pane.getLayoutY() % 50)));
-						System.out.println(
-								"Y2, newly calculated Y: " + (pane.getLayoutY() - (50 + (pane.getLayoutY() % 50))));
 						Binding.unbind(pane, style.ordinal());
-
 					}
 
 				}

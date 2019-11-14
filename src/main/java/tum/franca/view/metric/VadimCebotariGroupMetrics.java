@@ -38,7 +38,9 @@ public class VadimCebotariGroupMetrics {
 	public static int getSGIC(ResizableRectangleCell cell) {
 		int counter = 0;
 		for (RectangleCell recCell : cell.containsRectangleCell()) {
-			counter += recCell.fidlReader.getInterfaces().get(0).getMethods().size();
+			if (recCell.fidlReader != null) {
+				counter += recCell.fidlReader.getInterfaces().get(0).getMethods().size();
+			}
 		}
 		return counter;
 	}
@@ -49,9 +51,11 @@ public class VadimCebotariGroupMetrics {
 	public static int getSGIIC(ResizableRectangleCell cell) {
 		int counter = 0;
 		for (RectangleCell recCell : cell.containsRectangleCell()) {
-			for (FMethod method : recCell.fidlReader.getInterfaces().get(0).getMethods()) {
-				if (isInternalInterface(cell, method)) {
-					counter++;
+			if (recCell.fidlReader != null) {
+				for (FMethod method : recCell.fidlReader.getInterfaces().get(0).getMethods()) {
+					if (isInternalInterface(cell, method)) {
+						counter++;
+					}
 				}
 			}
 		}
@@ -117,11 +121,11 @@ public class VadimCebotariGroupMetrics {
 	public static double getSGSDD(ResizableRectangleCell cell) {
 		return (double) numberDynamicServices(cell) / (double) totalNumberServices(cell);
 	}
-	
+
 	private static int totalNumberServices(ResizableRectangleCell cell) {
 		return cell.containsRectangleCell().size();
 	}
-	
+
 	private static int numberStaticServices(ResizableRectangleCell cell) {
 		int counter = 0;
 		for (RectangleCell recCell : cell.containsRectangleCell()) {
@@ -131,7 +135,7 @@ public class VadimCebotariGroupMetrics {
 		}
 		return counter;
 	}
-	
+
 	private static int numberDynamicServices(ResizableRectangleCell cell) {
 		int counter = 0;
 		for (RectangleCell recCell : cell.containsRectangleCell()) {
@@ -141,8 +145,11 @@ public class VadimCebotariGroupMetrics {
 		}
 		return counter;
 	}
-	
+
 	private static boolean isStaticService(RectangleCell cell) {
+		if (cell.fidlReader == null) {
+			return false;
+		}
 		return cell.fidlReader.getPropertiesReader().getBinding() == FBinding.STATIC ? true : false;
 	}
 
