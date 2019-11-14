@@ -281,7 +281,7 @@
                             </Tab>
                             <Tab text="Group">
                                  <content>
-                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="604.0" prefWidth="282.0" vbarPolicy="ALWAYS" vvalue="1.0">
+                                    <ScrollPane fitToWidth="true" pannable="true" prefHeight="604.0" prefWidth="282.0" vbarPolicy="ALWAYS">
                                        <content>
                                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="891.0" prefWidth="265.0">
                                              <children>

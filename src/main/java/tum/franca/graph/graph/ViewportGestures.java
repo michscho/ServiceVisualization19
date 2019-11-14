@@ -80,27 +80,12 @@ public class ViewportGestures {
 
 					@Override
 					public void handle(ActionEvent action) {
-						System.out.println(event.getX());
-
-						System.out.println(event.getY());
-						
-						System.out.println(event.getSceneX());
-						
-						System.out.println(event.getSceneY());
-
-						System.out.println("SCALE: " + scale);
-
-						System.out.println(canvas.getTranslateX());
-
-						System.out.println(canvas.getTranslateY());
 
 						int x = (int) ((canvas.getTranslateX()/scale * -1.0 + event.getX()));
 
 						int y = (int) ((canvas.getTranslateY()/scale * -1.0 + event.getY()));
 
-						System.out.println("CALC X: " + x);
 
-						System.out.println("CALC Y: " + y);
 
 						ServiceCreation.initServiceCreationWithLocation(event.getSceneX(), event.getSceneY(), x, y);
 						menu.hide();

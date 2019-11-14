@@ -484,7 +484,6 @@ public class MainAppController {
 				timeSpecification();
 			}
 		}
-		result.ifPresent(name -> System.out.println("Your name: " + name));
 	}
 
 	@FXML

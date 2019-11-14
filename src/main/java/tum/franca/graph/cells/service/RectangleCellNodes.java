@@ -72,13 +72,6 @@ public class RectangleCellNodes {
 	 */
 	void setVisible() {
 		visible = true;
-//		long mTime = System.currentTimeMillis();
-//		long end = mTime + 50; 
-//
-//		while (mTime < end) 
-//		{
-//		    mTime = System.currentTimeMillis();
-//		} 
 		resizeHandleN.setVisible(true);
 		resizeHandleN.toFront();
 		resizeHandleNE.setVisible(true);
