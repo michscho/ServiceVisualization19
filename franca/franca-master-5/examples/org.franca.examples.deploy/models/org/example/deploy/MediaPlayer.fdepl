@@ -1,0 +1,115 @@
+
+// import the deployment specification
+import "../spec/SampleDeploySpec.fdepl"
+
+// import the actual Franca interfaces we want to deploy 
+import "classpath:/org/example/idl/MediaPlayer.fidl"
+import "classpath:/org/example/idl/Controller.fidl"
+import "classpath:/org/example/idl/CommonTypes.fidl"
+
+// import the deployment definitions this is based upon
+import "../deploy/CommonTypes.fdepl"
+
+
+/**
+ * This is an example for defining all required deployment information for
+ * the interface MediaPlayer (defined in MediaPlayer.fidl). The specification
+ * used for defining which deployment information is mandatory or optional
+ * is provided by SampleDeploySpec. 
+ * 
+ * A code generator which generates code specific for SampleDeploySpec should 
+ * use this file instead of the plain MediaPlayer.fidl. This code generator
+ * can navigate through the model as usual, but may also use a PropertyAccessor
+ * class in order to type-safely access the property values defined below.
+ */
+define org.example.spec.SampleDeploySpec
+	for interface org.example.idl.MediaPlayer
+{
+	// use deployment definitions for CommonTypes type collection
+	use CommonTypesDepl
+
+	// define a property for the interface itself
+	Master = &org.example.idl.Controller
+
+	attribute mode {
+		Groups = { g1, g2 }
+	}
+	
+	attribute remainingTrack {
+		IsMasked = true
+		Groups = { g3 }
+	}
+	
+	attribute remainingAll {
+		Groups = { g3 }
+	}
+	
+	attribute currentTrack {
+		Groups = { g2, g4 }
+		RangeMin = 0
+		RangeMax = 999
+}
+	
+	attribute currentPlaylist {
+		Groups = { g2, g4 }
+	}
+	
+	attribute mode {
+		Groups = { g1, g2 }
+	}
+	
+	method getMetadata {
+		CallSemantics = synchronous
+		Priority = low
+		IsOptional = true
+		in {
+			trackId { RangeMin = 0, RangeMax = 999 }
+		}
+	}
+
+	method clear {
+		IsOptional = false
+	}	
+
+	method appendTrack {
+		IsOptional = false
+		in {
+			trackId { RangeMin = 0, RangeMax = 999 }
+		}
+	}
+	
+	method play {
+		Priority = high
+		IsOptional = false
+	}
+
+	method pause {
+		Priority = high
+		IsOptional = false
+	}
+		
+	method setRepeatMode {
+		IsOptional = false
+	}
+	
+	method nextTrack { 
+		IsOptional = false
+	}
+
+	method previousTrack {
+		Priority = medium
+		IsOptional = false
+	}
+
+	struct TrackInfo {
+		title     { Encoding = utf8 }
+		album     { Encoding = utf8 }
+		interpret { Encoding = utf16 }
+		composer  { Encoding = utf16 }
+		genre     { Encoding = utf8 }
+		year      { RangeMin = 1960, RangeMax = 2100 }
+	}
+}
+
+
+

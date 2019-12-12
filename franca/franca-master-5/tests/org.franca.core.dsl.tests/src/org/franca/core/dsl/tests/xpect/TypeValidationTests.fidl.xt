@@ -1,0 +1,110 @@
+// XPECT_SETUP org.franca.core.dsl.tests.xpect.FrancaIDLXpectTests END_SETUP
+package a.b.c
+typeCollection MyPrimitiveTypes {
+	// XPECT errors --> "Name conflict for type name 'MyArray'" at "MyArray"
+	array MyArray of Int8
+	// XPECT errors --> "Name conflict for type name 'MyArray'" at "MyArray"
+	array MyArray of String
+} 
+
+typeCollection MyStructTypes {
+	// XPECT errors --> "Non-polymorphic structs must have own or inherited elements" at "EmptyStruct"
+	struct EmptyStruct { }
+
+	// XPECT errors --> "Name conflict for type name 'MyStruct'" at "MyStruct"
+	struct MyStruct { Int16 i }
+	// XPECT errors --> "Name conflict for type name 'MyStruct'" at "MyStruct"
+	struct MyStruct { Int32 k }
+	
+	struct MyStruct1 { Int16 x }
+	// XPECT errors --> "Element name collision with base element 'MyStruct1.x'" at "x"
+	struct MyStruct2 extends MyStruct1 { Int16 x }
+}
+
+typeCollection MyUnionTypes {
+	// XPECT errors --> "Union must have own or inherited elements" at "EmptyUnion"
+	union EmptyUnion { }
+
+	// XPECT errors --> "Name conflict for type name 'MyUnion'" at "MyUnion"
+	union MyUnion { Int16 i }
+	// XPECT errors --> "Name conflict for type name 'MyUnion'" at "MyUnion"
+	union MyUnion { Int32 k }
+	
+	union UnionWithTypedef1 {
+		// XPECT errors --> "Duplicate element type 'UInt32'" at "UInt32"
+		UInt32 name 
+		// XPECT errors --> "Duplicate element type 'UInt32'" at "AgainUInt32"
+		AgainUInt32 other
+	}
+	typedef AgainUInt32 is UInt32 
+
+	union SomeUnion {
+		// XPECT errors --> "Duplicate element type 'SomeStruct'" at "SomeStruct"
+		SomeStruct original
+		// XPECT errors --> "Duplicate element type 'SomeStruct'" at "Alias1"
+		Alias1 sametype1
+		// XPECT errors --> "Duplicate element type 'SomeStruct'" at "Alias2"
+		Alias2 sametype2
+	}
+	typedef Alias1 is SomeStruct 
+	typedef Alias2 is SomeStruct 
+	struct SomeStruct {
+		Boolean name
+	}
+
+	union MyUnion1 { Int16 x }
+	union MyUnion2 extends MyUnion1 {
+		// XPECT errors --> "Element type collision with base element 'MyUnion1.x'" at "Int16"
+		Int16 y
+		// XPECT errors --> "Element name collision with base element 'MyUnion1.x'" at "x"
+		String x
+	}
+
+	union MyUnion3 {
+		String asPlain
+		String[] asArray  // no collision between Int16 and Int16[]
+	}
+
+	union MyUnion4 {
+		// XPECT errors --> "Duplicate element type 'String[]'" at "String"
+		String[] array1
+		// XPECT errors --> "Duplicate element type 'String[]'" at "String"
+		String[] array2
+	}
+	
+	union MyUnion5 { Int16 x }
+	union MyUnion6 extends MyUnion5 {
+		Int16[] y   // no collision between Int16 and Int16[]
+	}
+}
+
+typeCollection EnumTypes {
+	// XPECT errors --> "Enumeration must not be empty" at "EmptyEnum"
+	enumeration EmptyEnum { }
+
+	// XPECT errors --> "Name conflict for type name 'MyEnum'" at "MyEnum"
+	enumeration MyEnum { E }
+	// XPECT errors --> "Name conflict for type name 'MyEnum'" at "MyEnum"
+	enumeration MyEnum { F }
+	
+	enumeration MyEnum1 { F }
+	enumeration MyEnum2 extends MyEnum1 {
+		// XPECT errors --> "Enumerator name collision with base element 'MyEnum1.F'" at "F"
+		F
+	}
+}
+
+typeCollection MyVariousTypes {
+	// XPECT errors --> "Name conflict for type name 'MyType'" at "MyType"
+	array MyType of Int8
+	// XPECT errors --> "Name conflict for type name 'MyType'" at "MyType"
+	struct MyType { Int32 k }
+	// XPECT errors --> "Name conflict for type name 'MyType'" at "MyType"
+	union MyType { Int32 i }
+	// XPECT errors --> "Name conflict for type name 'MyType'" at "MyType"
+	map MyType { Int16 to String }
+	// XPECT errors --> "Name conflict for type name 'MyType'" at "MyType"
+	enumeration MyType { A B C }
+	// XPECT errors --> "Name conflict for type name 'MyType'" at "MyType"
+	typedef MyType is Float
+}

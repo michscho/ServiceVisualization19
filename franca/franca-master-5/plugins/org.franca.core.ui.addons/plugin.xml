@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="de.cau.cs.kieler.klighd.diagramSyntheses">
+   <diagramSynthesis
+         class="de.cau.cs.kieler.klighd.syntheses.GuiceBasedSynthesisFactory:org.franca.core.ui.addons.contractviewer.FrancaPSMDiagramSynthesis"
+         id="org.franca.core.ui.addons.contractviewer.FrancaPSMDiagramSynthesis">
+   </diagramSynthesis>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.franca.core.ui.addons.wizard.category"
+            class="org.franca.core.ui.addons.FrancaAddOnsExecutableExtensionFactory:org.franca.core.ui.addons.wizard.FrancaIDLFileWizard"
+            finalPerspective="org.eclipse.pde.ui.PDEPerspective"
+            icon="icons/franca_logo.png"
+            id="org.franca.core.ui.addons.newidlfilewizard"
+            name="Franca Interface Definition"
+            preferredPerspectives="org.eclipse.pde.ui.PDEPerspective,org.eclipse.jdt.ui.JavaPerspective">
+      </wizard>
+      <category
+            id="org.franca.core.ui.addons.wizard.category"
+            name="Franca">
+      </category>
+      <wizard
+            category="org.franca.core.ui.addons.wizard.category"
+            class="org.franca.core.ui.addons.FrancaAddOnsExecutableExtensionFactory:org.franca.core.ui.addons.wizard.FrancaFDEPLFileWizard"
+            finalPerspective="org.eclipse.pde.ui.PDEPerspective"
+            icon="icons/franca_logo.png"
+            id="org.franca.core.ui.addons.newfdeplfilewizard"
+            name="Franca Deployment Specification"
+            preferredPerspectives="org.eclipse.pde.ui.PDEPerspective,org.eclipse.jdt.ui.JavaPerspective">
+      </wizard>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <newWizardShortcut
+               id="org.franca.core.ui.addons.newidlfilewizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.franca.core.ui.addons.newfdeplfilewizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+      <perspectiveExtension
+            targetID="org.eclipse.pde.ui.PDEPerspective">
+         <newWizardShortcut
+               id="org.franca.core.ui.addons.newidlfilewizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.franca.core.ui.addons.newfdeplfilewizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
+
+</plugin>
