@@ -60,14 +60,9 @@ public class MenuBarTop {
 		menuItemGrid1.setOnAction(onClickEnableGrid);
 		RadioMenuItem menuItemGrid2 = new RadioMenuItem("Disable Grid");
 		menuItemGrid2.setOnAction(onClickDisableGrid);
-		menuItemAlign.setToggleGroup(toggleGroupGrid2);
 		menuItemGrid1.setToggleGroup(toggleGroupGrid);
 		menuItemGrid2.setToggleGroup(toggleGroupGrid);
-		if (!alignOnGrid) {
-			menuItemAlign.setSelected(false);
-		} else {
-			menuItemAlign.setSelected(true);
-		}
+
 		menuItemGrid2.setSelected(true);
 		gridMenu.getItems().addAll(menuItemAlign, seperatorItem, menuItemGrid1, menuItemGrid2);
 
@@ -123,6 +118,8 @@ public class MenuBarTop {
 
 		@Override
 		public void handle(ActionEvent event) {
+			System.out.println("HERsdfE");
+			
 			if (alignOnGrid) {
 				alignOnGrid = false;
 				menuItemAlign.setSelected(false);
