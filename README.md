@@ -17,6 +17,8 @@ compared with each other using metrics. Further extensions are service relations
 
 *  For executable .jar file open: target/jfx/app/ or target/visualisation-jar-with-dependencies.jar
 *  For installer open: target/jfx/native/
+*  
+
 
 
 
