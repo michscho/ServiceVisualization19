@@ -1,0 +1,70 @@
+/**
+ */
+package org.franca.core.franca.tests;
+
+import junit.textui.TestRunner;
+
+import org.franca.core.franca.FUnionType;
+import org.franca.core.franca.FrancaFactory;
+
+/**
+ * <!-- begin-user-doc -->
+ * A test case for the model object '<em><b>FUnion Type</b></em>'.
+ * <!-- end-user-doc -->
+ * @generated
+ */
+public class FUnionTypeTest extends FCompoundTypeTest {
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static void main(String[] args) {
+		TestRunner.run(FUnionTypeTest.class);
+	}
+
+	/**
+	 * Constructs a new FUnion Type test case with the given name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public FUnionTypeTest(String name) {
+		super(name);
+	}
+
+	/**
+	 * Returns the fixture for this FUnion Type test case.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected FUnionType getFixture() {
+		return (FUnionType)fixture;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see junit.framework.TestCase#setUp()
+	 * @generated
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		setFixture(FrancaFactory.eINSTANCE.createFUnionType());
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see junit.framework.TestCase#tearDown()
+	 * @generated
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		setFixture(null);
+	}
+
+} //FUnionTypeTest

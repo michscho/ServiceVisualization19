@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated franca -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="org.franca.core.franca.presentation.FrancaModelWizardID"
+            name="%_UI_FrancaModelWizard_label"
+            class="org.franca.core.franca.presentation.FrancaModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/FrancaModelFile.gif">
+         <description>%_UI_FrancaModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated franca -->
+      <editor
+            id="org.franca.core.franca.presentation.FrancaEditorID"
+            name="%_UI_FrancaEditor_label"
+            icon="icons/full/obj16/FrancaModelFile.gif"
+            extensions="franca"
+            class="org.franca.core.franca.presentation.FrancaEditor"
+            contributorClass="org.franca.core.franca.presentation.FrancaActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

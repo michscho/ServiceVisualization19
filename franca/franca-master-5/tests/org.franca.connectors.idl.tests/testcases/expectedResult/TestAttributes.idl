@@ -1,0 +1,7 @@
+module TestCase {
+	/// @remark This has been generated from Franca interface 'TestAttribute'.
+	interface TestAttribute {
+		attribute UInt32 aWriteableAttribute;
+		readonly attribute String aReadonlyAttribute;
+	};
+};

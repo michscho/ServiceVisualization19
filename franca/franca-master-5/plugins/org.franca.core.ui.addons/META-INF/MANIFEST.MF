@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Franca UI Add-ons
+Bundle-SymbolicName: org.franca.core.ui.addons;singleton:=true
+Bundle-Version: 0.13.1.qualifier
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.xtext.ui,
+ org.franca.core.dsl,
+ org.franca.core.dsl.ui,
+ org.eclipse.ui.ide,
+ org.franca.deploymodel.dsl,
+ org.eclipse.elk.core,
+ org.eclipse.elk.graph,
+ org.eclipse.elk.core.ui,
+ org.eclipse.elk.alg.layered,
+ de.cau.cs.kieler.klighd,
+ de.cau.cs.kieler.klighd.krendering.extensions,
+ de.cau.cs.kieler.core.kivi,
+ de.cau.cs.kieler.klighd.kivi,
+ de.cau.cs.kieler.klighd.ui.view;bundle-version="0.42.1",
+ org.franca.core,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ org.franca.deploymodel.dsl.ui
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Activator: org.franca.core.ui.addons.Activator
+Bundle-Vendor: itemis AG
+

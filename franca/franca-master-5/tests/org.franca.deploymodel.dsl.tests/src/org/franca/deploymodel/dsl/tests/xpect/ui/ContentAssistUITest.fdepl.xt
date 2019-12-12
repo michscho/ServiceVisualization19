@@ -1,0 +1,62 @@
+/* 
+XPECT_SETUP org.franca.deploymodel.dsl.tests.xpect.ui.ContentAssistUITest
+Workspace {
+	org.xpect.xtext.lib.setup.workspace.JavaProject "libraryproject" {
+		nature = "org.eclipse.xtext.ui.shared.xtextNature"	
+		builder = "org.eclipse.xtext.ui.shared.xtextBuilder"
+		SrcFolder "model" {
+			File "d.fdepl" {}
+		}
+	}
+	org.franca.deploymodel.dsl.tests.xpect.util.JavaProjectWithReferences "sample" {
+		projectReference = "libraryproject"
+		nature = "org.eclipse.xtext.ui.shared.xtextNature"	
+		builder = "org.eclipse.xtext.ui.shared.xtextBuilder"
+		SrcFolder "model" {
+			File "a.fdepl" {}
+			ThisFile{}
+			File "b.fidl" {}
+		}
+		SrcFolder "anotherModel" {
+			File "c.fdepl" {}
+		}
+	}
+} 
+END_SETUP
+*/
+
+/* 
+ * Note on xpect proposals 
+ *   Files d.fdepl, a.fdepl, b.fidl, c.fdepl reside in the workspace (see Workspace setup above) 
+ *   Files The_PlatformDeploySpec, The_PlatformDeploySpec_WithAlias are contributed by /org.franca.deploymodel.dsl.tests/plugin.xml   
+ */
+/* XPECT proposals at 'The_PlatformDeploySpec_WithAlias' ---
+ "platform:/resource/libraryproject/model/d.fdepl", 
+ "a.fdepl", 
+ "b.fidl",
+ "../anotherModel/c.fdepl",
+ "classpath:/a.fdepl",
+ "classpath:/b.fidl",
+ "classpath:/c.fdepl",
+ "classpath:/d.fdepl",
+ The_PlatformDeploySpec, 
+ The_PlatformDeploySpec_WithAlias
+--- 
+*/
+import The_PlatformDeploySpec_WithAlias
+import The_PlatformDeploySpec
+
+// XPECT proposals at 'The_PlatformDeploySpec' --> The_PlatformDeploySpec, The_PlatformDeploySpec_WithAlias, org.example.spec.MySpec 
+specification org.example.spec.MySpec extends The_PlatformDeploySpec
+{
+	for providers {
+		ProcessName2:     String;
+	}
+}
+
+// XPECT proposals at 'org.example.spec.MySpec' --> The_PlatformDeploySpec, The_PlatformDeploySpec_WithAlias, org.example.spec.MySpec 
+define org.example.spec.MySpec 
+	for provider as SomeProvider {
+		ProcessName = "foobar"
+		ProcessName2 = "foobar"
+	}
